@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The History of Tariffs: An Interactive Journey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .section {
+            background: white;
+            margin: 30px 0;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+        }
+
+        .section h2 {
+            color: #4a5568;
+            margin-bottom: 20px;
+            font-size: 2em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .definition-box {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #667eea;
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            background: #e9ecef;
+            transform: scale(1.02);
+        }
+
+        .timeline-item.active {
+            background: #e3f2fd;
+            border-left-color: #2196f3;
+        }
+
+        .year {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.3em;
+        }
+
+        .event-title {
+            font-weight: bold;
+            margin: 10px 0;
+            font-size: 1.1em;
+        }
+
+        .event-details {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #667eea;
+        }
+
+        .simulator {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .controls {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .control-group label {
+            font-weight: bold;
+            color: #4a5568;
+        }
+
+        .slider {
+            width: 200px;
+            height: 5px;
+            border-radius: 5px;
+            background: #ddd;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+        }
+
+        .result-display {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .price-comparison {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            gap: 20px;
+        }
+
+        .price-item {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            flex: 1;
+        }
+
+        .quiz-container {
+            background: #fff3cd;
+            padding: 25px;
+            border-radius: 10px;
+            border: 2px solid #ffc107;
+        }
+
+        .question {
+            margin: 20px 0;
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .option {
+            padding: 12px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            background: #f8f9fa;
+            border-color: #667eea;
+        }
+
+        .option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #5a6fd8;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .price-comparison {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 The History of Tariffs</h1>
+            <p>An Interactive Journey Through Economic Policy</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <div class="section" id="introduction">
+            <h2>What Are Tariffs?</h2>
+            <div class="definition-box">
+                <h3>💡 Definition</h3>
+                <p><strong>Tariff:</strong> A tax imposed by a government on imported or exported goods. Tariffs are used to protect domestic industries, generate revenue, and influence international trade relationships.</p>
+            </div>
+            <p>Throughout history, tariffs have been one of the most powerful and controversial tools of economic policy. They've sparked wars, shaped nations, and continue to influence global trade today. Let's explore this fascinating journey!</p>
+        </div>
+
+        <div class="section" id="timeline-section">
+            <h2>📅 Interactive Timeline</h2>
+            <p>Click on each event to learn more about pivotal moments in tariff history:</p>
+            
+            <div class="timeline">
+                <div class="timeline-item" onclick="toggleDetails(this)">
+                    <div class="year">1789</div>
+                    <div class="event-title">First U.S. Tariff Act</div>
+                    <div class="event-summary">America's first tariff law sets the foundation for federal revenue</div>
+                    <div class="event-details">
+                        <p>The Tariff Act of 1789 was one of the first major pieces of legislation passed by the new U.S. Congress. It established tariffs on imported goods at rates of 5-15%. This wasn't just about protection - it was desperately needed revenue for the new nation. The young United States had massive debts from the Revolutionary War and needed money to operate the federal government.</p>
+                        <p><strong>Impact:</strong> Generated over 80% of federal revenue in early years and established the precedent for using tariffs as both revenue and protection tools.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item" onclick="toggleDetails(this)">
+                    <div class="year">1828</div>
+                    <div class="event-title">Tariff of Abominations</div>
+                    <div class="event-summary">High protective tariffs create regional tensions</div>
+                    <div class="event-details">
+                        <p>The Tariff of 1828, nicknamed the "Tariff of Abominations" by its opponents, raised tariffs to an average of 62% on imported manufactured goods. Northern industrial states loved it because it protected their growing industries. Southern agricultural states hated it because it made imported goods more expensive and invited retaliation against their cotton exports.</p>
+                        <p><strong>Crisis:</strong> South Carolina threatened to nullify federal tariff laws, creating a constitutional crisis that foreshadowed the Civil War.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item" onclick="toggleDetails(this)">
+                    <div class="year">1930</div>
+                    <div class="event-title">Smoot-Hawley Tariff Act</div>
+                    <div class="event-summary">Depression-era protectionism backfires spectacularly</div>
+                    <div class="event-details">
+                        <p>As the Great Depression began, Congress passed the Smoot-Hawley Tariff, raising tariffs on over 20,000 imported goods to record levels. The intention was to protect American jobs and industries. Instead, it triggered a global trade war as other countries retaliated with their own tariffs.</p>
+                        <p><strong>Consequences:</strong> International trade plummeted by about 25%, worsening and prolonging the Great Depression worldwide.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item" onclick="toggleDetails(this)">
+                    <div class="year">1947</div>
+                    <div class="event-title">GATT Agreement</div>
+                    <div class="event-summary">Post-war push for free trade begins</div>
+                    <div class="event-details">
+                        <p>Learning from the disasters of the 1930s, 23 countries signed the General Agreement on Tariffs and Trade (GATT). This marked the beginning of the modern free trade era, with countries agreeing to gradually reduce tariffs and other trade barriers through multilateral negotiations.</p>
+                        <p><strong>Legacy:</strong> GATT evolved into the World Trade Organization (WTO) in 1995 and helped create the interconnected global economy we know today.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item" onclick="toggleDetails(this)">
+                    <div class="year">2018-2020</div>
+                    <div class="event-title">U.S.-China Trade War</div>
+                    <div class="event-summary">Modern tariff conflicts reshape global trade</div>
+                    <div class="event-details">
+                        <p>The Trump administration imposed tariffs on hundreds of billions of dollars worth of Chinese goods, citing unfair trade practices and intellectual property theft. China retaliated with its own tariffs on U.S. products, particularly agricultural goods.</p>
+                        <p><strong>Modern Impact:</strong> This trade war disrupted global supply chains, affected consumer prices, and demonstrated that tariffs remain a powerful (and controversial) policy tool in the 21st century.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="simulator">
+            <h2>🎮 Tariff Impact Simulator</h2>
+            <p>Experiment with different tariff rates and see their effects on prices, trade, and the economy:</p>
+            
+            <div class="simulator">
+                <div class="controls">
+                    <div class="control-group">
+                        <label for="tariffRate">Tariff Rate (%)</label>
+                        <input type="range" id="tariffRate" class="slider" min="0" max="100" value="0" oninput="updateSimulation()">
+                        <span id="tariffValue">0%</span>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="basePrice">Import Price ($)</label>
+                        <input type="range" id="basePrice" class="slider" min="10" max="100" value="50" oninput="updateSimulation()">
+                        <span id="priceValue">$50</span>
+                    </div>
+                </div>
+
+                <div class="price-comparison">
+                    <div class="price-item">
+                        <h4>Original Import Price</h4>
+                        <div id="originalPrice">$50.00</div>
+                    </div>
+                    <div class="price-item">
+                        <h4>Price with Tariff</h4>
+                        <div id="tariffPrice">$50.00</div>
+                    </div>
+                    <div class="price-item">
+                        <h4>Government Revenue</h4>
+                        <div id="govRevenue">$0.00</div>
+                    </div>
+                </div>
+
+                <div class="result-display">
+                    <h4>Economic Effects:</h4>
+                    <div id="economicEffects">
+                        <p>Adjust the sliders above to see how tariffs affect prices and trade!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="concepts">
+            <h2>🎯 Key Concepts</h2>
+            <div style="display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+                <div class="concept-card" style="background: #e3f2fd; padding: 20px; border-radius: 10px;">
+                    <h3>🛡️ Protection</h3>
+                    <p>Tariffs protect domestic industries by making foreign competitors more expensive. This can save jobs in the short term but may reduce competitiveness long-term.</p>
+                </div>
+                
+                <div class="concept-card" style="background: #f3e5f5; padding: 20px; border-radius: 10px;">
+                    <h3>💰 Revenue</h3>
+                    <p>Historically, tariffs were a major source of government revenue. Today, they generate relatively little income for most developed countries.</p>
+                </div>
+                
+                <div class="concept-card" style="background: #e8f5e8; padding: 20px; border-radius: 10px;">
+                    <h3>🔄 Retaliation</h3>
+                    <p>When one country raises tariffs, others often respond in kind, potentially leading to trade wars that hurt everyone.</p>
+                </div>
+                
+                <div class="concept-card" style="background: #fff3e0; padding: 20px; border-radius: 10px;">
+                    <h3>📊 Consumer Impact</h3>
+                    <p>Tariffs typically increase prices for consumers, acting as a tax on imported goods that domestic buyers ultimately pay.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="quiz">
+            <h2>🧠 Test Your Knowledge</h2>
+            <div class="quiz-container">
+                <div class="question">
+                    <h3>Question 1: What was the primary purpose of the first U.S. tariff in 1789?</h3>
+                    <div class="options">
+                        <div class="option" onclick="selectAnswer(this, false)">To punish foreign countries</div>
+                        <div class="option" onclick="selectAnswer(this, true)">To generate revenue for the new government</div>
+                        <div class="option" onclick="selectAnswer(this, false)">To start a trade war</div>
+                        <div class="option" onclick="selectAnswer(this, false)">To protect specific industries</div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>Question 2: What lesson did countries learn from the Smoot-Hawley Tariff?</h3>
+                    <div class="options">
+                        <div class="option" onclick="selectAnswer(this, false)">Higher tariffs always help the economy</div>
+                        <div class="option" onclick="selectAnswer(this, true)">Protectionist policies can worsen economic downturns</div>
+                        <div class="option" onclick="selectAnswer(this, false)">Tariffs should only be used during wars</div>
+                        <div class="option" onclick="selectAnswer(this, false)">International trade is unnecessary</div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>Question 3: Who ultimately pays the cost of tariffs?</h3>
+                    <div class="options">
+                        <div class="option" onclick="selectAnswer(this, false)">Foreign exporters</div>
+                        <div class="option" onclick="selectAnswer(this, false)">The government</div>
+                        <div class="option" onclick="selectAnswer(this, true)">Domestic consumers</div>
+                        <div class="option" onclick="selectAnswer(this, false)">International organizations</div>
+                    </div>
+                </div>
+
+                <button class="btn" onclick="showResults()" id="resultsBtn" style="display: none;">Show Results</button>
+                <div id="quizResults" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let completedSections = 0;
+        let quizAnswers = [];
+
+        function updateProgress() {
+            completedSections++;
+            const progress = (completedSections / 5) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function toggleDetails(element) {
+            const details = element.querySelector('.event-details');
+            const allItems = document.querySelectorAll('.timeline-item');
+            
+            // Close all other items
+            allItems.forEach(item => {
+                if (item !== element) {
+                    item.querySelector('.event-details').style.display = 'none';
+                    item.classList.remove('active');
+                }
+            });
+            
+            // Toggle current item
+            if (details.style.display === 'none' || !details.style.display) {
+                details.style.display = 'block';
+                element.classList.add('active');
+                if (completedSections === 0) updateProgress();
+            } else {
+                details.style.display = 'none';
+                element.classList.remove('active');
+            }
+        }
+
+        function updateSimulation() {
+            const tariffRate = document.getElementById('tariffRate').value;
+            const basePrice = document.getElementById('basePrice').value;
+            
+            document.getElementById('tariffValue').textContent = tariffRate + '%';
+            document.getElementById('priceValue').textContent = '$' + basePrice;
+            
+            const originalPrice = parseFloat(basePrice);
+            const tariffAmount = originalPrice * (tariffRate / 100);
+            const finalPrice = originalPrice + tariffAmount;
+            
+            document.getElementById('originalPrice').textContent = '$' + originalPrice.toFixed(2);
+            document.getElementById('tariffPrice').textContent = '$' + finalPrice.toFixed(2);
+            document.getElementById('govRevenue').textContent = '$' + tariffAmount.toFixed(2);
+            
+            let effects = '';
+            if (tariffRate == 0) {
+                effects = 'No tariff applied - free trade conditions.';
+            } else if (tariffRate <= 20) {
+                effects = '✅ Moderate protection. Small price increase for consumers. Limited trade disruption.';
+            } else if (tariffRate <= 50) {
+                effects = '⚠️ High protection. Significant price increases. May trigger retaliation from trading partners.';
+            } else {
+                effects = '🚨 Extreme protection. Major price increases likely to hurt consumers and invite trade wars.';
+            }
+            
+            document.getElementById('economicEffects').innerHTML = '<p>' + effects + '</p>';
+            
+            if (completedSections === 1) updateProgress();
+        }
+
+        function selectAnswer(element, isCorrect) {
+            const questionDiv = element.parentElement.parentElement;
+            const options = questionDiv.querySelectorAll('.option');
+            
+            // Remove previous selections
+            options.forEach(opt => {
+                opt.classList.remove('correct', 'incorrect');
+            });
+            
+            // Mark all options
+            options.forEach(opt => {
+                if (opt === element) {
+                    opt.classList.add(isCorrect ? 'correct' : 'incorrect');
+                } else {
+                    // Find the correct answer and mark it
+                    if (opt.onclick.toString().includes('true')) {
+                        opt.classList.add('correct');
+                    }
+                }
+            });
+            
+            // Store answer
+            const questionIndex = Array.from(document.querySelectorAll('.question')).indexOf(questionDiv);
+            quizAnswers[questionIndex] = isCorrect;
+            
+            // Check if all questions answered
+            if (quizAnswers.filter(a => a !== undefined).length === 3) {
+                document.getElementById('resultsBtn').style.display = 'block';
+                if (completedSections === 2) updateProgress();
+            }
+        }
+
+        function showResults() {
+            const correctAnswers = quizAnswers.filter(a => a === true).length;
+            const totalQuestions = 3;
+            const percentage = Math.round((correctAnswers / totalQuestions) * 100);
+            
+            let message = '';
+            if (percentage >= 80) {
+                message = '🎉 Excellent! You have a strong understanding of tariff history.';
+            } else if (percentage >= 60) {
+                message = '👍 Good job! You understand the basics of tariff policy.';
+            } else {
+                message = '📚 Keep studying! Review the timeline and concepts above.';
+            }
+            
+            document.getElementById('quizResults').innerHTML = 
+                `<h3>Your Score: ${correctAnswers}/${totalQuestions} (${percentage}%)</h3><p>${message}</p>`;
+            document.getElementById('quizResults').style.display = 'block';
+            
+            if (completedSections === 3) updateProgress();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSimulation();
+            
+            // Auto-progress tracking for sections
+            const sections = document.querySelectorAll('.section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+                        // Section is in view
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            sections.forEach(section => observer.observe(section));
+        });
+    </script>
+</body>
+</html>
