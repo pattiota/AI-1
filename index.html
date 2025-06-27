@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive HTML Index</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .add-link-form {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .add-link-form:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #495057;
+            font-size: 1.1em;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .links-section {
+            margin-top: 30px;
+        }
+
+        .links-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .links-list {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            min-height: 100px;
+        }
+
+        .link-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            background: white;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .link-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .link-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .link-item a {
+            color: #495057;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+        }
+
+        .link-item a:hover {
+            color: #667eea;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .delete-btn:hover {
+            background: #c82333;
+            transform: scale(1.05);
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #6c757d;
+            font-style: italic;
+            padding: 40px 20px;
+            font-size: 1.1em;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background: #28a745;
+            color: white;
+            border-radius: 10px;
+            font-weight: 600;
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .notification.error {
+            background: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📁 HTML Index Manager</h1>
+        
+        <div class="add-link-form">
+            <h2 style="margin-bottom: 20px; color: #495057;">Add New HTML File</h2>
+            <form id="addLinkForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="linkName">Link Name:</label>
+                        <input type="text" id="linkName" name="linkName" placeholder="e.g., My Portfolio" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fileName">HTML File Path:</label>
+                        <input type="text" id="fileName" name="fileName" placeholder="e.g., portfolio.html" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn">Add Link</button>
+            </form>
+        </div>
+
+        <div class="links-section">
+            <h2>📋 HTML Files</h2>
+            <div class="links-list" id="linksList">
+                <div class="empty-state" id="emptyState">
+                    No HTML files added yet. Use the form above to add your first link!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // Store links in memory (persists during session)
+        let htmlLinks = [];
+
+        // DOM elements
+        const form = document.getElementById('addLinkForm');
+        const linksList = document.getElementById('linksList');
+        const emptyState = document.getElementById('emptyState');
+        const notification = document.getElementById('notification');
+
+        // Add event listener to form
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const linkName = document.getElementById('linkName').value.trim();
+            const fileName = document.getElementById('fileName').value.trim();
+            
+            // Validate inputs
+            if (!linkName || !fileName) {
+                showNotification('Please fill in both fields!', 'error');
+                return;
+            }
+
+            // Check for duplicate names
+            if (htmlLinks.some(link => link.name.toLowerCase() === linkName.toLowerCase())) {
+                showNotification('A link with this name already exists!', 'error');
+                return;
+            }
+
+            // Add link to array
+            htmlLinks.push({
+                id: Date.now(),
+                name: linkName,
+                file: fileName
+            });
+
+            // Clear form
+            form.reset();
+            
+            // Update display
+            renderLinks();
+            
+            // Show success notification
+            showNotification(`"${linkName}" added successfully!`);
+        });
+
+        // Function to render links
+        function renderLinks() {
+            if (htmlLinks.length === 0) {
+                linksList.innerHTML = '<div class="empty-state">No HTML files added yet. Use the form above to add your first link!</div>';
+                return;
+            }
+
+            const linksHTML = htmlLinks.map(link => `
+                <div class="link-item">
+                    <a href="${link.file}" target="_blank">${link.name}</a>
+                    <button class="delete-btn" onclick="deleteLink(${link.id})">Delete</button>
+                </div>
+            `).join('');
+
+            linksList.innerHTML = linksHTML;
+        }
+
+        // Function to delete a link
+        function deleteLink(id) {
+            const linkToDelete = htmlLinks.find(link => link.id === id);
+            if (linkToDelete) {
+                htmlLinks = htmlLinks.filter(link => link.id !== id);
+                renderLinks();
+                showNotification(`"${linkToDelete.name}" deleted successfully!`);
+            }
+        }
+
+        // Function to show notifications
+        function showNotification(message, type = 'success') {
+            notification.textContent = message;
+            notification.className = `notification ${type} show`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Initial render
+        renderLinks();
+
+        // Add some sample data for demonstration (optional - remove if not needed)
+        // Uncomment the lines below to start with some sample links
+        /*
+        htmlLinks = [
+            { id: 1, name: "Home Page", file: "home.html" },
+            { id: 2, name: "About Us", file: "about.html" },
+            { id: 3, name: "Contact", file: "contact.html" }
+        ];
+        renderLinks();
+        */
+    </script>
+</body>
+</html>
