@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earth's Layers - Interactive Flashcards</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn.quiz-mode {
+            background: linear-gradient(45deg, #FF6B6B, #FF5252);
+        }
+
+        .btn.auto-mode {
+            background: linear-gradient(45deg, #4ECDC4, #44A08D);
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.2);
+            height: 8px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            height: 100%;
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .card-container {
+            perspective: 1000px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .flashcard {
+            width: 600px;
+            height: 400px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s ease;
+            cursor: pointer;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            color: #333;
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            transform: rotateY(180deg);
+            justify-content: flex-start;
+            text-align: left;
+            overflow-y: auto;
+        }
+
+        .layer-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            border: 4px solid #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .layer-name {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .layer-subtitle {
+            font-size: 1.2em;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+
+        .flip-hint {
+            font-size: 1em;
+            color: #95a5a6;
+            font-style: italic;
+        }
+
+        .layer-details {
+            width: 100%;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .detail-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .detail-label {
+            font-weight: bold;
+            color: #3498db;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 1.1em;
+            line-height: 1.4;
+        }
+
+        .description {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .fun-fact {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #fff;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        .nav-btn {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .nav-btn:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .card-indicators {
+            display: flex;
+            gap: 10px;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator.active {
+            background: #fff;
+            transform: scale(1.2);
+        }
+
+        .quiz-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+        }
+
+        .quiz-question {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .quiz-option {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+        }
+
+        .quiz-option:hover {
+            background: #e3f2fd;
+            border-color: #2196f3;
+        }
+
+        .quiz-option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .quiz-option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .quiz-result {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .quiz-score {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .flashcard {
+                width: 90vw;
+                height: 500px;
+            }
+            
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .layer-name {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌍 Earth's Internal Structure</h1>
+            <p>Interactive Flashcards for Undergraduate Geology</p>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="setMode('study')">📚 Study Mode</button>
+            <button class="btn quiz-mode" onclick="setMode('quiz')">🧠 Quiz Mode</button>
+            <button class="btn auto-mode" onclick="toggleAutoFlip()">⏱️ Auto-Flip</button>
+            <button class="btn" onclick="shuffleCards()">🔀 Shuffle</button>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div id="studyMode">
+            <div class="card-container">
+                <div class="flashcard" id="flashcard" onclick="flipCard()">
+                    <div class="card-face card-front" id="cardFront">
+                        <!-- Front content will be inserted here -->
+                    </div>
+                    <div class="card-face card-back" id="cardBack">
+                        <!-- Back content will be inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="quizMode" style="display: none;">
+            <div class="quiz-container" id="quizContainer">
+                <!-- Quiz content will be inserted here -->
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn" onclick="previousCard()">← Previous</button>
+            <div class="card-indicators" id="indicators">
+                <!-- Indicators will be inserted here -->
+            </div>
+            <button class="nav-btn" onclick="nextCard()">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        const earthLayers = [
+            {
+                name: "Continental Crust",
+                depth: "0-35 km thick (avg. 35-40 km)",
+                temperature: "0°C to 1,000°C",
+                pressure: "0.1-1.0 GPa",
+                composition: "Granitic rocks (SiO₂ ~65%), feldspar, quartz, mica",
+                density: "2.7 g/cm³",
+                state: "Solid",
+                description: "The thicker, less dense portion of Earth's crust beneath continents. Composed primarily of felsic igneous rocks with high silica content. Forms through complex processes including magmatic differentiation, metamorphism, and sedimentary processes. Contains the oldest rocks on Earth (up to 4.4 Ga).",
+                seismicProperties: "P-wave velocity: 5.5-6.5 km/s; S-wave velocity: 3.0-3.8 km/s",
+                formation: "Formed through partial melting of mantle material and subsequent differentiation, with contributions from sedimentary and metamorphic processes.",
+                funFact: "Continental crust is recycled much more slowly than oceanic crust, with some portions remaining stable for billions of years.",
+                color: "#8B4513",
+                quiz: {
+                    question: "What is the primary reason continental crust is less dense than oceanic crust?",
+                    options: [
+                        "Higher silica (SiO₂) content and felsic composition",
+                        "Greater thickness and age",
+                        "Lower temperature and pressure",
+                        "Presence of sedimentary layers"
+                    ],
+                    correct: 0,
+                    explanation: "Continental crust has higher silica content (~65% vs ~50%) and felsic minerals like feldspar and quartz, making it less dense (2.7 g/cm³) than the mafic oceanic crust (3.0 g/cm³)."
+                }
+            },
+            {
+                name: "Oceanic Crust",
+                depth: "0-7 km thick (avg. 6-7 km)",
+                temperature: "0°C to 1,200°C",
+                pressure: "0.1-0.7 GPa",
+                composition: "Basaltic rocks (SiO₂ ~50%), plagioclase, pyroxene, olivine",
+                density: "3.0 g/cm³",
+                state: "Solid",
+                description: "The thinner, denser portion of Earth's crust beneath oceans. Formed at mid-ocean ridges through partial melting of mantle peridotite. Consists of layered structure: pillow basalts, sheeted dikes, gabbro, and ultramafic cumulates. Relatively young (<200 Ma) due to constant recycling through subduction.",
+                seismicProperties: "P-wave velocity: 6.0-7.0 km/s; S-wave velocity: 3.5-4.0 km/s",
+                formation: "Created at divergent plate boundaries through decompression melting of ascending mantle material, forming new seafloor in the process of seafloor spreading.",
+                funFact: "All oceanic crust is younger than 200 million years because it's continuously recycled back into the mantle through subduction zones.",
+                color: "#4682B4",
+                quiz: {
+                    question: "What process is primarily responsible for the formation of oceanic crust?",
+                    options: [
+                        "Contact metamorphism",
+                        "Decompression melting at mid-ocean ridges",
+                        "Fractional crystallization in magma chambers",
+                        "Hydrothermal alteration of mantle rocks"
+                    ],
+                    correct: 1,
+                    explanation: "Oceanic crust forms through decompression melting when mantle material rises at mid-ocean ridges, reducing pressure and causing partial melting to produce basaltic magma."
+                }
+            },
+            {
+                name: "Upper Mantle",
+                depth: "35-410 km depth",
+                temperature: "1,000°C to 1,500°C",
+                pressure: "1.0-13.5 GPa",
+                composition: "Peridotite (olivine, pyroxene, garnet/spinel), dunite",
+                density: "3.3-3.5 g/cm³",
+                state: "Solid (with asthenosphere partially molten)",
+                description: "Contains the lithospheric mantle (rigid) and asthenosphere (ductile, 1-5% partial melt). Composed primarily of ultramafic rocks rich in Mg and Fe. The asthenosphere's low seismic velocities and partial melting enable plate tectonics through thermal convection and viscous flow.",
+                seismicProperties: "P-wave velocity: 7.8-8.1 km/s; S-wave velocity: 4.4-4.6 km/s. Low velocity zone (LVZ) in asthenosphere.",
+                formation: "Residual material after melt extraction during crust formation, with composition modified by metasomatism and melt-rock interaction processes.",
+                funFact: "The asthenosphere's partial melting (1-5%) dramatically reduces its viscosity by orders of magnitude, enabling plate motion despite being mostly solid.",
+                color: "#FF6B35",
+                quiz: {
+                    question: "What causes the low velocity zone (LVZ) observed in the upper mantle?",
+                    options: [
+                        "Increased temperature with depth",
+                        "Phase transitions in olivine",
+                        "Partial melting in the asthenosphere",
+                        "Increased pressure causing compression"
+                    ],
+                    correct: 2,
+                    explanation: "The LVZ is caused by 1-5% partial melting in the asthenosphere, which significantly reduces seismic wave velocities and rock strength, facilitating plate tectonics."
+                }
+            },
+            {
+                name: "Transition Zone",
+                depth: "410-660 km depth",
+                temperature: "1,500°C to 1,900°C",
+                pressure: "13.5-24 GPa",
+                composition: "High-pressure polymorphs: wadsleyite, ringwoodite, majorite",
+                density: "3.5-4.0 g/cm³",
+                state: "Solid",
+                description: "Characterized by major phase transitions in olivine and pyroxene due to increasing pressure. The 410 km discontinuity marks olivine → wadsleyite transition, while 660 km marks ringwoodite → bridgmanite + ferropericlase transition. These phase changes cause sharp increases in seismic velocity and density.",
+                seismicProperties: "P-wave velocity increases from 8.1 to 10.8 km/s; S-wave velocity from 4.6 to 5.9 km/s across major discontinuities.",
+                formation: "Formed through progressive phase transitions of upper mantle minerals under increasing pressure, maintaining bulk chemical composition.",
+                funFact: "The transition zone may contain significant water (up to 2-3 ocean masses) stored in the crystal structure of wadsleyite and ringwoodite.",
+                color: "#FF8C00",
+                quiz: {
+                    question: "What causes the seismic discontinuities at 410 km and 660 km depth?",
+                    options: [
+                        "Chemical composition changes",
+                        "Temperature variations",
+                        "Pressure-induced phase transitions",
+                        "Partial melting events"
+                    ],
+                    correct: 2,
+                    explanation: "These discontinuities result from pressure-induced phase transitions: olivine to wadsleyite at 410 km, and ringwoodite to bridgmanite + ferropericlase at 660 km."
+                }
+            },
+            {
+                name: "Lower Mantle",
+                depth: "660-2,890 km depth",
+                temperature: "1,900°C to 4,000°C",
+                pressure: "24-136 GPa",
+                composition: "Bridgmanite (Mg,Fe)SiO₃, ferropericlase (Mg,Fe)O, Ca-perovskite",
+                density: "4.0-5.6 g/cm³",
+                state: "Solid",
+                description: "The largest layer by volume (56% of Earth), dominated by bridgmanite with perovskite structure. Convection is sluggish due to high viscosity (10²¹-10²³ Pa·s). Contains large low shear velocity provinces (LLSVPs) that may represent ancient mantle material or partial melt. Post-perovskite phase exists in D'' layer near core-mantle boundary.",
+                seismicProperties: "P-wave velocity: 10.8-13.7 km/s; S-wave velocity: 5.9-7.3 km/s. Complex heterogeneity in D'' layer.",
+                formation: "High-pressure assemblage of silicate minerals formed through phase transitions, with chemical heterogeneity preserved over geological time.",
+                funFact: "The lower mantle's extreme pressure (up to 136 GPa) is equivalent to about 1.4 million times atmospheric pressure at sea level.",
+                color: "#FF4500",
+                quiz: {
+                    question: "What is the dominant mineral phase in the lower mantle?",
+                    options: [
+                        "Olivine",
+                        "Ringwoodite",
+                        "Bridgmanite (Mg-perovskite)",
+                        "Post-perovskite"
+                    ],
+                    correct: 2,
+                    explanation: "Bridgmanite (formerly Mg-perovskite) with the perovskite crystal structure is the most abundant mineral in the lower mantle, comprising about 70% of this region."
+                }
+            },
+            {
+                name: "Outer Core",
+                depth: "2,890-5,150 km depth",
+                temperature: "4,000°C to 6,000°C",
+                pressure: "136-330 GPa",
+                composition: "Fe-Ni alloy (~80% Fe, ~20% Ni) with light elements (S, Si, O, C)",
+                density: "9.9-12.2 g/cm³",
+                state: "Liquid",
+                description: "Convecting liquid iron-nickel alloy that generates Earth's magnetic field through the geodynamo process. Thermal and compositional convection driven by cooling from above and light element release during inner core crystallization. Magnetic field reversals occur due to chaotic dynamics in the convective flow.",
+                seismicProperties: "P-wave velocity: 8.0-10.4 km/s; S-waves cannot propagate (liquid). Creates shadow zone for S-waves.",
+                formation: "Formed during Earth's differentiation when dense metallic material segregated from silicates during accretion and early bombardment.",
+                funFact: "The outer core's convective motion generates 99% of Earth's magnetic field, which has reversed polarity hundreds of times in Earth's history.",
+                color: "#FFD700",
+                quiz: {
+                    question: "What drives the convection in the outer core that generates Earth's magnetic field?",
+                    options: [
+                        "Radioactive decay only",
+                        "Thermal cooling and compositional buoyancy",
+                        "Tidal forces from the Moon",
+                        "Pressure gradients alone"
+                    ],
+                    correct: 1,
+                    explanation: "Outer core convection is driven by thermal cooling from above and compositional buoyancy from light elements released during inner core crystallization, powering the geodynamo."
+                }
+            },
+            {
+                name: "Inner Core",
+                depth: "5,150-6,371 km depth",
+                temperature: "5,000°C to 6,000°C",
+                pressure: "330-360 GPa",
+                composition: "Fe-Ni alloy (~95% Fe, ~5% Ni) with trace light elements",
+                density: "12.8-13.1 g/cm³",
+                state: "Solid (hexagonal close-packed structure)",
+                description: "Solid iron-nickel sphere with hexagonal close-packed (hcp) crystal structure due to extreme pressure. Exhibits seismic anisotropy with faster P-wave propagation parallel to Earth's rotation axis. Grows by ~1 mm/year through crystallization from the outer core, releasing latent heat and light elements.",
+                seismicProperties: "P-wave velocity: 11.0-11.3 km/s; S-wave velocity: 3.5-3.7 km/s. Strong seismic anisotropy (~3%).",
+                formation: "Crystallized from liquid metal as Earth cooled, with ongoing growth from outer core material under extreme pressure conditions.",
+                funFact: "Despite temperatures exceeding 5,000°C (hotter than the Sun's surface), the inner core remains solid due to pressure of 360 GPa - over 3.6 million times atmospheric pressure.",
+                color: "#FFFF00",
+                quiz: {
+                    question: "Why does the inner core remain solid despite being the hottest part of Earth?",
+                    options: [
+                        "It has a different chemical composition",
+                        "Extreme pressure prevents melting despite high temperature",
+                        "It's actually cooler than the outer core",
+                        "Magnetic forces compress the material"
+                    ],
+                    correct: 1,
+                    explanation: "The inner core remains solid because the extreme pressure (360 GPa) raises the melting point of iron above the core temperature, following the Clausius-Clapeyron relationship."
+                }
+            }
+        ];
+
+        let currentCardIndex = 0;
+        let currentMode = 'study';
+        let isFlipped = false;
+        let autoFlipInterval = null;
+        let quizScore = 0;
+        let quizAnswered = false;
+
+        function updateCard() {
+            const card = earthLayers[currentCardIndex];
+            const frontCard = document.getElementById('cardFront');
+            const backCard = document.getElementById('cardBack');
+
+            // Update front of card
+            frontCard.innerHTML = `
+                <div class="layer-icon" style="background: ${card.color}"></div>
+                <div class="layer-name">${card.name}</div>
+                <div class="layer-subtitle">${card.depth}</div>
+                <div class="flip-hint">Click to flip and explore details</div>
+            `;
+
+            // Update back of card
+            backCard.innerHTML = `
+                <div class="layer-details">
+                    <h2 style="color: #3498db; margin-bottom: 20px; text-align: center;">${card.name}</h2>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">Depth Range</div>
+                            <div class="detail-value">${card.depth}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Temperature</div>
+                            <div class="detail-value">${card.temperature}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Pressure</div>
+                            <div class="detail-value">${card.pressure}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Density</div>
+                            <div class="detail-value">${card.density}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Physical State</div>
+                            <div class="detail-value">${card.state}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Composition</div>
+                            <div class="detail-value">${card.composition}</div>
+                        </div>
+                    </div>
+                    <div class="description">
+                        <strong>Description:</strong> ${card.description}
+                    </div>
+                    <div class="description">
+                        <strong>Seismic Properties:</strong> ${card.seismicProperties}
+                    </div>
+                    <div class="description">
+                        <strong>Formation:</strong> ${card.formation}
+                    </div>
+                    <div class="fun-fact">
+                        <strong>🔬 Advanced Insight:</strong> ${card.funFact}
+                    </div>
+                </div>
+            `;
+
+            updateProgress();
+            updateIndicators();
+            resetFlip();
+        }
+
+        function updateQuiz() {
+            const card = earthLayers[currentCardIndex];
+            const quizContainer = document.getElementById('quizContainer');
+            
+            quizContainer.innerHTML = `
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <div class="layer-icon" style="background: ${card.color}; margin: 0 auto;"></div>
+                    <h2 style="margin: 15px 0; color: #2c3e50;">${card.name}</h2>
+                </div>
+                <div class="quiz-question">${card.quiz.question}</div>
+                <div class="quiz-options" id="quizOptions">
+                    ${card.quiz.options.map((option, index) => `
+                        <div class="quiz-option" onclick="selectAnswer(${index})" data-index="${index}">
+                            ${option}
+                        </div>
+                    `).join('')}
+                </div>
+                <div id="quizResult" style="display: none;"></div>
+            `;
+            
+            quizAnswered = false;
+        }
+
+        function selectAnswer(selectedIndex) {
+            if (quizAnswered) return;
+            
+            const card = earthLayers[currentCardIndex];
+            const options = document.querySelectorAll('.quiz-option');
+            const resultDiv = document.getElementById('quizResult');
+            
+            quizAnswered = true;
+            
+            options.forEach((option, index) => {
+                option.style.pointerEvents = 'none';
+                if (index === card.quiz.correct) {
+                    option.classList.add('correct');
+                } else if (index === selectedIndex) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            const isCorrect = selectedIndex === card.quiz.correct;
+            if (isCorrect) quizScore++;
+            
+            resultDiv.innerHTML = `
+                <div class="quiz-result" style="background: ${isCorrect ? '#d4edda' : '#f8d7da'}; color: ${isCorrect ? '#155724' : '#721c24'};">
+                    <div class="quiz-score">${isCorrect ? '✓ Correct!' : '✗ Incorrect'}</div>
+                    <div style="margin: 15px 0;"><strong>Explanation:</strong> ${card.quiz.explanation}</div>
+                    <div style="font-size: 0.9em; margin-top: 15px;">Score: ${quizScore}/${currentCardIndex + 1}</div>
+                </div>
+            `;
+            resultDiv.style.display = 'block';
+        }
+
+        function flipCard() {
+            if (currentMode !== 'study') return;
+            const flashcard = document.getElementById('flashcard');
+            flashcard.classList.toggle('flipped');
+            isFlipped = !isFlipped;
+        }
+
+        function resetFlip() {
+            const flashcard = document.getElementById('flashcard');
+            flashcard.classList.remove('flipped');
+            isFlipped = false;
+        }
+
+        function nextCard() {
+            currentCardIndex = (currentCardIndex + 1) % earthLayers.length;
+            if (currentMode === 'study') {
+                updateCard();
+            } else {
+                updateQuiz();
+            }
+        }
+
+        function previousCard() {
+            currentCardIndex = (currentCardIndex - 1 + earthLayers.length) % earthLayers.length;
+            if (currentMode === 'study') {
+                updateCard();
+            } else {
+                updateQuiz();
+            }
+        }
+
+        function setMode(mode) {
+            currentMode = mode;
+            const studyMode = document.getElementById('studyMode');
+            const quizMode = document.getElementById('quizMode');
+            
+            if (mode === 'study') {
+                studyMode.style.display = 'block';
+                quizMode.style.display = 'none';
+                updateCard();
+            } else {
+                studyMode.style.display = 'none';
+                quizMode.style.display = 'block';
+                quizScore = 0;
+                currentCardIndex = 0;
+                updateQuiz();
+            }
+        }
+
+        function toggleAutoFlip() {
+            if (autoFlipInterval) {
+                clearInterval(autoFlipInterval);
+                autoFlipInterval = null;
+            } else {
+                autoFlipInterval = setInterval(() => {
+                    if (currentMode === 'study') {
+                        flipCard();
+                        setTimeout(() => {
+                            nextCard();
+                        }, 3000);
+                    }
+                }, 6000);
+            }
+        }
+
+        function shuffleCards() {
+            // Fisher-Yates shuffle
+            for (let i = earthLayers.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [earthLayers[i], earthLayers[j]] = [earthLayers[j], earthLayers[i]];
+            }
+            currentCardIndex = 0;
+            if (currentMode === 'study') {
+                updateCard();
+            } else {
+                quizScore = 0;
+                updateQuiz();
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((currentCardIndex + 1) / earthLayers.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function updateIndicators() {
+            const indicatorsContainer = document.getElementById('indicators');
+            indicatorsContainer.innerHTML = earthLayers.map((_, index) => 
+                `<div class="indicator ${index === currentCardIndex ? 'active' : ''}" onclick="goToCard(${index})"></div>`
+            ).join('');
+        }
+
+        function goToCard(index) {
+            currentCardIndex = index;
+            if (currentMode === 'study') {
+                updateCard();
+            } else {
+                updateQuiz();
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            switch(e.key) {
+                case 'ArrowLeft':
+                    previousCard();
+                    break;
+                case 'ArrowRight':
+                    nextCard();
+                    break;
+                case ' ':
+                    e.preventDefault();
+                    if (currentMode === 'study') flipCard();
+                    break;
+                case 's':
+                    setMode('study');
+                    break;
+                case 'q':
+                    setMode('quiz');
+                    break;
+            }
+        });
+
+        // Initialize
+        updateCard();
+    </script>
+</body>
+</html>
