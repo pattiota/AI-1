@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompTIA Security+ SY0-701 Domain 1: Interactive Outline</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f0f0f;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #2d5a2d, #1a4d1a);
+            border-radius: 10px;
+            border: 2px solid #4a9a4a;
+        }
+
+        .header h1 {
+            color: #66cc66;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .header .subtitle {
+            color: #ffffff;
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .overview {
+            background-color: #1a1a1a;
+            border: 2px solid #4a9a4a;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .overview h2 {
+            color: #66cc66;
+            margin-bottom: 15px;
+        }
+
+        .overview ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        .overview li {
+            margin: 8px 0;
+            color: #cccccc;
+        }
+
+        .overview li::before {
+            content: "▶ ";
+            color: #4a9a4a;
+            font-weight: bold;
+        }
+
+        .section {
+            background-color: #1a1a1a;
+            border: 2px solid #333333;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            border-color: #4a9a4a;
+            box-shadow: 0 4px 8px rgba(74, 154, 74, 0.2);
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #2d5a2d, #1a4d1a);
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333333;
+            transition: background-color 0.3s ease;
+        }
+
+        .section-header:hover {
+            background: linear-gradient(135deg, #3d6a3d, #2a5d2a);
+        }
+
+        .section-header h2 {
+            color: #66cc66;
+            font-size: 1.4em;
+            margin: 0;
+        }
+
+        .section-header h3 {
+            color: #66cc66;
+            font-size: 1.2em;
+            margin: 0;
+        }
+
+        .toggle-icon {
+            color: #4a9a4a;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .section-content {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            background-color: #222222;
+        }
+
+        .section-content.expanded {
+            max-height: 2000px;
+            padding: 20px;
+        }
+
+        .subsection {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #2a2a2a;
+            border-radius: 6px;
+            border-left: 4px solid #4a9a4a;
+        }
+
+        .subsection h4 {
+            color: #66cc66;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .subsection h5 {
+            color: #99dd99;
+            margin-bottom: 8px;
+            margin-top: 15px;
+        }
+
+        .subsection p {
+            color: #cccccc;
+            margin-bottom: 10px;
+        }
+
+        .subsection ul {
+            list-style: none;
+            padding-left: 15px;
+        }
+
+        .subsection li {
+            color: #cccccc;
+            margin: 5px 0;
+            position: relative;
+        }
+
+        .subsection li::before {
+            content: "●";
+            color: #4a9a4a;
+            position: absolute;
+            left: -15px;
+        }
+
+        .examples {
+            background-color: #1a2a1a;
+            border: 1px solid #4a9a4a;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        .examples h6 {
+            color: #99dd99;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        .nav-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #1a1a1a;
+            border: 2px solid #4a9a4a;
+            border-radius: 8px;
+            padding: 15px;
+            z-index: 1000;
+        }
+
+        .nav-controls button {
+            background-color: #2d5a2d;
+            color: #ffffff;
+            border: 1px solid #4a9a4a;
+            border-radius: 4px;
+            padding: 8px 12px;
+            margin: 2px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+
+        .nav-controls button:hover {
+            background-color: #3d6a3d;
+            border-color: #66cc66;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #4a9a4a, #66cc66);
+            transition: width 0.3s ease;
+            z-index: 1001;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .nav-controls {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+        }
+
+        .search-box {
+            background-color: #1a1a1a;
+            border: 2px solid #4a9a4a;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px;
+            background-color: #2a2a2a;
+            border: 1px solid #4a9a4a;
+            border-radius: 4px;
+            color: #ffffff;
+            font-size: 16px;
+        }
+
+        .search-box input::placeholder {
+            color: #999999;
+        }
+
+        .highlight {
+            background-color: #4a9a4a;
+            color: #000000;
+            padding: 2px 4px;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>CompTIA Security+ SY0-701</h1>
+            <div class="subtitle">Domain 1: General Security Concepts - Interactive Study Outline</div>
+        </div>
+
+        <div class="nav-controls">
+            <button onclick="expandAll()">Expand All</button>
+            <button onclick="collapseAll()">Collapse All</button>
+            <button onclick="scrollToTop()">Top</button>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search topics..." oninput="searchContent()">
+        </div>
+
+        <div class="overview">
+            <h2>Domain Overview</h2>
+            <ul>
+                <li><strong>Weight:</strong> 12% of exam</li>
+                <li><strong>Focus:</strong> Foundational cybersecurity concepts and principles</li>
+                <li><strong>Objectives:</strong> 4 main learning objectives (1.1 - 1.4)</li>
+            </ul>
+        </div>
+
+        <div class="section" id="section1">
+            <div class="section-header" onclick="toggleSection('section1')">
+                <h2>1.1 Compare and Contrast Various Types of Security Controls</h2>
+                <span class="toggle-icon">+</span>
+            </div>
+            <div class="section-content">
+                <div class="subsection">
+                    <h4>Security Control Categories</h4>
+                    
+                    <h5>Technical Controls</h5>
+                    <p>Controls implemented using systems and technology</p>
+                    <div class="examples">
+                        <h6>Examples:</h6>
+                        <ul>
+                            <li>Operating system controls</li>
+                            <li>Firewalls and intrusion prevention systems</li>
+                            <li>Antivirus software</li>
+                            <li>Encryption systems</li>
+                            <li>Access control systems</li>
+                            <li>Authentication mechanisms</li>
+                        </ul>
+                    </div>
+
+                    <h5>Managerial Controls</h5>
+                    <p>Administrative controls associated with security design and implementation</p>
+                    <div class="examples">
+                        <h6>Examples:</h6>
+                        <ul>
+                            <li>Security policies and procedures</li>
+                            <li>Standard operating procedures (SOPs)</li>
+                            <li>Security awareness training programs</li>
+                            <li>Risk assessments and audits</li>
+                            <li>Business continuity planning</li>
+                            <li>Incident response procedures</li>
+                        </ul>
+                    </div>
+
+                    <h5>Operational Controls</h5>
+                    <p>Controls implemented by people rather than technical systems</p>
+                    <div class="examples">
+                        <h6>Examples:</h6>
+                        <ul>
+                            <li>Security guards and personnel</li>
+                            <li>Background checks and screening</li>
+                            <li>Security awareness training execution</li>
+                            <li>Physical access monitoring</li>
+                            <li>Media handling procedures</li>
+                            <li>Configuration management</li>
+                        </ul>
+                    </div>
+
+                    <h5>Physical Controls</h5>
+                    <p>Controls that protect physical assets and facilities</p>
+                    <div class="examples">
+                        <h6>Examples:</h6>
+                        <ul>
+                            <li>Locks, doors, and barriers</li>
+                            <li>Security cameras and surveillance</li>
+                            <li>Biometric scanners</li>
+                            <li>Environmental controls (HVAC)</li>
+                            <li>Secure disposal methods</li>
+                            <li>Visitor management systems</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h4>Security Control Types</h4>
+                    
+                    <h5>Preventive Controls</h5>
+                    <p><strong>Purpose:</strong> Stop security incidents before they occur</p>
+                    <p><strong>Examples:</strong> Firewalls, access controls, encryption, security awareness training</p>
+
+                    <h5>Deterrent Controls</h5>
+                    <p><strong>Purpose:</strong> Discourage potential attackers from attempting an attack</p>
+                    <p><strong>Examples:</strong> Warning signs, visible security cameras, security guards, legal penalties</p>
+
+                    <h5>Detective Controls</h5>
+                    <p><strong>Purpose:</strong> Identify and alert when security incidents occur</p>
+                    <p><strong>Examples:</strong> Intrusion detection systems (IDS), log monitoring, security cameras, motion sensors</p>
+
+                    <h5>Corrective Controls</h5>
+                    <p><strong>Purpose:</strong> Respond to and remediate security incidents after detection</p>
+                    <p><strong>Examples:</strong> Incident response procedures, patch management, malware removal, system restoration</p>
+
+                    <h5>Compensating Controls</h5>
+                    <p><strong>Purpose:</strong> Provide alternative protection when primary controls are unavailable</p>
+                    <p><strong>Examples:</strong> Manual processes when automated systems fail, additional monitoring when encryption isn't possible</p>
+
+                    <h5>Directive Controls</h5>
+                    <p><strong>Purpose:</strong> Guide and direct behavior through policies and procedures</p>
+                    <p><strong>Examples:</strong> Security policies, acceptable use policies, compliance requirements, training mandates</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="section2">
+            <div class="section-header" onclick="toggleSection('section2')">
+                <h2>1.2 Summarize Fundamental Security Concepts</h2>
+                <span class="toggle-icon">+</span>
+            </div>
+            <div class="section-content">
+                <div class="subsection">
+                    <h4>CIA Triad (Confidentiality, Integrity, Availability)</h4>
+                    
+                    <h5>Confidentiality</h5>
+                    <p><strong>Definition:</strong> Preventing disclosure of information to unauthorized individuals or systems</p>
+                    <div class="examples">
+                        <h6>Implementation Methods:</h6>
+                        <ul>
+                            <li>Encryption of data at rest and in transit</li>
+                            <li>Access controls and permissions</li>
+                            <li>Two-factor authentication (2FA/MFA)</li>
+                            <li>Data classification and handling procedures</li>
+                            <li>Network segmentation</li>
+                        </ul>
+                    </div>
+
+                    <h5>Integrity</h5>
+                    <p><strong>Definition:</strong> Ensuring data is stored and transferred as intended; detecting unauthorized modifications</p>
+                    <div class="examples">
+                        <h6>Implementation Methods:</h6>
+                        <ul>
+                            <li>Hashing algorithms (SHA-256, MD5)</li>
+                            <li>Digital signatures</li>
+                            <li>Checksums and cyclic redundancy checks (CRC)</li>
+                            <li>Version control systems</li>
+                            <li>Access controls to prevent unauthorized changes</li>
+                        </ul>
+                    </div>
+
+                    <h5>Availability</h5>
+                    <p><strong>Definition:</strong> Ensuring systems and data are accessible when needed by authorized users</p>
+                    <div class="examples">
+                        <h6>Implementation Methods:</h6>
+                        <ul>
+                            <li>Redundancy and fault tolerance</li>
+                            <li>Load balancing and clustering</li>
+                            <li>Regular system maintenance and patching</li>
+                            <li>Disaster recovery planning</li>
+                            <li>Uninterruptible power supplies (UPS)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h4>Non-Repudiation</h4>
+                    <p><strong>Definition:</strong> Proof that an action or event cannot be denied by involved parties</p>
+                    <p><strong>Implementation:</strong> Digital signatures, audit logs, timestamping, certificate authorities</p>
+                </div>
+
+                <div class="subsection">
+                    <h4>Authentication, Authorization, and Accounting (AAA)</h4>
+                    
+                    <h5>Authentication</h5>
+                    <p><strong>Purpose:</strong> Verifying identity of users or systems</p>
+                    <ul>
+                        <li><strong>Authenticating People:</strong> Passwords, biometrics, smart cards, tokens</li>
+                        <li><strong>Authenticating Systems:</strong> Digital certificates, shared secrets, cryptographic keys</li>
+                    </ul>
+
+                    <h5>Authorization</h5>
+                    <p><strong>Purpose:</strong> Determining what authenticated users can access or do</p>
+                    <ul>
+                        <li>Role-based access control (RBAC)</li>
+                        <li>Discretionary access control (DAC)</li>
+                        <li>Mandatory access control (MAC)</li>
+                        <li>Attribute-based access control (ABAC)</li>
+                    </ul>
+
+                    <h5>Accounting</h5>
+                    <p><strong>Purpose:</strong> Tracking user activities and resource usage</p>
+                    <p><strong>Components:</strong> Audit logs, session tracking, resource monitoring, compliance reporting</p>
+                </div>
+
+                <div class="subsection">
+                    <h4>Zero Trust Architecture</h4>
+                    
+                    <h5>Control Plane Components</h5>
+                    <ul>
+                        <li><strong>Adaptive Identity:</strong> Real-time validation based on user behavior, device, and location</li>
+                        <li><strong>Threat Scope Reduction:</strong> Limiting access to minimize attack surface</li>
+                        <li><strong>Policy-Driven Access Control:</strong> Role and responsibility-based access policies</li>
+                        <li><strong>Policy Administrator:</strong> Manages and enforces access policies</li>
+                        <li><strong>Policy Engine:</strong> Makes access decisions based on policies and real-time data</li>
+                    </ul>
+
+                    <h5>Data Plane Components</h5>
+                    <ul>
+                        <li><strong>Implicit Trust Zones:</strong> Segments where similar trust levels exist</li>
+                        <li><strong>Subject/System:</strong> Entities requesting access to resources</li>
+                        <li><strong>Policy Enforcement Point:</strong> Where access decisions are implemented</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h4>Deception and Disruption Technology</h4>
+                    
+                    <h5>Honeypots</h5>
+                    <p><strong>Purpose:</strong> Decoy systems designed to attract and analyze attackers</p>
+                    <p><strong>Benefits:</strong> Early threat detection, attacker behavior analysis, threat intelligence gathering</p>
+
+                    <h5>Honeynets</h5>
+                    <p><strong>Purpose:</strong> Networks of multiple honeypots simulating complete environments</p>
+                    <p><strong>Benefits:</strong> Comprehensive attack analysis, network-level threat intelligence</p>
+
+                    <h5>Honeyfiles</h5>
+                    <p><strong>Purpose:</strong> Fake files designed to detect unauthorized access</p>
+                    <p><strong>Benefits:</strong> Internal threat detection, data access monitoring</p>
+
+                    <h5>Honeytokens</h5>
+                    <p><strong>Purpose:</strong> Fake data elements that trigger alerts when accessed</p>
+                    <p><strong>Benefits:</strong> Breach detection, insider threat identification</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="section3">
+            <div class="section-header" onclick="toggleSection('section3')">
+                <h2>1.3 Explain the Importance of Change Management Processes</h2>
+                <span class="toggle-icon">+</span>
+            </div>
+            <div class="section-content">
+                <div class="subsection">
+                    <h4>Business Processes Impacting Security Operations</h4>
+                    
+                    <h5>Approval Process</h5>
+                    <ul>
+                        <li>Formal authorization requirements before implementing changes</li>
+                        <li>Change control board (CCB) review and approval</li>
+                        <li>Documentation of change justification and impact assessment</li>
+                    </ul>
+
+                    <h5>Ownership</h5>
+                    <ul>
+                        <li>Clear identification of change owners and responsible parties</li>
+                        <li>Accountability for change success and rollback if needed</li>
+                        <li>Process management and stakeholder communication</li>
+                    </ul>
+
+                    <h5>Impact Analysis</h5>
+                    <ul>
+                        <li>Assessment of potential effects on security posture</li>
+                        <li>Risk evaluation and mitigation planning</li>
+                        <li>Dependencies and integration considerations</li>
+                    </ul>
+
+                    <h5>Test Results</h5>
+                    <ul>
+                        <li>Validation of changes in controlled environments</li>
+                        <li>Security testing and vulnerability assessments</li>
+                        <li>Performance and functionality verification</li>
+                    </ul>
+
+                    <h5>Backout Plan</h5>
+                    <ul>
+                        <li>Detailed procedures for reversing changes if problems occur</li>
+                        <li>Rollback timelines and decision criteria</li>
+                        <li>Recovery procedures and data restoration</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h4>Technical Implications</h4>
+                    
+                    <h5>Allow Lists/Deny Lists</h5>
+                    <ul>
+                        <li><strong>Allow Lists:</strong> Only approved applications/processes can execute (more restrictive)</li>
+                        <li><strong>Deny Lists:</strong> Blocked applications/processes cannot execute (less restrictive)</li>
+                        <li>Security policy enforcement through application control</li>
+                    </ul>
+
+                    <h5>Downtime Considerations</h5>
+                    <ul>
+                        <li><strong>Service Restart:</strong> Interruption of individual services</li>
+                        <li><strong>Application Restart:</strong> Application-level interruptions</li>
+                        <li><strong>System Downtime:</strong> Complete system unavailability</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="section4">
+            <div class="section-header" onclick="toggleSection('section4')">
+                <h2>1.4 Explain the Importance of Using Appropriate Cryptographic Solutions</h2>
+                <span class="toggle-icon">+</span>
+            </div>
+            <div class="section-content">
+                <div class="subsection">
+                    <h4>Public Key Infrastructure (PKI)</h4>
+                    
+                    <h5>Core Components</h5>
+                    <ul>
+                        <li><strong>Public Key:</strong> Freely distributable key for encryption and signature verification</li>
+                        <li><strong>Private Key:</strong> Secret key for decryption and digital signing</li>
+                        <li><strong>Key Escrow:</strong> Secure storage of private keys for recovery purposes</li>
+                    </ul>
+
+                    <h5>PKI Trust Models</h5>
+                    <ul>
+                        <li><strong>Hierarchical Trust Model:</strong> Single root CA with subordinate CAs</li>
+                        <li><strong>Distributed Trust Model:</strong> Multiple CAs with cross-certification</li>
+                        <li><strong>Bridge Trust Model:</strong> Central authority facilitating CA interconnection</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h4>Encryption Technologies</h4>
+                    
+                    <h5>Encryption Levels</h5>
+                    <ul>
+                        <li><strong>Full-Disk Encryption:</strong> Complete drive encryption (BitLocker, FileVault)</li>
+                        <li><strong>Partition Encryption:</strong> Specific disk partition protection</li>
+                        <li><strong>File-Level Encryption:</strong> Individual file protection</li>
+                        <li><strong>Database Encryption:</strong> Database-specific encryption (TDE)</li>
+                        <li><strong>Record-Level Encryption:</strong> Individual database record protection</li>
+                    </ul>
+
+                    <h5>Encryption Types</h5>
+                    <div class="examples">
+                        <h6>Symmetric Encryption:</h6>
+                        <ul>
+                            <li>Single shared key (AES, DES, 3DES)</li>
+                            <li>Fast processing, efficient for large data</li>
+                            <li>Key distribution challenges</li>
+                        </ul>
+                    </div>
+                    <div class="examples">
+                        <h6>Asymmetric Encryption:</h6>
+                        <ul>
+                            <li>Public/private key pairs (RSA, ECC)</li>
+                            <li>Solves key distribution problem</li>
+                            <li>Slower processing, used for key exchange</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h4>Cryptographic Tools</h4>
+                    
+                    <h5>Hardware Security Modules (HSM)</h5>
+                    <ul>
+                        <li>Dedicated cryptographic processors</li>
+                        <li>Secure key generation and storage</li>
+                        <li>Hardware-based random number generation</li>
+                        <li>Tamper-resistant/tamper-evident design</li>
+                    </ul>
+
+                    <h5>Trusted Platform Module (TPM)</h5>
+                    <ul>
+                        <li>Hardware-based security chip on motherboards</li>
+                        <li>Secure boot process verification</li>
+                        <li>Cryptographic key storage and generation</li>
+                        <li>Platform integrity measurements</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h4>Hashing and Digital Signatures</h4>
+                    
+                    <h5>Hashing Functions</h5>
+                    <ul>
+                        <li><strong>Purpose:</strong> Data integrity verification and digital fingerprinting</li>
+                        <li><strong>Algorithms:</strong> SHA-256, SHA-3, MD5 (deprecated), BLAKE2</li>
+                        <li><strong>Properties:</strong> Fixed output size, avalanche effect, irreversibility</li>
+                    </ul>
+
+                    <h5>Digital Signatures</h5>
+                    <ul>
+                        <li>Hash encryption with private key for authentication</li>
+                        <li>Non-repudiation and integrity verification</li>
+                        <li>DSA, RSA, ECDSA signature algorithms</li>
+                        <li>Time-stamping for temporal verification</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="section5">
+            <div class="section-header" onclick="toggleSection('section5')">
+                <h2>Exam Preparation Tips</h2>
+                <span class="toggle-icon">+</span>
+            </div>
+            <div class="section-content">
+                <div class="subsection">
+                    <h4>Key Focus Areas</h4>
+                    <ul>
+                        <li>Understand the relationship between different security control types and categories</li>
+                        <li>Master the CIA Triad and its practical implementations</li>
+                        <li>Learn Zero Trust architecture components and benefits</li>
+                        <li>Comprehend change management processes and their security implications</li>
+                        <li>Understand PKI components and certificate management</li>
+                        <li>Study encryption types, algorithms, and appropriate use cases</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h4>Common Exam Scenarios</h4>
+                    <ul>
+                        <li>Selecting appropriate security controls for given situations</li>
+                        <li>Identifying physical security measures for different environments</li>
+                        <li>Analyzing change management process failures and improvements</li>
+                        <li>Choosing correct cryptographic solutions for specific requirements</li>
+                        <li>Understanding certificate validation and trust relationships</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h4>Study Recommendations</h4>
+                    <ul>
+                        <li>Practice with virtual labs for hands-on experience</li>
+                        <li>Review real-world case studies of security implementations</li>
+                        <li>Use flashcards for memorizing cryptographic algorithms and key lengths</li>
+                        <li>Practice scenario-based questions for application of concepts</li>
+                        <li>Focus on the "why" behind security implementations, not just the "what"</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            const content = section.querySelector('.section-content');
+            const icon = section.querySelector('.toggle-icon');
+            
+            if (content.classList.contains('expanded')) {
+                content.classList.remove('expanded');
+                icon.textContent = '+';
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                content.classList.add('expanded');
+                icon.textContent = '−';
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        function expandAll() {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                const content = section.querySelector('.section-content');
+                const icon = section.querySelector('.toggle-icon');
+                content.classList.add('expanded');
+                icon.textContent = '−';
+                icon.style.transform = 'rotate(180deg)';
+            });
+        }
+
+        function collapseAll() {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                const content = section.querySelector('.section-content');
+                const icon = section.querySelector('.toggle-icon');
+                content.classList.remove('expanded');
+                icon.textContent = '+';
+                icon.style.transform = 'rotate(0deg)';
+            });
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Progress bar functionality
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Search functionality
+        function searchContent() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const sections = document.querySelectorAll('.section');
+            
+            // Clear previous highlights
+            clearHighlights();
+            
+            if (searchTerm.length < 2) {
+                return;
+            }
+            
+            sections.forEach(section => {
+                const content = section.innerHTML.toLowerCase();
+                if (content.includes(searchTerm)) {
+                    // Expand section if it contains search term
+                    const sectionContent = section.querySelector('.section-content');
+                    const icon = section.querySelector('.toggle-icon');
+                    sectionContent.classList.add('expanded');
+                    icon.textContent = '−';
+                    icon.style.transform = 'rotate(180deg)';
+                    
+                    // Highlight search terms
+                    highlightSearchTerm(section, searchTerm);
+                }
+            });
+        }
+
+        function highlightSearchTerm(element, term) {
+            const walker = document.createTreeWalker(
+                element,
+                NodeFilter.SHOW_TEXT,
+                null,
+                false
+            );
+            
+            const textNodes = [];
+            let node;
+            
+            while (node = walker.nextNode()) {
+                textNodes.push(node);
+            }
+            
+            textNodes.forEach(textNode => {
+                const text = textNode.textContent;
+                const regex = new RegExp(`(${term})`, 'gi');
+                if (regex.test(text)) {
+                    const highlightedText = text.replace(regex, '<span class="highlight">$1</span>');
+                    const wrapper = document.createElement('div');
+                    wrapper.innerHTML = highlightedText;
+                    textNode.parentNode.replaceChild(wrapper, textNode);
+                }
+            });
+        }
+
+        function clearHighlights() {
+            const highlights = document.querySelectorAll('.highlight');
+            highlights.forEach(highlight => {
+                const parent = highlight.parentNode;
+                parent.replaceChild(document.createTextNode(highlight.textContent), highlight);
+                parent.normalize();
+            });
+        }
+
+        // Smooth scrolling for anchor links
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'f') {
+                    e.preventDefault();
+                    document.getElementById('searchInput').focus();
+                }
+                if (e.key === 'Escape') {
+                    document.getElementById('searchInput').value = '';
+                    clearHighlights();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
