@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LAN153 Security+ Domain Two Study Guide Outline</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: white;
+            color: black;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2d5a27, #4a7c59);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .progress-container {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-bottom: 2px solid #4a7c59;
+        }
+
+        .progress-bar {
+            background-color: #e9ecef;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #2d5a27, #4a7c59);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #2d5a27;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .controls {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background-color: #4a7c59;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #2d5a27;
+        }
+
+        .outline {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .section {
+            border-bottom: 1px solid #eee;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-header {
+            background-color: #f8f9fa;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #4a7c59;
+            transition: background-color 0.3s ease;
+        }
+
+        .section-header:hover {
+            background-color: #e9ecef;
+        }
+
+        .section-header.active {
+            background-color: #4a7c59;
+            color: white;
+        }
+
+        .section-title {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .section-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .expand-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .expand-icon.rotated {
+            transform: rotate(180deg);
+        }
+
+        .section-content {
+            display: none;
+            padding: 20px;
+            background-color: white;
+        }
+
+        .section-content.active {
+            display: block;
+        }
+
+        .subsection {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #e9ecef;
+        }
+
+        .subsection-header {
+            font-weight: bold;
+            color: #2d5a27;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkbox {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #4a7c59;
+            border-radius: 3px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .checkbox:checked {
+            background-color: #4a7c59;
+        }
+
+        .checkbox:checked::after {
+            content: '✓';
+            position: absolute;
+            top: -2px;
+            left: 2px;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .item-list {
+            margin-left: 25px;
+        }
+
+        .item {
+            margin-bottom: 8px;
+            padding: 5px;
+            border-radius: 3px;
+            transition: background-color 0.2s ease;
+        }
+
+        .item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .item-title {
+            font-weight: 600;
+            color: #2d5a27;
+        }
+
+        .item-description {
+            color: #666;
+            font-size: 0.95em;
+            margin-top: 3px;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #4a7c59;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #2d5a27;
+            box-shadow: 0 0 5px rgba(74, 124, 89, 0.3);
+        }
+
+        .highlight {
+            background-color: yellow;
+            font-weight: bold;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #4a7c59;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>LAN153 Security+ Domain Two Study Guide Outline</h1>
+        <p>CompTIA Security+ SY0-701 Domain 2: Threats, Vulnerabilities, and Mitigations (22% of Exam)</p>
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-text" id="progressText">Progress: 0% Complete</div>
+    </div>
+
+    <div class="container">
+        <div class="search-container">
+            <input type="text" class="search-input" id="searchInput" placeholder="Search study guide content...">
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number" id="totalSections">5</div>
+                <div class="stat-label">Sections</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="completedItems">0</div>
+                <div class="stat-label">Items Studied</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="totalItems">0</div>
+                <div class="stat-label">Total Items</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="expandAll()">Expand All</button>
+            <button class="btn" onclick="collapseAll()">Collapse All</button>
+            <button class="btn" onclick="resetProgress()">Reset Progress</button>
+            <button class="btn" onclick="markAllComplete()">Mark All Complete</button>
+        </div>
+
+        <div class="outline">
+            <div class="section">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <span class="section-title">2.1 Compare and contrast common threat actors and motivations</span>
+                    <div class="section-indicator">
+                        <span class="section-progress">0/10</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.1.1 Threat Actors
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">Nation-State</div>
+                                <div class="item-description">Government-sponsored actors with extensive resources, sophisticated capabilities, and long-term strategic objectives. Examples include APT campaigns targeting critical infrastructure.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Unskilled Attacker</div>
+                                <div class="item-description">Individuals with limited technical expertise using existing tools ("script kiddies"). Often opportunistic and thrill-seeking.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Hacktivist</div>
+                                <div class="item-description">Groups using hacking for political/social causes. Examples: Anonymous, environmental activists targeting corporations.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Insider Threat</div>
+                                <div class="item-description">Trusted individuals within organizations (malicious, negligent, or compromised insiders) with legitimate access and internal knowledge.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Organized Crime</div>
+                                <div class="item-description">Professional criminal organizations conducting profit-driven cyber operations including ransomware and financial fraud.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Shadow IT</div>
+                                <div class="item-description">Unauthorized IT systems, devices, or services that bypass official policies and create security risks.</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.1.2 Attributes of Actors
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">Internal/External</div>
+                                <div class="item-description">Internal threats have legitimate access but insider knowledge; External threats must gain unauthorized access.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Resources/Funding</div>
+                                <div class="item-description">High-resource (nation-states), medium-resource (hacktivists), low-resource (unskilled attackers).</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Level of Sophistication</div>
+                                <div class="item-description">Advanced (custom malware, zero-days), Intermediate (modified tools), Basic (readily available tools).</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.1.3 Motivations
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">Data Exfiltration</div>
+                                <div class="item-description">Stealing sensitive information including intellectual property, customer data, and financial records.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Espionage</div>
+                                <div class="item-description">Gathering intelligence for competitive, political, or military advantage (industrial and state espionage).</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Service Disruption</div>
+                                <div class="item-description">Preventing normal operations through DDoS attacks, system sabotage, or infrastructure attacks.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Financial Gain</div>
+                                <div class="item-description">Direct monetary profit through banking fraud, cryptocurrency theft, and ransomware operations.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Philosophical/Political Beliefs</div>
+                                <div class="item-description">Advancing ideological causes through website defacements, data leaks, and propaganda campaigns.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">War</div>
+                                <div class="item-description">Military or strategic advantages in conflicts, targeting critical infrastructure and military systems.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <span class="section-title">2.2 Explain common threat vectors and attack surfaces</span>
+                    <div class="section-indicator">
+                        <span class="section-progress">0/12</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.2.1 Message-Based Threats
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">Email</div>
+                                <div class="item-description">Phishing attacks, malware delivery, Business Email Compromise (BEC), spam, and email spoofing.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">SMS</div>
+                                <div class="item-description">SMS phishing (smishing), malware links, social engineering, and SIM swapping attacks.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Instant Messaging</div>
+                                <div class="item-description">Malware spreading, social engineering, information gathering, and credential harvesting.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.2.2 Image-Based Threats
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">Steganography</div>
+                                <div class="item-description">Hiding malicious code in image files and exploiting image processing vulnerabilities.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.2.3 File-Based Threats
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">Malicious Documents</div>
+                                <div class="item-description">Office files with embedded macros, executable files, archive files, and script files.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.2.4 Voice Call Threats
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">Vishing</div>
+                                <div class="item-description">Voice phishing, caller ID spoofing, voice synthesis, and information gathering through conversation.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.2.5 Removable Device Threats
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">USB Attacks</div>
+                                <div class="item-description">USB-based malware, hardware implants, data exfiltration, and air-gap bridging.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.2.6 Vulnerable Software
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">Client-Based vs. Agentless</div>
+                                <div class="item-description">Software vulnerabilities in installed applications vs. web-based services and third-party software.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.2.7 Unsupported Systems
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">End-of-Life & Legacy</div>
+                                <div class="item-description">Systems no longer receiving security updates, accumulating vulnerabilities over time.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.2.8 Unsecure Networks
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">Wireless Networks</div>
+                                <div class="item-description">Open networks, weak encryption, evil twin attacks, man-in-the-middle attacks.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Wired Networks</div>
+                                <div class="item-description">Physical access, network sniffing, VLAN hopping, switch vulnerabilities.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Bluetooth</div>
+                                <div class="item-description">Bluejacking, bluesnarfing, proximity attacks, device discovery.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.2.9 Open Service Ports
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">Unnecessary Services</div>
+                                <div class="item-description">Running unneeded services with default configurations, vulnerable to port scanning and service exploitation.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.2.10 Default Credentials
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">Factory Defaults</div>
+                                <div class="item-description">Unchanged manufacturer passwords, common passwords, administrative accounts with default settings.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.2.11 Supply Chain Attacks
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">Managed Service Providers</div>
+                                <div class="item-description">Third-party access, privileged rights, trust relationships, cascade effects.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Vendors & Suppliers</div>
+                                <div class="item-description">Software vendors, hardware vendors, component suppliers, compromised update mechanisms.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.2.12 Human Vectors/Social Engineering
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">Phishing, Vishing, Smishing</div>
+                                <div class="item-description">Email, voice, and SMS-based social engineering attacks targeting credentials and information.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Advanced Techniques</div>
+                                <div class="item-description">Misinformation/disinformation, impersonation, BEC, pretexting, watering hole, brand impersonation, typosquatting.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <span class="section-title">2.3 Explain various types of vulnerabilities</span>
+                    <div class="section-indicator">
+                        <span class="section-progress">0/11</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.3.1 Application Vulnerabilities
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">Memory Injection</div>
+                                <div class="item-description">Exploiting memory management flaws for code injection, DLL injection, and process hollowing.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Buffer Overflow</div>
+                                <div class="item-description">Writing data beyond allocated memory boundaries, including stack and heap overflows.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Race Conditions</div>
+                                <div class="item-description">Timing-dependent vulnerabilities including Time-of-Check/Time-of-Use (TOCTOU) attacks.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Malicious Update</div>
+                                <div class="item-description">Compromised software updates containing malicious code via compromised servers or MITM attacks.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.3.2 Operating System Vulnerabilities
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">OS-Based Flaws</div>
+                                <div class="item-description">Kernel vulnerabilities, privilege escalation, system service vulnerabilities, and configuration weaknesses.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.3.3 Web-Based Vulnerabilities
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">SQL Injection (SQLi)</div>
+                                <div class="item-description">Injecting malicious SQL commands including in-band, blind, and time-based injection attacks.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Cross-Site Scripting (XSS)</div>
+                                <div class="item-description">Injecting malicious scripts including stored, reflected, and DOM-based XSS attacks.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.3.4 Hardware Vulnerabilities
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">Firmware</div>
+                                <div class="item-description">Low-level software vulnerabilities including backdoors, weak authentication, and update mechanism flaws.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">End-of-Life & Legacy</div>
+                                <div class="item-description">Hardware no longer supported by manufacturers, accumulating vulnerabilities without security updates.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.3.5 Virtualization Vulnerabilities
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">VM Escape</div>
+                                <div class="item-description">Breaking out of VM isolation through hypervisor vulnerabilities and shared resource exploitation.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Resource Reuse</div>
+                                <div class="item-description">Data remnants from previous VM instances leading to information disclosure and data leakage.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.3.6 Cloud-Specific Vulnerabilities
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">Cloud Security Issues</div>
+                                <div class="item-description">Shared responsibility model confusion, misconfigured storage, weak access controls, API vulnerabilities.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.3.7 Supply Chain Vulnerabilities
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">Service, Hardware, Software Providers</div>
+                                <div class="item-description">Third-party dependencies, vendor security practices, compromised components, and malicious updates.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.3.8 Cryptographic Vulnerabilities
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">Crypto Weaknesses</div>
+                                <div class="item-description">Weak algorithms, poor key management, implementation flaws, side-channel attacks, quantum threats.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.3.9 Misconfiguration
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">Configuration Issues</div>
+                                <div class="item-description">Default settings, excessive permissions, unnecessary services, weak security settings, documentation gaps.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.3.10 Mobile Device Vulnerabilities
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">Side Loading</div>
+                                <div class="item-description">Installing applications from unofficial sources, bypassing security controls.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Jailbreaking</div>
+                                <div class="item-description">Removing manufacturer security restrictions, disabling security features.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.3.11 Zero-Day Vulnerabilities
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">Unknown Vulnerabilities</div>
+                                <div class="item-description">Previously unknown vulnerabilities with no available patches, often used in APT campaigns.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <span class="section-title">2.4 Analyze indicators of malicious activity</span>
+                    <div class="section-indicator">
+                        <span class="section-progress">0/7</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.4.1 Malware Attacks
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">Ransomware</div>
+                                <div class="item-description">Malware that encrypts data and demands payment, including crypto-ransomware and double extortion variants.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Trojan</div>
+                                <div class="item-description">Malware disguised as legitimate software, including RATs, banking trojans, and downloaders.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Worm</div>
+                                <div class="item-description">Self-replicating malware that spreads across networks, causing congestion and performance issues.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Spyware</div>
+                                <div class="item-description">Malware that secretly monitors and collects information including keyloggers and screen recorders.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Virus, Rootkit, Logic Bomb</div>
+                                <div class="item-description">File-infecting malware, stealth malware that hides presence, and trigger-based malicious code.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.4.2 Physical Attacks
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">Brute Force</div>
+                                <div class="item-description">Repeated attempts to guess passwords or access codes for physical locks and access systems.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">RFID Cloning</div>
+                                <div class="item-description">Copying RFID card data to unauthorized devices for physical access bypass.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Environmental</div>
+                                <div class="item-description">Attacks targeting physical infrastructure including power disruption and cooling system attacks.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.4.3 Network Attacks
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">DDoS</div>
+                                <div class="item-description">Distributed denial-of-service attacks including amplified and reflected attacks.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">DNS Attacks</div>
+                                <div class="item-description">DNS poisoning, tunneling, and hijacking for traffic redirection and data exfiltration.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Wireless & On-Path</div>
+                                <div class="item-description">Evil twin attacks, wireless jamming, man-in-the-middle attacks, credential replay.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.4.4 Application Attacks
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">Injection Attacks</div>
+                                <div class="item-description">SQL injection, command injection, LDAP injection leading to data breaches and system compromise.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Buffer Overflow & Privilege Escalation</div>
+                                <div class="item-description">Memory exploitation and gaining higher-level access than authorized.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Replay, Forgery, Directory Traversal</div>
+                                <div class="item-description">Retransmitting captured communications, CSRF attacks, and accessing files outside intended directories.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.4.5 Cryptographic Attacks
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">Downgrade</div>
+                                <div class="item-description">Forcing use of weaker cryptographic algorithms for easier decryption.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Collision & Birthday</div>
+                                <div class="item-description">Finding different inputs with same hash output and exploiting collision probability mathematics.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.4.6 Password Attacks
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">Spraying</div>
+                                <div class="item-description">Trying common passwords against many accounts to avoid lockout policies.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Brute Force</div>
+                                <div class="item-description">Systematically trying all possible password combinations, dictionary attacks, rainbow tables.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.4.7 Indicators
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">Account & Access Indicators</div>
+                                <div class="item-description">Account lockouts, concurrent sessions, impossible travel, blocked content.</div>
+                            </div>
+                            <div class="item">
+                                <div class="item-title">Resource & Logging Indicators</div>
+                                <div class="item-description">Resource consumption, inaccessibility, out-of-cycle logging, missing logs, published vulnerabilities.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <span class="section-title">2.5 Explain mitigation techniques for enterprise security</span>
+                    <div class="section-indicator">
+                        <span class="section-progress">0/5</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.5.1 Segmentation
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">Network Isolation</div>
+                                <div class="item-description">Isolating network areas using VLANs, subnets, firewalls, and air gaps to contain threats and limit access.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.5.2 Access Control
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">ACLs & Permissions</div>
+                                <div class="item-description">Access Control Lists defining specific permissions for resources, using DAC, MAC, and RBAC models.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.5.3 Application Allow List
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">Application Whitelisting</div>
+                                <div class="item-description">Permitting only approved applications to run, preventing malware and enforcing compliance.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.5.4 Isolation
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">System Isolation</div>
+                                <div class="item-description">Separating systems using physical isolation, VMs, containers, and sandboxes for security and testing.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <input type="checkbox" class="checkbox" onchange="updateProgress()">
+                            2.5.5 Patching
+                        </div>
+                        <div class="item-list">
+                            <div class="item">
+                                <div class="item-title">Patch Management</div>
+                                <div class="item-description">Fixing known vulnerabilities through testing, staging, deployment, and verification processes.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let totalItems = 0;
+        let completedItems = 0;
+
+        function initializeStats() {
+            totalItems = document.querySelectorAll('.subsection-header .checkbox').length;
+            document.getElementById('totalItems').textContent = totalItems;
+            updateProgress();
+        }
+
+        function toggleSection(header) {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('.expand-icon');
+            
+            content.classList.toggle('active');
+            header.classList.toggle('active');
+            icon.classList.toggle('rotated');
+        }
+
+        function expandAll() {
+            document.querySelectorAll('.section-content').forEach(content => {
+                content.classList.add('active');
+            });
+            document.querySelectorAll('.section-header').forEach(header => {
+                header.classList.add('active');
+            });
+            document.querySelectorAll('.expand-icon').forEach(icon => {
+                icon.classList.add('rotated');
+            });
+        }
+
+        function collapseAll() {
+            document.querySelectorAll('.section-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.section-header').forEach(header => {
+                header.classList.remove('active');
+            });
+            document.querySelectorAll('.expand-icon').forEach(icon => {
+                icon.classList.remove('rotated');
+            });
+        }
+
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('.subsection-header .checkbox');
+            completedItems = Array.from(checkboxes).filter(cb => cb.checked).length;
+            
+            document.getElementById('completedItems').textContent = completedItems;
+            
+            const progressPercent = totalItems > 0 ? (completedItems / totalItems) * 100 : 0;
+            document.getElementById('progressFill').style.width = progressPercent + '%';
+            document.getElementById('progressText').textContent = `Progress: ${Math.round(progressPercent)}% Complete`;
+            
+            // Update section progress indicators
+            document.querySelectorAll('.section').forEach(section => {
+                const sectionCheckboxes = section.querySelectorAll('.subsection-header .checkbox');
+                const sectionCompleted = Array.from(sectionCheckboxes).filter(cb => cb.checked).length;
+                const sectionTotal = sectionCheckboxes.length;
+                const progressSpan = section.querySelector('.section-progress');
+                progressSpan.textContent = `${sectionCompleted}/${sectionTotal}`;
+            });
+
+            // Save progress to localStorage
+            saveProgress();
+        }
+
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset all progress?')) {
+                document.querySelectorAll('.checkbox').forEach(cb => {
+                    cb.checked = false;
+                });
+                updateProgress();
+            }
+        }
+
+        function markAllComplete() {
+            if (confirm('Mark all items as complete?')) {
+                document.querySelectorAll('.subsection-header .checkbox').forEach(cb => {
+                    cb.checked = true;
+                });
+                updateProgress();
+            }
+        }
+
+        function saveProgress() {
+            const progress = {};
+            document.querySelectorAll('.subsection-header .checkbox').forEach((cb, index) => {
+                progress[index] = cb.checked;
+            });
+            localStorage.setItem('securityPlusDomain2Progress', JSON.stringify(progress));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('securityPlusDomain2Progress');
+            if (saved) {
+                const progress = JSON.parse(saved);
+                document.querySelectorAll('.subsection-header .checkbox').forEach((cb, index) => {
+                    if (progress[index]) {
+                        cb.checked = true;
+                    }
+                });
+                updateProgress();
+            }
+        }
+
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                // Clear previous highlights
+                document.querySelectorAll('.highlight').forEach(el => {
+                    const parent = el.parentNode;
+                    parent.replaceChild(document.createTextNode(el.textContent), el);
+                    parent.normalize();
+                });
+
+                if (searchTerm === '') {
+                    return;
+                }
+
+                // Search and highlight
+                const walker = document.createTreeWalker(
+                    document.querySelector('.outline'),
+                    NodeFilter.SHOW_TEXT,
+                    null,
+                    false
+                );
+
+                const textNodes = [];
+                let node;
+                while (node = walker.nextNode()) {
+                    textNodes.push(node);
+                }
+
+                textNodes.forEach(textNode => {
+                    const text = textNode.textContent.toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        const regex = new RegExp(`(${searchTerm})`, 'gi');
+                        const highlightedText = textNode.textContent.replace(regex, '<span class="highlight">$1</span>');
+                        
+                        const wrapper = document.createElement('div');
+                        wrapper.innerHTML = highlightedText;
+                        
+                        while (wrapper.firstChild) {
+                            textNode.parentNode.insertBefore(wrapper.firstChild, textNode);
+                        }
+                        textNode.parentNode.removeChild(textNode);
+
+                        // Expand the section containing the match
+                        let section = textNode.parentNode;
+                        while (section && !section.classList.contains('section')) {
+                            section = section.parentNode;
+                        }
+                        if (section) {
+                            const header = section.querySelector('.section-header');
+                            const content = section.querySelector('.section-content');
+                            const icon = header.querySelector('.expand-icon');
+                            
+                            content.classList.add('active');
+                            header.classList.add('active');
+                            icon.classList.add('rotated');
+                        }
+                    }
+                });
+            });
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeStats();
+            loadProgress();
+            setupSearch();
+        });
+    </script>
+</body>
+</html>
