@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LAN153 Security+ Domain Three Study Guide Outline</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2d5a27, #4a7c4a);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .study-guide {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .module {
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .module:last-child {
+            border-bottom: none;
+        }
+
+        .module-header {
+            background: #2d5a27;
+            color: white;
+            padding: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .module-header:hover {
+            background: #4a7c4a;
+        }
+
+        .module-header h2 {
+            font-size: 1.5em;
+        }
+
+        .toggle-icon {
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+        }
+
+        .module-content {
+            display: none;
+            padding: 0;
+        }
+
+        .module-content.active {
+            display: block;
+        }
+
+        .module-header.active .toggle-icon {
+            transform: rotate(90deg);
+        }
+
+        .section {
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-header {
+            background: #f0f8f0;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border-left: 4px solid #2d5a27;
+        }
+
+        .section-header:hover {
+            background: #e8f5e8;
+        }
+
+        .section-header h3 {
+            color: #2d5a27;
+            font-size: 1.2em;
+        }
+
+        .section-content {
+            display: none;
+            padding: 20px;
+            background: #fafafa;
+        }
+
+        .section-content.active {
+            display: block;
+        }
+
+        .learning-objectives, .key-terms, .key-concepts {
+            margin-bottom: 20px;
+        }
+
+        .learning-objectives h4, .key-terms h4, .key-concepts h4 {
+            color: #2d5a27;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            border-bottom: 2px solid #2d5a27;
+            padding-bottom: 5px;
+        }
+
+        .objectives-list, .concepts-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .objectives-list li, .concepts-list li {
+            padding: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .objectives-list li:before, .concepts-list li:before {
+            content: "▶";
+            color: #2d5a27;
+            position: absolute;
+            left: 0;
+        }
+
+        .key-terms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .term-item {
+            background: white;
+            padding: 12px;
+            border-radius: 5px;
+            border-left: 4px solid #2d5a27;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .term-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .term-name {
+            font-weight: bold;
+            color: #2d5a27;
+            margin-bottom: 5px;
+        }
+
+        .term-definition {
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .outline-section {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border-left: 4px solid #4a7c4a;
+        }
+
+        .outline-section h5 {
+            color: #2d5a27;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .outline-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .outline-list li {
+            padding: 4px 0;
+            padding-left: 15px;
+            position: relative;
+            font-size: 0.95em;
+        }
+
+        .outline-list li:before {
+            content: "•";
+            color: #2d5a27;
+            position: absolute;
+            left: 0;
+        }
+
+        .time-indicator {
+            background: #2d5a27;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #2d5a27;
+            border-radius: 5px;
+            font-size: 16px;
+            background: white;
+        }
+
+        .search-box:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.2);
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            height: 6px;
+            border-radius: 3px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #2d5a27, #4a7c4a);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            background: #f0f8f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #2d5a27;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .subsection {
+            background: #f8fcf8;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .subsection-header {
+            background: #e8f5e8;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px 5px 0 0;
+            border-bottom: 1px solid #d0d0d0;
+        }
+
+        .subsection-header:hover {
+            background: #d8f0d8;
+        }
+
+        .subsection-header h4 {
+            color: #2d5a27;
+            font-size: 1em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .subsection-content {
+            display: none;
+            padding: 15px;
+        }
+
+        .subsection-content.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .key-terms-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>LAN153 Security+ Domain Three Study Guide Outline</h1>
+            <p>Security Architecture and Engineering</p>
+        </div>
+
+        <input type="text" class="search-box" placeholder="Search study guide content..." id="searchBox">
+        
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number" id="totalModules">4</div>
+                <div class="stat-label">Modules</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="completedSections">0</div>
+                <div class="stat-label">Sections Viewed</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="progressPercent">0%</div>
+                <div class="stat-label">Progress</div>
+            </div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="study-guide">
+            <!-- Module 3.1 -->
+            <div class="module">
+                <div class="module-header" onclick="toggleModule(this)">
+                    <h2>Module 3.1: Security Implications of Different Architecture Models</h2>
+                    <span class="toggle-icon">▶</span>
+                </div>
+                <div class="module-content">
+                    <div class="section">
+                        <div class="section-header" onclick="toggleSection(this)">
+                            <h3>Learning Objectives & Key Terms</h3>
+                        </div>
+                        <div class="section-content">
+                            <div class="learning-objectives">
+                                <h4>Learning Objectives</h4>
+                                <ul class="objectives-list">
+                                    <li>Analyze security implications of cloud, edge, and fog computing architectures</li>
+                                    <li>Evaluate the security considerations of virtualization and containerization</li>
+                                    <li>Assess architecture models based on availability, cost, scalability, and risk factors</li>
+                                    <li>Compare centralized vs. decentralized architecture security implications</li>
+                                </ul>
+                            </div>
+                            <div class="key-terms">
+                                <h4>Key Terms</h4>
+                                <div class="key-terms-grid">
+                                    <div class="term-item">
+                                        <div class="term-name">Cloud Computing</div>
+                                        <div class="term-definition">On-demand delivery of computing services over the internet</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Edge Computing</div>
+                                        <div class="term-definition">Computing performed at or near the data source rather than in centralized cloud</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Fog Computing</div>
+                                        <div class="term-definition">Decentralized computing infrastructure extending cloud capabilities to edge devices</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Thin Client</div>
+                                        <div class="term-definition">Lightweight computer dependent on server for processing</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Containerization</div>
+                                        <div class="term-definition">OS-level virtualization for deploying applications in isolated environments</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Microservices</div>
+                                        <div class="term-definition">Architectural approach using small, independent services</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Infrastructure as Code (IaC)</div>
+                                        <div class="term-definition">Managing infrastructure through machine-readable definition files</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Serverless</div>
+                                        <div class="term-definition">Cloud computing model where cloud provider manages server infrastructure</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Virtualization</div>
+                                        <div class="term-definition">Creating virtual versions of physical computing resources</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">IoT (Internet of Things)</div>
+                                        <div class="term-definition">Network of interconnected devices with sensors and software</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">SCADA</div>
+                                        <div class="term-definition">Supervisory Control and Data Acquisition systems for industrial control</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">RTOS</div>
+                                        <div class="term-definition">Real-Time Operating System for time-critical applications</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-header" onclick="toggleSection(this)">
+                            <h3>Detailed Outline</h3>
+                        </div>
+                        <div class="section-content">
+                            <div class="subsection">
+                                <div class="subsection-header" onclick="toggleSubsection(this)">
+                                    <h4>3.1.1 Introduction to Architecture Models <span class="time-indicator">45 min</span></h4>
+                                </div>
+                                <div class="subsection-content">
+                                    <ul class="outline-list">
+                                        <li>Overview of modern computing architectures</li>
+                                        <li>Evolution from monolithic to distributed systems</li>
+                                        <li>Security implications of architectural choices</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="subsection">
+                                <div class="subsection-header" onclick="toggleSubsection(this)">
+                                    <h4>3.1.2 Cloud Computing Security <span class="time-indicator">60 min</span></h4>
+                                </div>
+                                <div class="subsection-content">
+                                    <ul class="outline-list">
+                                        <li>Cloud service models (IaaS, PaaS, SaaS) security implications</li>
+                                        <li>Shared responsibility model in cloud environments</li>
+                                        <li>Hybrid cloud security considerations</li>
+                                        <li>Third-party vendor risk assessment</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="subsection">
+                                <div class="subsection-header" onclick="toggleSubsection(this)">
+                                    <h4>3.1.3 Edge and Fog Computing <span class="time-indicator">45 min</span></h4>
+                                </div>
+                                <div class="subsection-content">
+                                    <ul class="outline-list">
+                                        <li>Edge computing security benefits and challenges</li>
+                                        <li>Fog computing distributed architecture</li>
+                                        <li>Data processing location security implications</li>
+                                        <li>Network latency vs. security trade-offs</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="subsection">
+                                <div class="subsection-header" onclick="toggleSubsection(this)">
+                                    <h4>3.1.4 Modern Infrastructure Concepts <span class="time-indicator">60 min</span></h4>
+                                </div>
+                                <div class="subsection-content">
+                                    <ul class="outline-list">
+                                        <li>Infrastructure as Code security practices</li>
+                                        <li>Serverless computing security model</li>
+                                        <li>Microservices security architecture</li>
+                                        <li>Container security fundamentals</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="subsection">
+                                <div class="subsection-header" onclick="toggleSubsection(this)">
+                                    <h4>3.1.5 Network Infrastructure Security <span class="time-indicator">45 min</span></h4>
+                                </div>
+                                <div class="subsection-content">
+                                    <ul class="outline-list">
+                                        <li>Physical vs. logical network segmentation</li>
+                                        <li>Software-defined networking security</li>
+                                        <li>Air-gapped systems and isolation strategies</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="subsection">
+                                <div class="subsection-header" onclick="toggleSubsection(this)">
+                                    <h4>3.1.6 Specialized System Architectures <span class="time-indicator">60 min</span></h4>
+                                </div>
+                                <div class="subsection-content">
+                                    <ul class="outline-list">
+                                        <li>IoT security architecture challenges</li>
+                                        <li>Industrial control systems (ICS/SCADA) security</li>
+                                        <li>Real-time operating systems security requirements</li>
+                                        <li>Embedded systems security considerations</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="subsection">
+                                <div class="subsection-header" onclick="toggleSubsection(this)">
+                                    <h4>3.1.7 Architecture Assessment Framework <span class="time-indicator">45 min</span></h4>
+                                </div>
+                                <div class="subsection-content">
+                                    <ul class="outline-list">
+                                        <li>Evaluating architectures using security criteria</li>
+                                        <li>Cost-benefit analysis for security architectures</li>
+                                        <li>Risk assessment methodologies</li>
+                                        <li>Architecture decision documentation</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-header" onclick="toggleSection(this)">
+                            <h3>Architecture Considerations</h3>
+                        </div>
+                        <div class="section-content">
+                            <div class="key-concepts">
+                                <h4>Operational Factors</h4>
+                                <ul class="concepts-list">
+                                    <li>Availability: System uptime and accessibility requirements</li>
+                                    <li>Resilience: Ability to recover from failures and attacks</li>
+                                    <li>Responsiveness: System performance and latency requirements</li>
+                                    <li>Scalability: Ability to handle increased workload</li>
+                                </ul>
+                                
+                                <h4>Business Factors</h4>
+                                <ul class="concepts-list">
+                                    <li>Cost: Capital and operational expenses</li>
+                                    <li>Ease of Deployment: Implementation complexity and time</li>
+                                    <li>Risk Transference: Shifting liability to third parties</li>
+                                    <li>Ease of Recovery: Disaster recovery and business continuity</li>
+                                </ul>
+                                
+                                <h4>Technical Factors</h4>
+                                <ul class="concepts-list">
+                                    <li>Patch Availability: Ability to update and maintain systems</li>
+                                    <li>Inability to Patch: Legacy systems that cannot be updated</li>
+                                    <li>Power Requirements: Energy consumption and backup power needs</li>
+                                    <li>Compute Resources: Processing power and storage requirements</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Module 3.2 -->
+            <div class="module">
+                <div class="module-header" onclick="toggleModule(this)">
+                    <h2>Module 3.2: Security Principles for Enterprise Infrastructure</h2>
+                    <span class="toggle-icon">▶</span>
+                </div>
+                <div class="module-content">
+                    <div class="section">
+                        <div class="section-header" onclick="toggleSection(this)">
+                            <h3>Learning Objectives & Key Terms</h3>
+                        </div>
+                        <div class="section-content">
+                            <div class="learning-objectives">
+                                <h4>Learning Objectives</h4>
+                                <ul class="objectives-list">
+                                    <li>Apply security principles to device placement and network design</li>
+                                    <li>Configure network appliances for optimal security</li>
+                                    <li>Implement secure communication protocols</li>
+                                    <li>Select effective security controls for enterprise environments</li>
+                                </ul>
+                            </div>
+                            <div class="key-terms">
+                                <h4>Key Terms</h4>
+                                <div class="key-terms-grid">
+                                    <div class="term-item">
+                                        <div class="term-name">Security Zones</div>
+                                        <div class="term-definition">Network segments with similar security requirements</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Attack Surface</div>
+                                        <div class="term-definition">Total points where unauthorized access can occur</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Fail-open</div>
+                                        <div class="term-definition">System defaults to allowing access when failure occurs</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Fail-closed</div>
+                                        <div class="term-definition">System defaults to denying access when failure occurs</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Jump Server</div>
+                                        <div class="term-definition">Intermediary server for accessing secure network segments</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Proxy Server</div>
+                                        <div class="term-definition">Intermediary server for client requests to other servers</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">IPS/IDS</div>
+                                        <div class="term-definition">Intrusion Prevention/Detection Systems</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Load Balancer</div>
+                                        <div class="term-definition">Device distributing network traffic across multiple servers</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">WAF</div>
+                                        <div class="term-definition">Web Application Firewall protecting web applications</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">UTM</div>
+                                        <div class="term-definition">Unified Threat Management combining multiple security functions</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">NGFW</div>
+                                        <div class="term-definition">Next-Generation Firewall with advanced inspection capabilities</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">VPN</div>
+                                        <div class="term-definition">Virtual Private Network for secure remote connections</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">SD-WAN</div>
+                                        <div class="term-definition">Software-Defined Wide Area Network</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">SASE</div>
+                                        <div class="term-definition">Secure Access Service Edge</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">802.1X</div>
+                                        <div class="term-definition">Port-based Network Access Control protocol</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">EAP</div>
+                                        <div class="term-definition">Extensible Authentication Protocol</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-header" onclick="toggleSection(this)">
+                            <h3>Detailed Outline</h3>
+                        </div>
+                        <div class="section-content">
+                            <div class="subsection">
+                                <div class="subsection-header" onclick="toggleSubsection(this)">
+                                    <h4>3.2.1 Infrastructure Security Planning <span class="time-indicator">60 min</span></h4>
+                                </div>
+                                <div class="subsection-content">
+                                    <ul class="outline-list">
+                                        <li>Security zone design and implementation</li>
+                                        <li>Device placement strategies</li>
+                                        <li>Network topology security considerations</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="subsection">
+                                <div class="subsection-header" onclick="toggleSubsection(this)">
+                                    <h4>3.2.2 Attack Surface Management <span class="time-indicator">45 min</span></h4>
+                                </div>
+                                <div class="subsection-content">
+                                    <ul class="outline-list">
+                                        <li>Attack surface identification and mapping</li>
+                                        <li>Attack vector analysis</li>
+                                        <li>Risk-based attack surface reduction</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="subsection">
+                                <div class="subsection-header" onclick="toggleSubsection(this)">
+                                    <h4>3.2.3 Network Security Appliances <span class="time-indicator">90 min</span></h4>
+                                </div>
+                                <div class="subsection-content">
+                                    <ul class="outline-list">
+                                        <li>Firewall types and deployment models</li>
+                                        <li>IPS/IDS implementation strategies</li>
+                                        <li>Load balancer security features</li>
+                                        <li>Network sensor deployment</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="subsection">
+                                <div class="subsection-header" onclick="toggleSubsection(this)">
+                                    <h4>3.2.4 Access Control Infrastructure <span class="time-indicator">60 min</span></h4>
+                                </div>
+                                <div class="subsection-content">
+                                    <ul class="outline-list">
+                                        <li>Jump server implementation</li>
+                                        <li>Proxy server configuration</li>
+                                        <li>Port security and 802.1X</li>
+                                        <li>Network access control (NAC)</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="subsection">
+                                <div class="subsection-header" onclick="toggleSubsection(this)">
+                                    <h4>3.2.5 Secure Communication Protocols <span class="time-indicator">75 min</span></h4>
+                                </div>
+                                <div class="subsection-content">
+                                    <ul class="outline-list">
+                                        <li>VPN technologies and implementation</li>
+                                        <li>Tunneling protocol selection</li>
+                                        <li>SSL/TLS configuration best practices</li>
+                                        <li>Certificate management</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="subsection">
+                                <div class="subsection-header" onclick="toggleSubsection(this)">
+                                    <h4>3.2.6 Modern Network Architecture <span class="time-indicator">60 min</span></h4>
+                                </div>
+                                <div class="subsection-content">
+                                    <ul class="outline-list">
+                                        <li>Software-defined WAN (SD-WAN) security</li>
+                                        <li>Secure Access Service Edge (SASE)</li>
+                                        <li>Zero Trust network architecture</li>
+                                        <li>Cloud-delivered security services</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="subsection">
+                                <div class="subsection-header" onclick="toggleSubsection(this)">
+                                    <h4>3.2.7 Control Selection and Implementation <span class="time-indicator">45 min</span></h4>
+                                </div>
+                                <div class="subsection-content">
+                                    <ul class="outline-list">
+                                        <li>Security control frameworks</li>
+                                        <li>Control effectiveness measurement</li>
+                                        <li>Integration of multiple security controls</li>
+                                        <li>Continuous monitoring and improvement</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Module 3.3 -->
+            <div class="module">
+                <div class="module-header" onclick="toggleModule(this)">
+                    <h2>Module 3.3: Data Protection Concepts and Strategies</h2>
+                    <span class="toggle-icon">▶</span>
+                </div>
+                <div class="module-content">
+                    <div class="section">
+                        <div class="section-header" onclick="toggleSection(this)">
+                            <h3>Learning Objectives & Key Terms</h3>
+                        </div>
+                        <div class="section-content">
+                            <div class="learning-objectives">
+                                <h4>Learning Objectives</h4>
+                                <ul class="objectives-list">
+                                    <li>Classify data according to sensitivity and regulatory requirements</li>
+                                    <li>Implement appropriate data protection methods</li>
+                                    <li>Apply data security controls based on data states</li>
+                                    <li>Understand data sovereignty and geolocation implications</li>
+                                </ul>
+                            </div>
+                            <div class="key-terms">
+                                <h4>Key Terms</h4>
+                                <div class="key-terms-grid">
+                                    <div class="term-item">
+                                        <div class="term-name">Data at Rest</div>
+                                        <div class="term-definition">Data stored on persistent storage media</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Data in Transit</div>
+                                        <div class="term-definition">Data moving between systems or networks</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Data in Use</div>
+                                        <div class="term-definition">Data being actively processed or accessed</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Data Sovereignty</div>
+                                        <div class="term-definition">Legal concept that data is subject to laws of country where located</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Geolocation</div>
+                                        <div class="term-definition">Physical or logical location of data storage</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Encryption</div>
+                                        <div class="term-definition">Converting data into unreadable format without decryption key</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Hashing</div>
+                                        <div class="term-definition">One-way cryptographic function creating unique data fingerprint</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Masking</div>
+                                        <div class="term-definition">Obscuring data while maintaining format and usability</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Tokenization</div>
+                                        <div class="term-definition">Replacing sensitive data with non-sensitive tokens</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Obfuscation</div>
+                                        <div class="term-definition">Making data unclear or difficult to understand</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Data Segmentation</div>
+                                        <div class="term-definition">Isolating sensitive data into separate network segments</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">PII</div>
+                                        <div class="term-definition">Personally Identifiable Information</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">PHI</div>
+                                        <div class="term-definition">Protected Health Information</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Intellectual Property</div>
+                                        <div class="term-definition">Creations of the mind with commercial value</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-header" onclick="toggleSection(this)">
+                            <h3>Detailed Outline</h3>
+                        </div>
+                        <div class="section-content">
+                            <div class="subsection">
+                                <div class="subsection-header" onclick="toggleSubsection(this)">
+                                    <h4>3.3.1 Data Classification and Types <span class="time-indicator">60 min</span></h4>
+                                </div>
+                                <div class="subsection-content">
+                                    <ul class="outline-list">
+                                        <li>Data classification frameworks and standards</li>
+                                        <li>Regulatory data requirements (GDPR, HIPAA, PCI-DSS)</li>
+                                        <li>Intellectual property protection strategies</li>
+                                        <li>Data handling and labeling procedures</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="subsection">
+                                <div class="subsection-header" onclick="toggleSubsection(this)">
+                                    <h4>3.3.2 Data States and Security Controls <span class="time-indicator">75 min</span></h4>
+                                </div>
+                                <div class="subsection-content">
+                                    <ul class="outline-list">
+                                        <li>Data at rest encryption and storage security</li>
+                                        <li>Data in transit protection mechanisms</li>
+                                        <li>Data in use security challenges and solutions</li>
+                                        <li>End-to-end data protection strategies</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="subsection">
+                                <div class="subsection-header" onclick="toggleSubsection(this)">
+                                    <h4>3.3.3 Data Sovereignty and Compliance <span class="time-indicator">45 min</span></h4>
+                                </div>
+                                <div class="subsection-content">
+                                    <ul class="outline-list">
+                                        <li>Legal and regulatory geography requirements</li>
+                                        <li>Cross-border data transfer restrictions</li>
+                                        <li>Geolocation and residency requirements</li>
+                                        <li>Compliance monitoring and reporting</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="subsection">
+                                <div class="subsection-header" onclick="toggleSubsection(this)">
+                                    <h4>3.3.4 Cryptographic Data Protection <span class="time-indicator">90 min</span></h4>
+                                </div>
+                                <div class="subsection-content">
+                                    <ul class="outline-list">
+                                        <li>Encryption algorithms and implementation</li>
+                                        <li>Key management best practices</li>
+                                        <li>Hashing for data integrity</li>
+                                        <li>Digital signatures and non-repudiation</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="subsection">
+                                <div class="subsection-header" onclick="toggleSubsection(this)">
+                                    <h4>3.3.5 Data Transformation Techniques <span class="time-indicator">60 min</span></h4>
+                                </div>
+                                <div class="subsection-content">
+                                    <ul class="outline-list">
+                                        <li>Data masking strategies and tools</li>
+                                        <li>Tokenization implementation and management</li>
+                                        <li>Data obfuscation methods</li>
+                                        <li>Format-preserving encryption</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="subsection">
+                                <div class="subsection-header" onclick="toggleSubsection(this)">
+                                    <h4>3.3.6 Access Control and Segmentation <span class="time-indicator">60 min</span></h4>
+                                </div>
+                                <div class="subsection-content">
+                                    <ul class="outline-list">
+                                        <li>Role-based access control (RBAC) for data</li>
+                                        <li>Attribute-based access control (ABAC)</li>
+                                        <li>Network segmentation for data protection</li>
+                                        <li>Database security and access controls</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="subsection">
+                                <div class="subsection-header" onclick="toggleSubsection(this)">
+                                    <h4>3.3.7 Data Loss Prevention <span class="time-indicator">45 min</span></h4>
+                                </div>
+                                <div class="subsection-content">
+                                    <ul class="outline-list">
+                                        <li>DLP technologies and deployment</li>
+                                        <li>Content discovery and classification</li>
+                                        <li>Policy enforcement and monitoring</li>
+                                        <li>Incident response for data breaches</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Module 3.4 -->
+            <div class="module">
+                <div class="module-header" onclick="toggleModule(this)">
+                    <h2>Module 3.4: Resilience and Recovery in Security Architecture</h2>
+                    <span class="toggle-icon">▶</span>
+                </div>
+                <div class="module-content">
+                    <div class="section">
+                        <div class="section-header" onclick="toggleSection(this)">
+                            <h3>Learning Objectives & Key Terms</h3>
+                        </div>
+                        <div class="section-content">
+                            <div class="learning-objectives">
+                                <h4>Learning Objectives</h4>
+                                <ul class="objectives-list">
+                                    <li>Design high availability systems with appropriate redundancy</li>
+                                    <li>Implement disaster recovery and business continuity solutions</li>
+                                    <li>Plan and execute resilience testing procedures</li>
+                                    <li>Configure backup and recovery systems</li>
+                                </ul>
+                            </div>
+                            <div class="key-terms">
+                                <h4>Key Terms</h4>
+                                <div class="key-terms-grid">
+                                    <div class="term-item">
+                                        <div class="term-name">High Availability (HA)</div>
+                                        <div class="term-definition">System operational continuity with minimal downtime</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Load Balancing</div>
+                                        <div class="term-definition">Distributing workloads across multiple resources</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Clustering</div>
+                                        <div class="term-definition">Grouping multiple servers to work as single system</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Hot Site</div>
+                                        <div class="term-definition">Fully operational backup facility ready for immediate use</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Warm Site</div>
+                                        <div class="term-definition">Partially configured backup facility requiring setup time</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Cold Site</div>
+                                        <div class="term-definition">Basic backup facility requiring full configuration</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Geographic Dispersion</div>
+                                        <div class="term-definition">Distributing resources across multiple locations</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Platform Diversity</div>
+                                        <div class="term-definition">Using different technologies to avoid single points of failure</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Multi-cloud</div>
+                                        <div class="term-definition">Using multiple cloud service providers</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">RTO</div>
+                                        <div class="term-definition">Recovery Time Objective - maximum acceptable downtime</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">RPO</div>
+                                        <div class="term-definition">Recovery Point Objective - maximum acceptable data loss</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Failover</div>
+                                        <div class="term-definition">Automatic switching to backup system during failure</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">UPS</div>
+                                        <div class="term-definition">Uninterruptible Power Supply</div>
+                                    </div>
+                                    <div class="term-item">
+                                        <div class="term-name">Generator</div>
+                                        <div class="term-definition">Backup power source for extended outages</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-header" onclick="toggleSection(this)">
+                            <h3>Detailed Outline</h3>
+                        </div>
+                        <div class="section-content">
+                            <div class="subsection">
+                                <div class="subsection-header" onclick="toggleSubsection(this)">
+                                    <h4>3.4.1 High Availability Architecture <span class="time-indicator">75 min</span></h4>
+                                </div>
+                                <div class="subsection-content">
+                                    <ul class="outline-list">
+                                        <li>Load balancing technologies and configurations</li>
+                                        <li>Clustering architectures and implementations</li>
+                                        <li>Redundancy planning and single point of failure elimination</li>
+                                        <li>Performance monitoring and automatic failover</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="subsection">
+                                <div class="subsection-header" onclick="toggleSubsection(this)">
+                                    <h4>3.4.2 Disaster Recovery Planning <span class="time-indicator">90 min</span></h4>
+                                </div>
+                                <div class="subsection-content">
+                                    <ul class="outline-list">
+                                        <li>Business impact analysis and risk assessment</li>
+                                        <li>Recovery site planning (hot, warm, cold)</li>
+                                        <li>Geographic dispersion strategies</li>
+                                        <li>Recovery time and point objectives</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="subsection">
+                                <div class="subsection-header" onclick="toggleSubsection(this)">
+                                    <h4>3.4.3 Business Continuity Management <span class="time-indicator">60 min</span></h4>
+                                </div>
+                                <div class="subsection-content">
+                                    <ul class="outline-list">
+                                        <li>Continuity of operations planning</li>
+                                        <li>Crisis management and communication</li>
+                                        <li>Supply chain continuity</li>
+                                        <li>Vendor and third-party dependencies</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="subsection">
+                                <div class="subsection-header" onclick="toggleSubsection(this)">
+                                    <h4>3.4.4 Platform and Service Diversity <span class="time-indicator">45 min</span></h4>
+                                </div>
+                                <div class="subsection-content">
+                                    <ul class="outline-list">
+                                        <li>Multi-vendor strategies and vendor lock-in avoidance</li>
+                                        <li>Technology diversification approaches</li>
+                                        <li>Multi-cloud architecture and management</li>
+                                        <li>Integration challenges and solutions</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="subsection">
+                                <div class="subsection-header" onclick="toggleSubsection(this)">
+                                    <h4>3.4.5 Capacity Planning and Resource Management <span class="time-indicator">60 min</span></h4>
+                                </div>
+                                <div class="subsection-content">
+                                    <ul class="outline-list">
+                                        <li>Capacity planning methodologies</li>
+                                        <li>Resource scaling strategies</li>
+                                        <li>Performance monitoring and optimization</li>
+                                        <li>Future growth planning</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="subsection">
+                                <div class="subsection-header" onclick="toggleSubsection(this)">
+                                    <h4>3.4.6 Resilience Testing and Validation <span class="time-indicator">75 min</span></h4>
+                                </div>
+                                <div class="subsection-content">
+                                    <ul class="outline-list">
+                                        <li>Testing strategy development</li>
+                                        <li>Tabletop exercises and simulation planning</li>
+                                        <li>Failover testing procedures</li>
+                                        <li>Test result analysis and improvement</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="subsection">
+                                <div class="subsection-header" onclick="toggleSubsection(this)">
+                                    <h4>3.4.7 Backup and Recovery Implementation <span class="time-indicator">90 min</span></h4>
+                                </div>
+                                <div class="subsection-content">
+                                    <ul class="outline-list">
+                                        <li>Backup strategy design and implementation</li>
+                                        <li>Recovery procedures and automation</li>
+                                        <li>Data replication technologies</li>
+                                        <li>Backup testing and validation</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="subsection">
+                                <div class="subsection-header" onclick="toggleSubsection(this)">
+                                    <h4>3.4.8 Power and Infrastructure Resilience <span class="time-indicator">45 min</span></h4>
+                                </div>
+                                <div class="subsection-content">
+                                    <ul class="outline-list">
+                                        <li>Power system design and redundancy</li>
+                                        <li>Environmental control systems</li>
+                                        <li>Physical security for critical infrastructure</li>
+                                        <li>Monitoring and alerting systems</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let viewedSections = new Set();
+        let totalSections = 0;
+
+        function toggleModule(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('.toggle-icon');
+            
+            element.classList.toggle('active');
+            content.classList.toggle('active');
+            
+            if (content.classList.contains('active')) {
+                icon.textContent = '▼';
+            } else {
+                icon.textContent = '▶';
+            }
+        }
+
+        function toggleSection(element) {
+            const content = element.nextElementSibling;
+            const sectionId = element.textContent.trim();
+            
+            content.classList.toggle('active');
+            
+            if (content.classList.contains('active')) {
+                viewedSections.add(sectionId);
+            }
+            
+            updateProgress();
+        }
+
+        function toggleSubsection(element) {
+            const content = element.nextElementSibling;
+            content.classList.toggle('active');
+        }
+
+        function updateProgress() {
+            const completedCount = viewedSections.size;
+            const percentage = Math.round((completedCount / totalSections) * 100);
+            
+            document.getElementById('completedSections').textContent = completedCount;
+            document.getElementById('progressPercent').textContent = percentage + '%';
+            document.getElementById('progressFill').style.width = percentage + '%';
+        }
+
+        function initializeSearch() {
+            const searchBox = document.getElementById('searchBox');
+            searchBox.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                const sections = document.querySelectorAll('.section, .subsection');
+                
+                sections.forEach(section => {
+                    const content = section.textContent.toLowerCase();
+                    if (content.includes(searchTerm) || searchTerm === '') {
+                        section.style.display = 'block';
+                    } else {
+                        section.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // Initialize the study guide
+        document.addEventListener('DOMContentLoaded', function() {
+            // Count total sections
+            totalSections = document.querySelectorAll('.section').length;
+            
+            // Initialize search functionality
+            initializeSearch();
+            
+            // Add some interactive feedback
+            const termItems = document.querySelectorAll('.term-item');
+            termItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    this.style.backgroundColor = this.style.backgroundColor === 'rgb(240, 248, 240)' ? 'white' : '#f0f8f0';
+                });
+            });
+        });
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                // Close all open sections
+                document.querySelectorAll('.section-content.active').forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.querySelectorAll('.subsection-content.active').forEach(subsection => {
+                    subsection.classList.remove('active');
+                });
+                document.querySelectorAll('.module-content.active').forEach(module => {
+                    module.classList.remove('active');
+                    const header = module.previousElementSibling;
+                    header.classList.remove('active');
+                    header.querySelector('.toggle-icon').textContent = '▶';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
