@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 3.1: Security Implications of Different Architecture Models</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2d5a27, #4a7c4a);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.3em;
+            opacity: 0.9;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 20px;
+            background: #f0f8f0;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            color: #2d5a27;
+            transition: all 0.3s ease;
+            border-right: 1px solid #e0e0e0;
+        }
+
+        .nav-tab:last-child {
+            border-right: none;
+        }
+
+        .nav-tab:hover {
+            background: #e8f5e8;
+        }
+
+        .nav-tab.active {
+            background: #2d5a27;
+            color: white;
+        }
+
+        .content-section {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .learning-objectives {
+            background: #f0f8f0;
+            padding: 30px;
+            border-radius: 10px;
+            border-left: 6px solid #2d5a27;
+            margin-bottom: 30px;
+        }
+
+        .learning-objectives h3 {
+            color: #2d5a27;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .objectives-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .objectives-list li {
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            font-size: 1.1em;
+        }
+
+        .objectives-list li:before {
+            content: "✓";
+            color: #2d5a27;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            font-size: 1.2em;
+        }
+
+        .topic-section {
+            margin-bottom: 40px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .topic-header {
+            background: #2d5a27;
+            color: white;
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .topic-header:hover {
+            background: #4a7c4a;
+        }
+
+        .topic-header h4 {
+            font-size: 1.3em;
+            margin: 0;
+        }
+
+        .time-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        .topic-content {
+            display: none;
+            padding: 30px;
+            background: #fafafa;
+        }
+
+        .topic-content.active {
+            display: block;
+        }
+
+        .topic-content h5 {
+            color: #2d5a27;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .topic-content p {
+            margin-bottom: 20px;
+            font-size: 1.05em;
+            text-align: justify;
+        }
+
+        .key-points {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #4a7c4a;
+            margin: 20px 0;
+        }
+
+        .key-points h6 {
+            color: #2d5a27;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .key-points ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .key-points li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .key-points li:before {
+            content: "▶";
+            color: #4a7c4a;
+            position: absolute;
+            left: 0;
+            font-size: 0.8em;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            padding: 20px 0;
+        }
+
+        .flashcard {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flashcard:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .flashcard-front {
+            background: linear-gradient(135deg, #f0f8f0, #e8f5e8);
+            border: 2px solid #2d5a27;
+        }
+
+        .flashcard-back {
+            background: linear-gradient(135deg, #2d5a27, #4a7c4a);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-term {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #2d5a27;
+            margin-bottom: 15px;
+        }
+
+        .flashcard-definition {
+            font-size: 1.1em;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .flip-hint {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            font-size: 0.9em;
+            color: #666;
+            opacity: 0.7;
+        }
+
+        .progress-container {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #2d5a27, #4a7c4a);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .progress-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: #f0f8f0;
+            border-radius: 8px;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #2d5a27;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .btn {
+            background: #2d5a27;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #4a7c4a;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #2d5a27;
+            border: 2px solid #2d5a27;
+        }
+
+        .btn-secondary:hover {
+            background: #2d5a27;
+            color: white;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #2d5a27;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .search-box:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.2);
+        }
+
+        .toggle-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .topic-header.active .toggle-icon {
+            transform: rotate(90deg);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .nav-tabs {
+                flex-direction: column;
+            }
+            
+            .flashcard-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .progress-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Module 3.1: Security Implications of Different Architecture Models</h1>
+            <p>Interactive Study Guide • Security+ Certification</p>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showSection('overview')">Overview & Objectives</button>
+            <button class="nav-tab" onclick="showSection('content')">Study Content</button>
+            <button class="nav-tab" onclick="showSection('flashcards')">Flashcards</button>
+            <button class="nav-tab" onclick="showSection('progress')">Progress</button>
+        </div>
+
+        <!-- Overview Section -->
+        <div id="overview" class="content-section active">
+            <div class="learning-objectives">
+                <h3>Learning Objectives</h3>
+                <ul class="objectives-list">
+                    <li>Analyze security implications of cloud, edge, and fog computing architectures</li>
+                    <li>Evaluate the security considerations of virtualization and containerization</li>
+                    <li>Assess architecture models based on availability, cost, scalability, and risk factors</li>
+                    <li>Compare centralized vs. decentralized architecture security implications</li>
+                </ul>
+            </div>
+
+            <h3 style="color: #2d5a27; margin-bottom: 20px;">Module Overview</h3>
+            <p style="font-size: 1.1em; margin-bottom: 20px;">
+                This module explores the security implications of various computing architecture models in modern enterprise environments. 
+                As organizations increasingly adopt cloud computing, edge computing, and containerization technologies, understanding 
+                the security considerations of each architecture becomes critical for cybersecurity professionals.
+            </p>
+            
+            <p style="font-size: 1.1em; margin-bottom: 20px;">
+                We'll examine how different architectural decisions impact security posture, cost considerations, scalability requirements, 
+                and risk management strategies. The module covers everything from traditional on-premises infrastructure to cutting-edge 
+                serverless and microservices architectures.
+            </p>
+
+            <div class="key-points">
+                <h6>Key Topics Covered</h6>
+                <ul>
+                    <li>Modern computing architecture evolution</li>
+                    <li>Cloud service models and shared responsibility</li>
+                    <li>Edge and fog computing security challenges</li>
+                    <li>Infrastructure as Code and serverless security</li>
+                    <li>Network infrastructure and segmentation</li>
+                    <li>Specialized systems (IoT, SCADA, RTOS)</li>
+                    <li>Architecture assessment frameworks</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Study Content Section -->
+        <div id="content" class="content-section">
+            <input type="text" class="search-box" placeholder="Search study content..." id="contentSearch">
+            
+            <div class="topic-section">
+                <div class="topic-header" onclick="toggleTopic(this)">
+                    <h4>3.1.1 Introduction to Architecture Models</h4>
+                    <div>
+                        <span class="time-badge">45 min</span>
+                        <span class="toggle-icon">▶</span>
+                    </div>
+                </div>
+                <div class="topic-content">
+                    <h5>Overview of Modern Computing Architectures</h5>
+                    <p>
+                        Modern computing architectures have evolved significantly from the monolithic mainframe systems of the past. 
+                        Today's architectures emphasize distributed computing, scalability, and flexibility. Understanding these 
+                        architectural patterns is crucial for implementing appropriate security controls and managing risk effectively.
+                    </p>
+                    
+                    <div class="key-points">
+                        <h6>Architecture Evolution Timeline</h6>
+                        <ul>
+                            <li>Mainframe era: Centralized processing with terminal access</li>
+                            <li>Client-server model: Distributed processing between clients and servers</li>
+                            <li>Web-based architectures: Browser-based interfaces with server-side processing</li>
+                            <li>Service-oriented architectures (SOA): Modular, reusable services</li>
+                            <li>Cloud and microservices: Highly distributed, scalable architectures</li>
+                        </ul>
+                    </div>
+
+                    <h5>Evolution from Monolithic to Distributed Systems</h5>
+                    <p>
+                        The transition from monolithic to distributed systems represents one of the most significant changes in computing 
+                        architecture. Monolithic systems, while simpler to secure due to their centralized nature, often lack the 
+                        scalability and flexibility required by modern organizations. Distributed systems offer numerous advantages 
+                        but introduce complex security challenges including network security, data consistency, and authentication 
+                        across multiple systems.
+                    </p>
+
+                    <h5>Security Implications of Architectural Choices</h5>
+                    <p>
+                        Every architectural decision carries security implications. Centralized architectures may offer better control 
+                        but create single points of failure. Distributed architectures provide redundancy and scalability but expand 
+                        the attack surface. Cloud architectures offer scalability and cost benefits but introduce shared responsibility 
+                        models and data sovereignty concerns. Security professionals must understand these trade-offs to make informed 
+                        architectural decisions.
+                    </p>
+
+                    <div class="key-points">
+                        <h6>Key Security Considerations</h6>
+                        <ul>
+                            <li>Attack surface analysis and minimization</li>
+                            <li>Single points of failure identification</li>
+                            <li>Data flow and trust boundary mapping</li>
+                            <li>Identity and access management complexity</li>
+                            <li>Monitoring and logging capabilities</li>
+                            <li>Incident response and recovery procedures</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="topic-section">
+                <div class="topic-header" onclick="toggleTopic(this)">
+                    <h4>3.1.2 Cloud Computing Security</h4>
+                    <div>
+                        <span class="time-badge">60 min</span>
+                        <span class="toggle-icon">▶</span>
+                    </div>
+                </div>
+                <div class="topic-content">
+                    <h5>Cloud Service Models Security Implications</h5>
+                    <p>
+                        The three primary cloud service models—Infrastructure as a Service (IaaS), Platform as a Service (PaaS), 
+                        and Software as a Service (SaaS)—each present unique security considerations. In IaaS, customers maintain 
+                        greater control over security configurations but also bear more responsibility. PaaS abstracts infrastructure 
+                        management but may limit security customization options. SaaS provides the least customer control but 
+                        potentially the most vendor security expertise.
+                    </p>
+
+                    <div class="key-points">
+                        <h6>Service Model Responsibilities</h6>
+                        <ul>
+                            <li>IaaS: Customer manages OS, applications, data, and network controls</li>
+                            <li>PaaS: Customer manages applications and data; provider manages platform</li>
+                            <li>SaaS: Provider manages most security; customer manages data and access</li>
+                        </ul>
+                    </div>
+
+                    <h5>Shared Responsibility Model</h5>
+                    <p>
+                        The shared responsibility model is fundamental to cloud security. Cloud providers are responsible for 
+                        "security of the cloud" (physical infrastructure, hypervisor security, network controls), while customers 
+                        are responsible for "security in the cloud" (data protection, identity management, application security). 
+                        Misunderstanding these boundaries is a leading cause of cloud security incidents.
+                    </p>
+
+                    <h5>Hybrid Cloud Security Considerations</h5>
+                    <p>
+                        Hybrid cloud environments combine on-premises infrastructure with public and private cloud services. 
+                        While offering flexibility and gradual migration paths, hybrid environments introduce complexity in 
+                        security management, data governance, and compliance. Organizations must ensure consistent security 
+                        policies across all environments while managing the integration points between different infrastructures.
+                    </p>
+
+                    <h5>Third-party Vendor Risk Assessment</h5>
+                    <p>
+                        Cloud adoption inevitably involves third-party vendors, each introducing potential risks. Comprehensive 
+                        vendor risk assessment should evaluate security certifications, compliance frameworks, incident response 
+                        capabilities, data handling practices, and business continuity plans. Regular audits and continuous 
+                        monitoring of vendor security posture are essential for maintaining organizational security standards.
+                    </p>
+                </div>
+            </div>
+
+            <div class="topic-section">
+                <div class="topic-header" onclick="toggleTopic(this)">
+                    <h4>3.1.3 Edge and Fog Computing</h4>
+                    <div>
+                        <span class="time-badge">45 min</span>
+                        <span class="toggle-icon">▶</span>
+                    </div>
+                </div>
+                <div class="topic-content">
+                    <h5>Edge Computing Security Benefits and Challenges</h5>
+                    <p>
+                        Edge computing brings computation closer to data sources, reducing latency and bandwidth requirements. 
+                        From a security perspective, edge computing can reduce data exposure by processing sensitive information 
+                        locally rather than transmitting it to centralized cloud servers. However, edge devices often have 
+                        limited security capabilities, may be physically accessible to attackers, and can be difficult to 
+                        update and manage centrally.
+                    </p>
+
+                    <div class="key-points">
+                        <h6>Edge Security Benefits</h6>
+                        <ul>
+                            <li>Reduced data transmission and exposure</li>
+                            <li>Lower latency for security responses</li>
+                            <li>Improved data sovereignty and privacy</li>
+                            <li>Reduced dependency on network connectivity</li>
+                        </ul>
+                    </div>
+
+                    <div class="key-points">
+                        <h6>Edge Security Challenges</h6>
+                        <ul>
+                            <li>Limited computational resources for security controls</li>
+                            <li>Physical security vulnerabilities</li>
+                            <li>Difficulty in centralized management and updates</li>
+                            <li>Increased attack surface across distributed devices</li>
+                        </ul>
+                    </div>
+
+                    <h5>Fog Computing Distributed Architecture</h5>
+                    <p>
+                        Fog computing extends cloud capabilities to edge devices, creating a distributed computing environment 
+                        between edge devices and centralized cloud services. This architecture enables hierarchical processing 
+                        where time-sensitive operations are handled at the edge, while complex analytics and storage remain 
+                        in the cloud. Security in fog computing requires coordinated policies across the entire hierarchy, 
+                        from edge devices to cloud services.
+                    </p>
+
+                    <h5>Network Latency vs. Security Trade-offs</h5>
+                    <p>
+                        Edge and fog computing architectures often require balancing security thoroughness with performance 
+                        requirements. Real-time applications may not tolerate the latency introduced by comprehensive security 
+                        scanning or encryption. Organizations must carefully design security controls that provide adequate 
+                        protection while meeting performance requirements, potentially using techniques like lightweight 
+                        cryptography or risk-based authentication.
+                    </p>
+                </div>
+            </div>
+
+            <div class="topic-section">
+                <div class="topic-header" onclick="toggleTopic(this)">
+                    <h4>3.1.4 Modern Infrastructure Concepts</h4>
+                    <div>
+                        <span class="time-badge">60 min</span>
+                        <span class="toggle-icon">▶</span>
+                    </div>
+                </div>
+                <div class="topic-content">
+                    <h5>Infrastructure as Code Security Practices</h5>
+                    <p>
+                        Infrastructure as Code (IaC) enables the management of infrastructure through machine-readable 
+                        definition files. This approach offers significant security benefits including version control, 
+                        automated compliance checking, and consistent deployments. However, IaC also introduces new risks 
+                        such as credential exposure in code repositories, misconfigurations that can be rapidly deployed 
+                        at scale, and the need for secure development practices in infrastructure management.
+                    </p>
+
+                    <div class="key-points">
+                        <h6>IaC Security Best Practices</h6>
+                        <ul>
+                            <li>Version control and change management for infrastructure code</li>
+                            <li>Automated security scanning of infrastructure templates</li>
+                            <li>Secrets management and credential protection</li>
+                            <li>Testing and validation in non-production environments</li>
+                            <li>Role-based access control for infrastructure deployments</li>
+                        </ul>
+                    </div>
+
+                    <h5>Serverless Computing Security Model</h5>
+                    <p>
+                        Serverless computing abstracts server management from developers, allowing them to focus on 
+                        application logic. While this reduces the attack surface by eliminating server management 
+                        responsibilities, it introduces new security considerations such as function-level access 
+                        control, dependency management, and monitoring of short-lived execution environments. 
+                        Traditional security tools may not be applicable in serverless environments.
+                    </p>
+
+                    <h5>Microservices Security Architecture</h5>
+                    <p>
+                        Microservices architecture decomposes applications into small, independent services that 
+                        communicate over well-defined APIs. This approach offers security benefits through service 
+                        isolation and the ability to apply different security controls to different services. However, 
+                        it also increases complexity in areas such as service-to-service authentication, API security, 
+                        distributed monitoring, and maintaining security consistency across numerous services.
+                    </p>
+
+                    <h5>Container Security Fundamentals</h5>
+                    <p>
+                        Containerization provides lightweight application packaging and deployment capabilities. 
+                        Container security involves multiple layers including the container runtime, orchestration 
+                        platform, container images, and the applications within containers. Security practices include 
+                        image scanning for vulnerabilities, runtime protection, network segmentation, and secure 
+                        container registries. Container immutability can enhance security by preventing runtime modifications.
+                    </p>
+                </div>
+            </div>
+
+            <div class="topic-section">
+                <div class="topic-header" onclick="toggleTopic(this)">
+                    <h4>3.1.5 Network Infrastructure Security</h4>
+                    <div>
+                        <span class="time-badge">45 min</span>
+                        <span class="toggle-icon">▶</span>
+                    </div>
+                </div>
+                <div class="topic-content">
+                    <h5>Physical vs. Logical Network Segmentation</h5>
+                    <p>
+                        Network segmentation is a fundamental security control that limits the scope of potential security 
+                        breaches. Physical segmentation involves separate physical network infrastructure for different 
+                        network zones, providing the strongest isolation but at higher cost and complexity. Logical 
+                        segmentation uses VLANs, routing, and firewall rules to create separate network zones on shared 
+                        infrastructure, offering greater flexibility and cost-effectiveness while requiring careful 
+                        configuration to maintain security boundaries.
+                    </p>
+
+                    <div class="key-points">
+                        <h6>Segmentation Benefits</h6>
+                        <ul>
+                            <li>Limits lateral movement of attackers</li>
+                            <li>Reduces blast radius of security incidents</li>
+                            <li>Enables granular access controls</li>
+                            <li>Supports compliance with regulatory requirements</li>
+                            <li>Improves network performance and management</li>
+                        </ul>
+                    </div>
+
+                    <h5>Software-Defined Networking Security</h5>
+                    <p>
+                        Software-Defined Networking (SDN) centralizes network control through programmable interfaces, 
+                        enabling dynamic network configuration and policy enforcement. SDN can enhance security through 
+                        centralized policy management, automated threat response, and fine-grained traffic control. 
+                        However, the centralized controller becomes a critical security component that must be protected 
+                        against attacks, and the programmable nature of SDN requires secure development practices.
+                    </p>
+
+                    <h5>Air-gapped Systems and Isolation Strategies</h5>
+                    <p>
+                        Air-gapped systems are physically isolated from unsecured networks, providing the highest level 
+                        of network security for critical systems. These systems are commonly used for national security, 
+                        critical infrastructure, and high-value intellectual property. While air gaps provide strong 
+                        protection against network-based attacks, they introduce challenges in system updates, data 
+                        transfer, and remote management. Organizations must implement strict procedures for maintaining 
+                        air gap integrity while enabling necessary business functions.
+                    </p>
+                </div>
+            </div>
+
+            <div class="topic-section">
+                <div class="topic-header" onclick="toggleTopic(this)">
+                    <h4>3.1.6 Specialized System Architectures</h4>
+                    <div>
+                        <span class="time-badge">60 min</span>
+                        <span class="toggle-icon">▶</span>
+                    </div>
+                </div>
+                <div class="topic-content">
+                    <h5>IoT Security Architecture Challenges</h5>
+                    <p>
+                        Internet of Things (IoT) devices present unique security challenges due to their constrained 
+                        resources, diverse communication protocols, and often inadequate security implementations. 
+                        IoT security architecture must address device authentication, secure communication, firmware 
+                        updates, and lifecycle management. The sheer number and diversity of IoT devices make centralized 
+                        management challenging, requiring scalable security approaches and careful network segmentation.
+                    </p>
+
+                    <div class="key-points">
+                        <h6>IoT Security Challenges</h6>
+                        <ul>
+                            <li>Limited computational resources for security controls</li>
+                            <li>Difficulty in applying security updates</li>
+                            <li>Weak default credentials and authentication</li>
+                            <li>Diverse and proprietary communication protocols</li>
+                            <li>Long device lifecycles with changing security requirements</li>
+                        </ul>
+                    </div>
+
+                    <h5>Industrial Control Systems (ICS/SCADA) Security</h5>
+                    <p>
+                        Industrial Control Systems and Supervisory Control and Data Acquisition (SCADA) systems control 
+                        critical infrastructure including power grids, water treatment facilities, and manufacturing 
+                        systems. These systems traditionally prioritized availability and real-time performance over 
+                        security, leading to vulnerabilities when connected to corporate networks or the internet. 
+                        Modern ICS security requires network segmentation, specialized monitoring tools, and careful 
+                        balance between operational requirements and security controls.
+                    </p>
+
+                    <h5>Real-time Operating Systems Security Requirements</h5>
+                    <p>
+                        Real-Time Operating Systems (RTOS) are designed for applications requiring deterministic response 
+                        times, such as aerospace, automotive, and medical devices. Security in RTOS environments must 
+                        not interfere with timing requirements, necessitating lightweight security controls and careful 
+                        resource management. RTOS security often focuses on preventing unauthorized code execution, 
+                        protecting critical data, and maintaining system integrity while preserving real-time performance.
+                    </p>
+
+                    <h5>Embedded Systems Security Considerations</h5>
+                    <p>
+                        Embedded systems are specialized computing systems within larger devices, ranging from smart 
+                        appliances to automotive control units. Security challenges include limited upgrade capabilities, 
+                        physical accessibility, constrained resources, and long deployment lifecycles. Embedded system 
+                        security often relies on secure boot processes, hardware security modules, and careful firmware 
+                        design rather than traditional software-based security tools.
+                    </p>
+                </div>
+            </div>
+
+            <div class="topic-section">
+                <div class="topic-header" onclick="toggleTopic(this)">
+                    <h4>3.1.7 Architecture Assessment Framework</h4>
+                    <div>
+                        <span class="time-badge">45 min</span>
+                        <span class="toggle-icon">▶</span>
+                    </div>
+                </div>
+                <div class="topic-content">
+                    <h5>Evaluating Architectures Using Security Criteria</h5>
+                    <p>
+                        Architecture assessment requires systematic evaluation against security criteria including 
+                        confidentiality, integrity, availability, authentication, authorization, and non-repudiation. 
+                        Assessment frameworks should consider threat modeling, risk analysis, compliance requirements, 
+                        and business objectives. Regular architecture reviews ensure that security controls remain 
+                        effective as systems evolve and new threats emerge.
+                    </p>
+
+                    <div class="key-points">
+                        <h6>Assessment Criteria</h6>
+                        <ul>
+                            <li>Security posture and risk profile</li>
+                            <li>Scalability and performance impact</li>
+                            <li>Cost-effectiveness of security controls</li>
+                            <li>Compliance with regulatory requirements</li>
+                            <li>Operational complexity and manageability</li>
+                            <li>Recovery and resilience capabilities</li>
+                        </ul>
+                    </div>
+
+                    <h5>Cost-benefit Analysis for Security Architectures</h5>
+                    <p>
+                        Security architecture decisions must balance protection levels with cost considerations. 
+                        Cost-benefit analysis should include direct costs (technology, implementation, maintenance), 
+                        indirect costs (performance impact, operational overhead), and potential risk reduction value. 
+                        Organizations should consider total cost of ownership over the system lifecycle, including 
+                        security incident response and potential breach costs.
+                    </p>
+
+                    <h5>Risk Assessment Methodologies</h5>
+                    <p>
+                        Risk assessment for architecture decisions involves identifying threats, analyzing vulnerabilities, 
+                        and evaluating potential impact. Methodologies may include qualitative approaches (risk matrices, 
+                        expert judgment) or quantitative approaches (probability calculations, financial modeling). 
+                        Risk assessment should be iterative, updated as architectures evolve and new threats emerge.
+                    </p>
+
+                    <h5>Architecture Decision Documentation</h5>
+                    <p>
+                        Documenting architecture decisions provides valuable context for future modifications and helps 
+                        ensure security considerations are properly understood. Documentation should include security 
+                        requirements, design rationale, alternative options considered, risk assessments, and approval 
+                        processes. Architecture Decision Records (ADRs) provide a standardized format for capturing 
+                        these decisions and their security implications.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Flashcards Section -->
+        <div id="flashcards" class="content-section">
+            <div class="controls">
+                <button class="btn" onclick="shuffleCards()">Shuffle Cards</button>
+                <button class="btn btn-secondary" onclick="resetProgress()">Reset Progress</button>
+                <button class="btn btn-secondary" onclick="flipAllCards()">Flip All</button>
+            </div>
+
+            <div class="flashcard-container" id="flashcardContainer">
+                <!-- Flashcards will be generated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Progress Section -->
+        <div id="progress" class="content-section">
+            <div class="progress-container">
+                <h3 style="color: #2d5a27; margin-bottom: 20px;">Study Progress</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="topicsViewed">0</div>
+                        <div class="stat-label">Topics Viewed</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="cardsStudied">0</div>
+                        <div class="stat-label">Cards Studied</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="studyTime">0</div>
+                        <div class="stat-label">Minutes Studied</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="completionPercent">0%</div>
+                        <div class="stat-label">Completion</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <h3 style="color: #2d5a27; margin-bottom: 20px;">Study Recommendations</h3>
+                <div id="recommendations">
+                    <p>Complete more topics to receive personalized study recommendations.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentSection = 'overview';
+        let viewedTopics = new Set();
+        let studiedCards = new Set();
+        let startTime = Date.now();
+        let totalTopics = 7;
+
+        // Flashcard data
+        const flashcards = [
+            { term: "Cloud Computing", definition: "On-demand delivery of computing services over the internet" },
+            { term: "Edge Computing", definition: "Computing performed at or near the data source rather than in centralized cloud" },
+            { term: "Fog Computing", definition: "Decentralized computing infrastructure extending cloud capabilities to edge devices" },
+            { term: "Thin Client", definition: "Lightweight computer dependent on server for processing" },
+            { term: "Containerization", definition: "OS-level virtualization for deploying applications in isolated environments" },
+            { term: "Microservices", definition: "Architectural approach using small, independent services" },
+            { term: "Infrastructure as Code (IaC)", definition: "Managing infrastructure through machine-readable definition files" },
+            { term: "Serverless", definition: "Cloud computing model where cloud provider manages server infrastructure" },
+            { term: "Virtualization", definition: "Creating virtual versions of physical computing resources" },
+            { term: "IoT (Internet of Things)", definition: "Network of interconnected devices with sensors and software" },
+            { term: "SCADA", definition: "Supervisory Control and Data Acquisition systems for industrial control" },
+            { term: "RTOS", definition: "Real-Time Operating System for time-critical applications" },
+            { term: "Shared Responsibility Model", definition: "Cloud security model dividing responsibilities between provider and customer" },
+            { term: "Air-gapped System", definition: "Computer system physically isolated from unsecured networks" },
+            { term: "Software-Defined Networking", definition: "Network architecture approach that enables centralized control through software" },
+            { term: "Hybrid Cloud", definition: "Computing environment combining public cloud, private cloud, and on-premises infrastructure" },
+            { term: "Attack Surface", definition: "Total number of possible entry points where unauthorized access can occur" },
+            { term: "Network Segmentation", definition: "Practice of splitting network into separate zones to improve security and performance" }
+        ];
+
+        // Navigation functions
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+            
+            currentSection = sectionId;
+            
+            // Initialize flashcards if flashcard section is shown
+            if (sectionId === 'flashcards') {
+                initializeFlashcards();
+            }
+            
+            updateProgress();
+        }
+
+        // Topic toggle function
+        function toggleTopic(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('.toggle-icon');
+            const topicTitle = element.querySelector('h4').textContent;
+            
+            element.classList.toggle('active');
+            content.classList.toggle('active');
+            
+            if (content.classList.contains('active')) {
+                icon.textContent = '▼';
+                viewedTopics.add(topicTitle);
+            } else {
+                icon.textContent = '▶';
+            }
+            
+            updateProgress();
+        }
+
+        // Flashcard functions
+        function initializeFlashcards() {
+            const container = document.getElementById('flashcardContainer');
+            container.innerHTML = '';
+            
+            flashcards.forEach((card, index) => {
+                const flashcardElement = createFlashcard(card, index);
+                container.appendChild(flashcardElement);
+            });
+        }
+
+        function createFlashcard(card, index) {
+            const flashcardDiv = document.createElement('div');
+            flashcardDiv.className = 'flashcard';
+            flashcardDiv.onclick = () => flipCard(flashcardDiv, index);
+            
+            flashcardDiv.innerHTML = `
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <div class="flashcard-term">${card.term}</div>
+                        <div class="flip-hint">Click to reveal</div>
+                    </div>
+                    <div class="flashcard-back">
+                        <div class="flashcard-definition">${card.definition}</div>
+                    </div>
+                </div>
+            `;
+            
+            return flashcardDiv;
+        }
+
+        function flipCard(cardElement, index) {
+            cardElement.classList.toggle('flipped');
+            
+            if (cardElement.classList.contains('flipped')) {
+                studiedCards.add(index);
+                updateProgress();
+            }
+        }
+
+        function shuffleCards() {
+            // Shuffle the flashcards array
+            for (let i = flashcards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [flashcards[i], flashcards[j]] = [flashcards[j], flashcards[i]];
+            }
+            initializeFlashcards();
+        }
+
+        function flipAllCards() {
+            document.querySelectorAll('.flashcard').forEach((card, index) => {
+                card.classList.add('flipped');
+                studiedCards.add(index);
+            });
+            updateProgress();
+        }
+
+        function resetProgress() {
+            viewedTopics.clear();
+            studiedCards.clear();
+            startTime = Date.now();
+            
+            // Reset UI
+            document.querySelectorAll('.topic-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.topic-header').forEach(header => {
+                header.classList.remove('active');
+                header.querySelector('.toggle-icon').textContent = '▶';
+            });
+            
+            document.querySelectorAll('.flashcard').forEach(card => {
+                card.classList.remove('flipped');
+            });
+            
+            updateProgress();
+        }
+
+        // Progress tracking
+        function updateProgress() {
+            const topicsViewedCount = viewedTopics.size;
+            const cardsStudiedCount = studiedCards.size;
+            const studyTimeMinutes = Math.floor((Date.now() - startTime) / 60000);
+            const totalProgress = Math.round(((topicsViewedCount / totalTopics) * 0.7 + (cardsStudiedCount / flashcards.length) * 0.3) * 100);
+            
+            document.getElementById('topicsViewed').textContent = topicsViewedCount;
+            document.getElementById('cardsStudied').textContent = cardsStudiedCount;
+            document.getElementById('studyTime').textContent = studyTimeMinutes;
+            document.getElementById('completionPercent').textContent = totalProgress + '%';
+            document.getElementById('progressFill').style.width = totalProgress + '%';
+            
+            updateRecommendations(topicsViewedCount, cardsStudiedCount, totalProgress);
+        }
+
+        function updateRecommendations(topicsViewed, cardsStudied, totalProgress) {
+            const recommendationsDiv = document.getElementById('recommendations');
+            let recommendations = [];
+            
+            if (topicsViewed < 3) {
+                recommendations.push("📚 Start by reviewing the foundational topics: Introduction to Architecture Models and Cloud Computing Security");
+            }
+            
+            if (cardsStudied < 10) {
+                recommendations.push("🔄 Practice with flashcards to reinforce key terminology and concepts");
+            }
+            
+            if (topicsViewed >= 4 && cardsStudied < 15) {
+                recommendations.push("💡 You're making good progress! Continue with flashcard practice to solidify your knowledge");
+            }
+            
+            if (totalProgress >= 70) {
+                recommendations.push("🎯 Excellent progress! Consider reviewing challenging topics and testing your knowledge with practice questions");
+            }
+            
+            if (totalProgress >= 90) {
+                recommendations.push("🏆 Outstanding work! You're ready for advanced topics and certification practice");
+            }
+            
+            if (recommendations.length === 0) {
+                recommendations.push("Keep studying! Regular review helps with long-term retention.");
+            }
+            
+            recommendationsDiv.innerHTML = recommendations.map(rec => `<p style="margin-bottom: 10px;">${rec}</p>`).join('');
+        }
+
+        // Search functionality
+        document.getElementById('contentSearch').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const topics = document.querySelectorAll('.topic-section');
+            
+            topics.forEach(topic => {
+                const content = topic.textContent.toLowerCase();
+                if (content.includes(searchTerm) || searchTerm === '') {
+                    topic.style.display = 'block';
+                } else {
+                    topic.style.display = 'none';
+                }
+            });
+        });
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgress();
+            
+            // Auto-update study time every minute
+            setInterval(updateProgress, 60000);
+        });
+    </script>
+</body>
+</html>
