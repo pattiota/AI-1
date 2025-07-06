@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI in Teaching & Learning: Interactive Guide for Educators</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: white;
+            color: #2d5016;
+            line-height: 1.6;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Vertical Navigation */
+        .nav-container {
+            width: 280px;
+            background: linear-gradient(180deg, #2d5016 0%, #1a3009 100%);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+        }
+
+        .nav-header {
+            padding: 25px 20px;
+            background: rgba(0,0,0,0.1);
+            text-align: center;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-header h1 {
+            font-size: 1.3em;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .nav-header p {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .nav-menu {
+            padding: 20px 0;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 15px 25px;
+            color: white;
+            text-decoration: none;
+            border-left: 4px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.1);
+            border-left-color: #66c41a;
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: rgba(102,196,26,0.2);
+            border-left-color: #66c41a;
+            color: #66c41a;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 40px;
+            flex: 1;
+            max-width: calc(100vw - 280px);
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #2d5016, #4a7c25);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(45,80,22,0.15);
+        }
+
+        .section-header h2 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .section-header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .content-card {
+            background: white;
+            border: 2px solid #e8f4e1;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .content-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #f8fdf6, #e8f4e1);
+            border: 2px solid #66c41a;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(102,196,26,0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #2d5016;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1em;
+            color: #2d5016;
+            font-weight: 600;
+        }
+
+        .interactive-element {
+            background: #f8fdf6;
+            border: 2px dashed #66c41a;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .interactive-element:hover {
+            background: #e8f4e1;
+            border-style: solid;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #66c41a, #4a7c25);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 10px 5px;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #4a7c25, #2d5016);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102,196,26,0.3);
+        }
+
+        .progress-bar {
+            background: #e8f4e1;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #66c41a, #4a7c25);
+            height: 25px;
+            border-radius: 20px;
+            transition: width 2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #ffff99 0%, #ffff99 100%);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 2px dotted #66c41a;
+            cursor: help;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 300px;
+            background-color: #2d5016;
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -150px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.9em;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .quiz-container {
+            background: #f8fdf6;
+            border: 2px solid #66c41a;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .quiz-question {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2d5016;
+        }
+
+        .quiz-option {
+            background: white;
+            border: 2px solid #e8f4e1;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 8px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            border-color: #66c41a;
+            background: #f8fdf6;
+        }
+
+        .quiz-option.correct {
+            border-color: #66c41a;
+            background: #e8f4e1;
+            color: #2d5016;
+        }
+
+        .quiz-option.incorrect {
+            border-color: #ff6b6b;
+            background: #ffe8e8;
+            color: #c92a2a;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                max-width: 100%;
+                padding: 20px;
+            }
+            
+            .container {
+                flex-direction: column;
+            }
+            
+            .stat-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Vertical Navigation -->
+        <nav class="nav-container">
+            <div class="nav-header">
+                <h1>🤖 AI in Education</h1>
+                <p>Interactive Guide for Teachers</p>
+            </div>
+            <div class="nav-menu">
+                <a href="#overview" class="nav-item active" onclick="showSection('overview', this)">📋 Overview</a>
+                <a href="#energy" class="nav-item" onclick="showSection('energy', this)">⚡ Energy Consumption</a>
+                <a href="#computing" class="nav-item" onclick="showSection('computing', this)">💻 Computing Power</a>
+                <a href="#revenue" class="nav-item" onclick="showSection('revenue', this)">💰 Market Revenue</a>
+                <a href="#investment" class="nav-item" onclick="showSection('investment', this)">📈 Investment Trends</a>
+                <a href="#employment" class="nav-item" onclick="showSection('employment', this)">👥 Employment Impact</a>
+                <a href="#healthcare" class="nav-item" onclick="showSection('healthcare', this)">🏥 AI in Healthcare</a>
+                <a href="#business" class="nav-item" onclick="showSection('business', this)">🏢 Business Adoption</a>
+                <a href="#data" class="nav-item" onclick="showSection('data', this)">📊 Data Usage</a>
+                <a href="#patents" class="nav-item" onclick="showSection('patents', this)">⚖️ Patents & Ethics</a>
+                <a href="#teaching" class="nav-item" onclick="showSection('teaching', this)">🎓 AI in Teaching</a>
+                <a href="#quiz" class="nav-item" onclick="showSection('quiz', this)">🧠 Knowledge Check</a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Overview Section -->
+            <section id="overview" class="content-section active">
+                <div class="section-header">
+                    <h2>Welcome to AI in Education</h2>
+                    <p>A comprehensive 30-minute introduction to artificial intelligence for educators</p>
+                </div>
+                
+                <div class="content-card">
+                    <h3>🎯 Learning Objectives</h3>
+                    <p>By the end of this session, you will understand:</p>
+                    <ul style="margin: 15px 0; padding-left: 30px;">
+                        <li>The current impact of AI on various industries and society</li>
+                        <li>Energy and computational requirements of AI systems</li>
+                        <li>Economic implications and investment trends in AI</li>
+                        <li>How AI is transforming education and teaching practices</li>
+                        <li>Ethical considerations and regulatory frameworks</li>
+                    </ul>
+                </div>
+
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">$1.8T</div>
+                        <div class="stat-label">Projected AI Market by 2030</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">3.4mo</div>
+                        <div class="stat-label">AI Compute Doubling Period</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">80%</div>
+                        <div class="stat-label">K-12 Educators Using AI Weekly</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">32B</div>
+                        <div class="stat-label">AI in Education Market by 2030</div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3>🚀 Why This Matters for Educators</h3>
+                    <p><span class="highlight">AI is revolutionizing education</span> at an unprecedented pace. Recent research shows that <strong>AI in education market is expected to reach $32.27 billion by 2030</strong>, with <strong>80% of K-12 educators already using AI-powered platforms weekly</strong>. As educators, understanding these technologies isn't just helpful—it's essential for preparing students for an AI-driven future.</p>
+                </div>
+
+                <div class="interactive-element" onclick="toggleContent('welcome-details')">
+                    <h3>🔍 Click to Explore Current AI in Education Trends</h3>
+                    <div id="welcome-details" style="display: none; margin-top: 15px;">
+                        <p><strong>Recent Developments (2025):</strong></p>
+                        <ul style="margin: 10px 0; padding-left: 25px;">
+                            <li>President Trump signed executive order promoting AI education initiatives</li>
+                            <li>Stanford AI+Education Summit highlighted human-centered AI approaches</li>
+                            <li>UNESCO published new AI competency frameworks for teachers</li>
+                            <li>26 US states have issued AI guidance for schools</li>
+                            <li>62% improvement in test scores with adaptive AI learning systems</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Energy Consumption Section -->
+            <section id="energy" class="content-section">
+                <div class="section-header">
+                    <h2>⚡ AI Energy Consumption</h2>
+                    <p>Understanding the environmental impact of artificial intelligence</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>🔥 Current Energy Landscape</h3>
+                    <p>AI's energy consumption has become a critical concern as the technology scales globally. <span class="highlight">Training a single large AI model like GPT-3 consumed over 1,200 megawatt-hours</span>, equivalent to the annual electricity consumption of approximately 120 US households.</p>
+                </div>
+
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">945 TWh</div>
+                        <div class="stat-label">Projected Global Data Center Demand by 2030</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">15%</div>
+                        <div class="stat-label">Annual Growth Rate of Data Center Consumption</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">3%</div>
+                        <div class="stat-label">Share of Global Electricity by 2030</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">4.5 GW</div>
+                        <div class="stat-label">Current AI Global Power Consumption</div>
+                    </div>
+                </div>
+
+                <div class="interactive-element" onclick="showEnergyComparison()">
+                    <h3>⚖️ Click to See Energy Comparisons</h3>
+                    <div id="energy-comparison" style="display: none; margin-top: 15px;">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 30%;">Training GPT-3: 1,287 MWh</div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;">Medium Nuclear Plant (1 hour): 1,000 MWh</div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 10%;">Single Query ChatGPT: 10x Google Search</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3>📊 2025 Projections & Beyond</h3>
+                    <p>According to the International Energy Agency (IEA), <span class="highlight">data center electricity consumption will more than double by 2030</span>, reaching around 945 TWh. This represents nearly 3% of global electricity demand. AI-optimized data centers are projected to quadruple their energy consumption, with the US alone expected to see data centers account for almost half of electricity demand growth through 2030.</p>
+                    
+                    <div class="tooltip">Water Usage Impact
+                        <span class="tooltiptext">Training large AI models requires significant water for cooling. GPT-3 training consumed approximately 700,000 liters of cooling water.</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Computing Power Section -->
+            <section id="computing" class="content-section">
+                <div class="section-header">
+                    <h2>💻 Computing Power Revolution</h2>
+                    <p>How AI is outpacing Moore's Law and reshaping computational expectations</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>📈 The New Scaling Law</h3>
+                    <p><span class="highlight">AI computational power has been doubling approximately every 3.4 months since 2012</span>, far exceeding Moore's Law which predicted doubling every 2 years. This phenomenon, known as "AI compute scaling," represents a dramatic acceleration in technological progress.</p>
+                </div>
+
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">3.4</div>
+                        <div class="stat-label">Months: AI Compute Doubling Period</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">24</div>
+                        <div class="stat-label">Months: Moore's Law Doubling Period</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">7</div>
+                        <div class="stat-label">Months: AI Agent Task Capability Doubling</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">6</div>
+                        <div class="stat-label">Months: AI Model Size Doubling</div>
+                    </div>
+                </div>
+
+                <div class="interactive-element" onclick="animateComputeGrowth()">
+                    <h3>📊 Click to Visualize Computing Growth Comparison</h3>
+                    <div id="compute-visualization" style="display: none; margin-top: 15px;">
+                        <p><strong>Moore's Law vs AI Compute Scaling:</strong></p>
+                        <div style="margin: 20px 0;">
+                            <p>Moore's Law (24 months):</p>
+                            <div class="progress-bar">
+                                <div id="moores-progress" class="progress-fill" style="width: 0%;">Traditional Computing</div>
+                            </div>
+                        </div>
+                        <div style="margin: 20px 0;">
+                            <p>AI Compute Scaling (3.4 months):</p>
+                            <div class="progress-bar">
+                                <div id="ai-progress" class="progress-fill" style="width: 0%;">AI Computing Power</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3>🔬 Implications for Education Technology</h3>
+                    <p>This exponential growth means that AI capabilities in educational tools are advancing rapidly. Tasks that required extensive server infrastructure just years ago can now be performed on local devices. <span class="highlight">By 2025, AI models are becoming 20-60 times more efficient on embedded systems</span>, making powerful AI accessible in classrooms worldwide.</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>⚡ The Efficiency Challenge</h3>
+                    <p>The new metric of success in AI isn't just raw computational power—it's <span class="highlight">"tokens per dollar per watt"</span>. This measures how efficiently AI systems can process information relative to their cost and energy consumption, driving innovation toward more sustainable AI solutions.</p>
+                </div>
+            </section>
+
+            <!-- Revenue Section -->
+            <section id="revenue" class="content-section">
+                <div class="section-header">
+                    <h2>💰 AI Market Revenue</h2>
+                    <p>Understanding the explosive growth of the global AI economy</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>🚀 Market Explosion</h3>
+                    <p>The global AI market has experienced unprecedented growth. <span class="highlight">From $279.22 billion in 2024, the market is projected to reach $1.81 trillion by 2030</span>, representing a compound annual growth rate (CAGR) of 35.9%. This makes AI one of the fastest-growing technology sectors in history.</p>
+                </div>
+
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">$1.81T</div>
+                        <div class="stat-label">Global AI Market by 2030</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">35.9%</div>
+                        <div class="stat-label">Compound Annual Growth Rate</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">$425B</div>
+                        <div class="stat-label">Generative AI Market by 2030</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">$32B</div>
+                        <div class="stat-label">AI in Education Market by 2030</div>
+                    </div>
+                </div>
+
+                <div class="interactive-element" onclick="showRevenueBreakdown()">
+                    <h3>📊 Click to Explore Market Segments</h3>
+                    <div id="revenue-breakdown" style="display: none; margin-top: 15px;">
+                        <div class="stat-grid">
+                            <div class="stat-card">
+                                <div class="stat-number">29.5%</div>
+                                <div class="stat-label">North America Market Share</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">35%</div>
+                                <div class="stat-label">Software Solutions Share</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">$826B</div>
+                                <div class="stat-label">Alternative Market Projection</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">31.2%</div>
+                                <div class="stat-label">Education AI Growth Rate</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3>🎓 Education Sector Specifics</h3>
+                    <p>The AI in education market is a particularly dynamic segment. <span class="highlight">Expected to reach $32.27 billion by 2030 with a CAGR of 31.2%</span>, this growth is driven by demand for customized learning environments and administrative automation. Healthcare AI is projected at $613.81 billion by 2034 with a 36.83% CAGR, while transportation AI is expected to reach $34.83 billion by 2034.</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>🌍 Global Economic Impact</h3>
+                    <p>According to UN Trade and Development (UNCTAD), <span class="highlight">AI could quadruple its share of the global frontier technology market from 7% to 29% by 2033</span>, reaching $4.8 trillion. This massive economic transformation affects how countries plan their educational and workforce development strategies.</p>
+                </div>
+            </section>
+
+            <!-- Investment Section -->
+            <section id="investment" class="content-section">
+                <div class="section-header">
+                    <h2>📈 AI Investment Landscape</h2>
+                    <p>Following the money: where AI investments are flowing in 2025</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>💸 Investment Explosion</h3>
+                    <p>AI investment has reached unprecedented levels. <span class="highlight">Global investment in data centers alone nearly doubled since 2022, reaching $500 billion in 2024</span>. Major tech companies are making massive commitments: Google expects to spend $75 billion on AI infrastructure in 2025, while the Stargate initiative aims to invest $500 billion over four years.</p>
+                </div>
+
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">$500B</div>
+                        <div class="stat-label">Global Data Center Investment (2024)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">$75B</div>
+                        <div class="stat-label">Google AI Infrastructure (2025)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">$200B</div>
+                        <div class="stat-label">Goldman Sachs Projected AI Investment</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">$2.5B</div>
+                        <div class="stat-label">Latin America AI Startup Funding (2023)</div>
+                    </div>
+                </div>
+
+                <div class="interactive-element" onclick="showInvestmentTrends()">
+                    <h3>📊 Click to Explore Investment Trends</h3>
+                    <div id="investment-trends" style="display: none; margin-top: 15px;">
+                        <div class="content-card">
+                            <h4>🏢 Corporate Investment Patterns</h4>
+                            <ul style="margin: 10px 0; padding-left: 25px;">
+                                <li><strong>By 2025:</strong> 1 in 3 companies expected to allocate over $25 million to AI initiatives</li>
+                                <li><strong>Leading Markets:</strong> Japan, Singapore, and USA driving largest investments</li>
+                                <li><strong>Adoption Rate:</strong> 80% of organizations now implementing AI across multiple functions</li>
+                                <li><strong>Business Impact:</strong> Double-digit gains in strategy, supply chain, and marketing</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3>🎯 Education-Focused Investments</h3>
+                    <p>Education technology is attracting significant AI investment. <span class="highlight">Y Combinator has funded over 100 AI startups</span>, many focusing on educational applications. Companies like Sully.ai have raised $25M for AI-powered healthcare education, while platforms like Podium serve over 100,000 businesses with AI-powered communication tools.</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>🌏 Regional Investment Patterns</h3>
+                    <p>Investment patterns vary globally. The US dominates with over 60% of global AI R&D spending, while <span class="highlight">countries with more AI job postings are seeing lower municipal bond yields and rising tax revenues</span>, indicating investor confidence in AI-intensive regions. China and the US combined hold 60% of all AI patents and produce a third of global AI publications.</p>
+                </div>
+            </section>
+
+            <!-- Employment Section -->
+            <section id="employment" class="content-section">
+                <div class="section-header">
+                    <h2>👥 Employment Impact</h2>
+                    <p>How AI is reshaping the workforce and creating new opportunities</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>⚖️ The Dual Nature of AI Impact</h3>
+                    <p>AI's impact on employment is complex and evolving. While <span class="highlight">14% of workers have experienced job displacement due to AI</span>, the technology is also creating new opportunities and enhancing existing roles. Recent studies suggest that AI could affect nearly 50 million US jobs, but the impact varies significantly by sector and skill level.</p>
+                </div>
+
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">40%</div>
+                        <div class="stat-label">Jobs AI Could Globally Affect</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">11M</div>
+                        <div class="stat-label">New Jobs AI Expected to Create</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">9M</div>
+                        <div class="stat-label">Jobs AI May Displace</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">41%</div>
+                        <div class="stat-label">Wage Premium for AI Skills</div>
+                    </div>
+                </div>
+
+                <div class="interactive-element" onclick="showEmploymentDetails()">
+                    <h3>🔍 Click to Explore Employment Trends by Sector</h3>
+                    <div id="employment-details" style="display: none; margin-top: 15px;">
+                        <div class="content-card">
+                            <h4>📊 Sector-Specific Impacts</h4>
+                            <div class="stat-grid">
+                                <div class="stat-card">
+                                    <div class="stat-number">+17.1%</div>
+                                    <div class="stat-label">Personal Financial Advisors Growth</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-number">-4.4%</div>
+                                    <div class="stat-label">Claims Adjusters Decline</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-number">+9.5%</div>
+                                    <div class="stat-label">Financial Analysts Growth</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-number">33%</div>
+                                    <div class="stat-label">Change Speed in AI-Exposed Jobs</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3>📈 The Wage Premium Reality</h3>
+                    <p>Contrary to fears about AI devaluing work, <span class="highlight">workers with AI skills earn 41% more than those without</span>, up from 25% last year. This wage premium exists even in highly automatable roles, suggesting that AI skills are becoming increasingly valuable across all job categories. Wages are rising twice as quickly in AI-exposed industries compared to those least exposed.</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>🎓 Implications for Education</h3>
+                    <p>The employment transformation highlights the critical need for educational adaptation. <span class="highlight">49% of US Gen Z job hunters believe AI has reduced the value of their college education</span>, emphasizing the need for updated curricula. However, AI is also creating opportunities in education, with personalized learning systems showing 62% improvement in test scores.</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>🔄 Workforce Transformation</h3>
+                    <p>The data suggests that <span class="highlight">AI is making workers more valuable, not less</span>. Revenue growth in AI-exposed industries has accelerated sharply since 2022, nearly quadrupling in some sectors. This indicates that investments in AI are paying off and creating sustainable value for businesses and workers alike.</p>
+                </div>
+            </section>
+
+            <!-- Healthcare Section -->
+            <section id="healthcare" class="content-section">
+                <div class="section-header">
+                    <h2>🏥 AI in Healthcare</h2>
+                    <p>Transforming medical education and patient care through artificial intelligence</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>🚀 Healthcare AI Revolution</h3>
+                    <p>AI in healthcare represents one of the most promising applications of the technology. <span class="highlight">The AI healthcare market is projected to reach $613.81 billion by 2034</span>, growing at an impressive CAGR of 36.83%. This growth is driven by applications in diagnostics, personalized medicine, drug discovery, and medical education.</p>
+                </div>
+
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">$614B</div>
+                        <div class="stat-label">AI Healthcare Market by 2034</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">36.83%</div>
+                        <div class="stat-label">Healthcare AI Growth Rate</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">80%</div>
+                        <div class="stat-label">Accuracy in AI Predictions</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">$25M</div>
+                        <div class="stat-label">Recent Healthcare AI Startup Funding</div>
+                    </div>
+                </div>
+
+                <div class="interactive-element" onclick="showHealthcareApplications()">
+                    <h3>🏥 Click to Explore Healthcare AI Applications</h3>
+                    <div id="healthcare-apps" style="display: none; margin-top: 15px;">
+                        <div class="content-card">
+                            <h4>💊 Key Applications in Medical Education</h4>
+                            <ul style="margin: 10px 0; padding-left: 25px;">
+                                <li><strong>Medical Imaging:</strong> AI-powered diagnostic tools for radiology training</li>
+                                <li><strong>Drug Discovery:</strong> Accelerated pharmaceutical research and development</li>
+                                <li><strong>Personalized Medicine:</strong> Tailored treatment plans based on individual data</li>
+                                <li><strong>Virtual Patients:</strong> Simulation-based learning for medical students</li>
+                                <li><strong>Clinical Decision Support:</strong> Real-time assistance for healthcare providers</li>
+                                <li><strong>Administrative Automation:</strong> Streamlined healthcare operations</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3>🎓 Medical Education Transformation</h3>
+                    <p>AI is revolutionizing medical education through intelligent tutoring systems, virtual patient simulations, and adaptive learning platforms. <span class="highlight">Companies like Sully.ai are building "superhuman AI Employees" to make healthcare better, cheaper, and faster</span>, with $25M in funding from Y Combinator and other investors.</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>⚠️ Challenges and Considerations</h3>
+                    <p>While promising, healthcare AI adoption faces unique challenges. <span class="highlight">AI adoption in healthcare is happening slower than in other industries</span>, but the need is acute due to healthcare worker shortages. Risk-controlled adoption is essential, as the stakes in healthcare are particularly high regarding accuracy, privacy, and patient safety.</p>
+                </div>
+            </section>
+
+            <!-- Business Adoption Section -->
+            <section id="business" class="content-section">
+                <div class="section-header">
+                    <h2>🏢 Business AI Adoption</h2>
+                    <p>How organizations are implementing AI across industries</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>📊 Current Adoption Landscape</h3>
+                    <p>Business AI adoption has accelerated dramatically. <span class="highlight">Over 77% of organizations now use AI in at least one business function</span>, with 50% of businesses having integrated AI into their operations. However, only 1% of executives describe their AI rollouts as "mature," indicating significant room for growth.</p>
+                </div>
+
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">77%</div>
+                        <div class="stat-label">Organizations Using AI</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">1%</div>
+                        <div class="stat-label">Organizations at AI Maturity</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">42%</div>
+                        <div class="stat-label">Teachers Report Time Savings</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">49%</div>
+                        <div class="stat-label">Teachers See Workload Benefits</div>
+                    </div>
+                </div>
+
+                <div class="interactive-element" onclick="showBusinessBenefits()">
+                    <h3>📈 Click to Explore Business Benefits</h3>
+                    <div id="business-benefits" style="display: none; margin-top: 15px;">
+                        <div class="content-card">
+                            <h4>🎯 Key Business Applications</h4>
+                            <div class="stat-grid">
+                                <div class="stat-card">
+                                    <div class="stat-number">Customer Experience</div>
+                                    <div class="stat-label">Primary AI Use Case</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-number">Process Automation</div>
+                                    <div class="stat-label">Second Most Common Use</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-number">Decision Making</div>
+                                    <div class="stat-label">Enhanced Analytics</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-number">Administrative Tasks</div>
+                                    <div class="stat-label">Time Savings Focus</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3>🎓 Educational Sector Adoption</h3>
+                    <p>In education specifically, <span class="highlight">80% of K-12 educators use AI-powered virtual learning platforms weekly</span>, with Google Classroom being a primary example. Recent surveys show that 42% of teachers using AI report reduced time spent on administrative tasks, while 49% see overall workload benefits.</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>🔄 Implementation Challenges</h3>
+                    <p>Despite widespread adoption, organizations face significant challenges. <span class="highlight">At the district and classroom levels, many still do not have AI use policies</span>. Only 24% of educators claim strong familiarity with AI, while 68% have used it just once or twice. This highlights the need for comprehensive training and policy development.</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>🎯 Success Factors</h3>
+                    <p>Organizations seeing the most success with AI implementation share common characteristics: <span class="highlight">CEO oversight of AI governance is most correlated with higher bottom-line impact</span>. Companies are also focusing on tracking well-defined KPIs and establishing clear roadmaps for AI adoption.</p>
+                </div>
+            </section>
+
+            <!-- Data Usage Section -->
+            <section id="data" class="content-section">
+                <div class="section-header">
+                    <h2>📊 AI Data Requirements</h2>
+                    <p>Understanding the massive data needs of artificial intelligence systems</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>🌊 The Data Deluge</h3>
+                    <p>AI systems, particularly those based on deep learning, require vast amounts of data to function effectively. <span class="highlight">AI algorithms process over 2.5 quintillion bytes of data each day</span> globally. This massive data requirement is both a driver of innovation and a significant challenge for organizations implementing AI.</p>
+                </div>
+
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">2.5</div>
+                        <div class="stat-label">Quintillion Bytes Daily Processing</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">44%</div>
+                        <div class="stat-label">Children Using Generative AI</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">54%</div>
+                        <div class="stat-label">Using AI for Educational Activities</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">61%</div>
+                        <div class="stat-label">Students Using AI Learning Tools</div>
+                    </div>
+                </div>
+
+                <div class="interactive-element" onclick="showDataChallenges()">
+                    <h3>🔍 Click to Explore Data Management Challenges</h3>
+                    <div id="data-challenges" style="display: none; margin-top: 15px;">
+                        <div class="content-card">
+                            <h4>⚠️ Key Data Challenges</h4>
+                            <ul style="margin: 10px 0; padding-left: 25px;">
+                                <li><strong>Data Quality:</strong> Ensuring accuracy and reliability of training data</li>
+                                <li><strong>Privacy Concerns:</strong> Protecting sensitive information in educational settings</li>
+                                <li><strong>Data Governance:</strong> Establishing clear policies for data use and storage</li>
+                                <li><strong>Cross-Border Regulations:</strong> EU, US, and China have data localization requirements</li>
+                                <li><strong>Storage Costs:</strong> Managing expenses of massive data requirements</li>
+                                <li><strong>Real-time Processing:</strong> Handling live data streams efficiently</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3>🎓 Educational Data Applications</h3>
+                    <p>In educational contexts, AI systems analyze student performance data to provide personalized learning experiences. <span class="highlight">54% of children using generative AI apply it to educational activities</span>, while 61% of students use AI learning tools. This creates both opportunities for enhanced learning and challenges around student data privacy.</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>🔒 Privacy and Security Considerations</h3>
+                    <p>Data privacy is the top concern for policymakers, parents, and communities regarding AI in education. <span class="highlight">There's an urgent need for clarity and accountability regarding student data protection</span>. Organizations must implement robust data governance frameworks and ensure compliance with regulations like GDPR and FERPA.</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>🌐 Global Data Regulations</h3>
+                    <p>International bodies are implementing data limitations that affect AI companies. <span class="highlight">The EU, US, and China all have restrictions on cross-border data storage</span>, creating significant challenges for AI companies that require vast, diverse datasets. These regulatory frameworks are evolving rapidly as governments balance innovation with privacy protection.</p>
+                </div>
+            </section>
+
+            <!-- Patents & Ethics Section -->
+            <section id="patents" class="content-section">
+                <div class="section-header">
+                    <h2>⚖️ AI Patents and Ethics</h2>
+                    <p>Innovation, intellectual property, and ethical considerations in AI development</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>📋 Patent Landscape</h3>
+                    <p>The AI patent landscape has exploded in recent years. While the original statistic mentioned IBM holding over 5,500 AI patents in 2019, <span class="highlight">the US and China combined now hold 60% of all AI patents globally</span>, with just 100 companies accounting for 40% of global AI research and development in 2022.</p>
+                </div>
+
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">60%</div>
+                        <div class="stat-label">US & China Patent Share</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">100</div>
+                        <div class="stat-label">Companies Control 40% of AI R&D</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">26</div>
+                        <div class="stat-label">US States with AI Guidance</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">67%</div>
+                        <div class="stat-label">Developed Countries with AI Strategy</div>
+                    </div>
+                </div>
+
+                <div class="interactive-element" onclick="showEthicsFramework()">
+                    <h3>🎯 Click to Explore Ethical Frameworks</h3>
+                    <div id="ethics-framework" style="display: none; margin-top: 15px;">
+                        <div class="content-card">
+                            <h4>🌍 Global Regulatory Initiatives</h4>
+                            <ul style="margin: 10px 0; padding-left: 25px;">
+                                <li><strong>European Union:</strong> Proposed Artificial Intelligence Act for high-risk applications</li>
+                                <li><strong>UNESCO:</strong> Published "Guidance for Generative AI in Education and Research" (2023)</li>
+                                <li><strong>UNESCO:</strong> "AI Competency Frameworks for Students and Teachers" (2024)</li>
+                                <li><strong>United States:</strong> Executive order on AI education initiatives (2025)</li>
+                                <li><strong>Asian Governments:</strong> Working toward AI governance interoperability</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3>📚 Educational Ethics Focus</h3>
+                    <p>Ethics in educational AI focuses on several key areas: <span class="highlight">transparency, safety, and accountability in AI applications</span>. UNESCO's frameworks emphasize a human-centered approach, ensuring AI doesn't widen technological divides between countries and within educational systems.</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>🌐 Global Strategy Gaps</h3>
+                    <p>There's a significant disparity in AI preparedness globally. <span class="highlight">While 67% of developed economies have AI strategies, only 30% of developing countries do</span>, and just 12% of least developed countries have strategies in place. This creates educational inequality concerns as AI becomes more prevalent in learning systems.</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>🎓 Teacher Guidance Needs</h3>
+                    <p>In the US, <span class="highlight">only 26 states have issued AI guidance for schools</span>. Without proper guidance, teachers often lack tools to navigate AI's presence in classrooms, leading to inconsistent implementation and potential equity issues. This highlights the urgent need for comprehensive teacher training and clear policy frameworks.</p>
+                </div>
+            </section>
+
+            <!-- AI in Teaching Section -->
+            <section id="teaching" class="content-section">
+                <div class="section-header">
+                    <h2>🎓 AI Transforming Teaching</h2>
+                    <p>How artificial intelligence is revolutionizing educational practices</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>🚀 The Teaching Revolution</h3>
+                    <p>AI is fundamentally transforming how teaching and learning occur. <span class="highlight">Recent Stanford research shows that adaptive learning systems have increased students' test scores by 62%</span>, while AI-powered tutoring provides customized instruction adapted to each student's pace and learning style.</p>
+                </div>
+
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">62%</div>
+                        <div class="stat-label">Test Score Improvement</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">80%</div>
+                        <div class="stat-label">AI Prediction Accuracy for Struggling Students</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">51%</div>
+                        <div class="stat-label">Teachers Using AI for Gamification</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">68%</div>
+                        <div class="stat-label">Educators Used AI Once or Twice</div>
+                    </div>
+                </div>
+
+                <div class="interactive-element" onclick="showTeachingApplications()">
+                    <h3>🎯 Click to Explore AI Teaching Applications</h3>
+                    <div id="teaching-apps" style="display: none; margin-top: 15px;">
+                        <div class="content-card">
+                            <h4>🔧 AI Tools for Educators</h4>
+                            <div class="stat-grid">
+                                <div class="stat-card">
+                                    <div class="stat-number">Personalized Learning</div>
+                                    <div class="stat-label">Adaptive Content Delivery</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-number">Automated Grading</div>
+                                    <div class="stat-label">Time-Saving Assessment</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-number">Predictive Analytics</div>
+                                    <div class="stat-label">Early Intervention</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-number">Chatbot Support</div>
+                                    <div class="stat-label">24/7 Student Assistance</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3>🤝 Human-AI Collaboration</h3>
+                    <p>The most effective implementations focus on <span class="highlight">complementary relationships between teachers and AI</span>. AI handles routine tasks like grading and data analysis, while teachers focus on human-centered aspects like building connections, providing emotional support, and helping students make meaning of their learning.</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>📊 Current Implementation Status</h3>
+                    <p>While progress is significant, challenges remain. <span class="highlight">Only 24% of educators claim strong familiarity with AI</span>, and 68% have used it minimally. This gap highlights the critical need for professional development and support systems to help educators effectively integrate AI tools.</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>🌟 Success Stories and Best Practices</h3>
+                    <p>Successful AI implementation in education emphasizes several key principles: <span class="highlight">human-centered design, privacy protection, and equity considerations</span>. The best applications enhance rather than replace human teaching, providing tools that amplify educator effectiveness while maintaining the essential human elements of education.</p>
+                </div>
+            </section>
+
+            <!-- Quiz Section -->
+            <section id="quiz" class="content-section">
+                <div class="section-header">
+                    <h2>🧠 Knowledge Check</h2>
+                    <p>Test your understanding of AI in education and technology</p>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">1. How often does AI computing power double compared to Moore's Law?</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">Every 2 years (same as Moore's Law)</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true)">Every 3.4 months</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">Every 6 months</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">Every year</div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">2. What percentage of K-12 educators use AI-powered platforms weekly?</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">50%</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">65%</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true)">80%</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">90%</div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">3. By how much can adaptive AI learning systems improve test scores?</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">25%</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">45%</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true)">62%</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">80%</div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">4. What is the projected AI in education market size by 2030?</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">$15 billion</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true)">$32.27 billion</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">$50 billion</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">$75 billion</div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">5. What percentage of US states have issued AI guidance for schools?</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">15% (about 8 states)</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true)">52% (26 states)</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">70% (35 states)</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">85% (42 states)</div>
+                </div>
+
+                <div class="content-card" style="margin-top: 30px;">
+                    <h3>🎯 Key Takeaways for Educators</h3>
+                    <ul style="margin: 15px 0; padding-left: 30px;">
+                        <li>AI is advancing faster than traditional computing, creating rapid changes in educational technology</li>
+                        <li>The majority of educators are already using AI tools, but most need additional training</li>
+                        <li>AI shows measurable benefits in personalized learning and student outcomes</li>
+                        <li>Ethical considerations and proper guidance are essential for responsible implementation</li>
+                        <li>The future of education will be enhanced by AI, but human teachers remain central to the learning process</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function showSection(sectionId, navItem) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Update navigation
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            navItem.classList.add('active');
+        }
+
+        function toggleContent(elementId) {
+            const element = document.getElementById(elementId);
+            if (element.style.display === 'none' || element.style.display === '') {
+                element.style.display = 'block';
+            } else {
+                element.style.display = 'none';
+            }
+        }
+
+        function showEnergyComparison() {
+            const container = document.getElementById('energy-comparison');
+            if (container.style.display === 'none' || container.style.display === '') {
+                container.style.display = 'block';
+                // Animate progress bars
+                setTimeout(() => {
+                    const progressBars = container.querySelectorAll('.progress-fill');
+                    progressBars.forEach(bar => {
+                        bar.style.width = bar.style.width; // Trigger animation
+                    });
+                }, 100);
+            } else {
+                container.style.display = 'none';
+            }
+        }
+
+        function animateComputeGrowth() {
+            const container = document.getElementById('compute-visualization');
+            if (container.style.display === 'none' || container.style.display === '') {
+                container.style.display = 'block';
+                
+                // Animate Moore's Law (slower)
+                setTimeout(() => {
+                    document.getElementById('moores-progress').style.width = '40%';
+                }, 500);
+                
+                // Animate AI progress (much faster)
+                setTimeout(() => {
+                    document.getElementById('ai-progress').style.width = '100%';
+                }, 800);
+            } else {
+                container.style.display = 'none';
+            }
+        }
+
+        function showRevenueBreakdown() {
+            toggleContent('revenue-breakdown');
+        }
+
+        function showInvestmentTrends() {
+            toggleContent('investment-trends');
+        }
+
+        function showEmploymentDetails() {
+            toggleContent('employment-details');
+        }
+
+        function showHealthcareApplications() {
+            toggleContent('healthcare-apps');
+        }
+
+        function showBusinessBenefits() {
+            toggleContent('business-benefits');
+        }
+
+        function showDataChallenges() {
+            toggleContent('data-challenges');
+        }
+
+        function showEthicsFramework() {
+            toggleContent('ethics-framework');
+        }
+
+        function showTeachingApplications() {
+            toggleContent('teaching-apps');
+        }
+
+        function checkAnswer(element, isCorrect) {
+            // Remove any existing answer classes
+            const options = element.parentNode.querySelectorAll('.quiz-option');
+            options.forEach(option => {
+                option.classList.remove('correct', 'incorrect');
+            });
+            
+            if (isCorrect) {
+                element.classList.add('correct');
+            } else {
+                element.classList.add('incorrect');
+                // Also highlight the correct answer
+                options.forEach(option => {
+                    if (option.onclick.toString().includes('true')) {
+                        option.classList.add('correct');
+                    }
+                });
+            }
+        }
+
+        // Add some interactivity on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add smooth scrolling for better UX
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
