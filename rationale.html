@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI in Education - Interactive Learning Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: white;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Navigation Styles */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(135deg, #1a5f1a, #2e8b57);
+            padding: 20px 0;
+            z-index: 1000;
+            box-shadow: 3px 0 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 0 20px;
+        }
+
+        .logo h1 {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .logo p {
+            color: #b8e6b8;
+            font-size: 14px;
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 0;
+        }
+
+        .nav-item {
+            margin: 5px 0;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 15px 25px;
+            color: #e8f5e8;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            position: relative;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background-color: rgba(255,255,255,0.1);
+            border-left-color: #90ee90;
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .nav-link i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+            padding: 40px;
+            background: linear-gradient(45deg, #f8f9fa 0%, #ffffff 50%, #f0f8f0 100%);
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #2e8b57, #3cb371);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(46,139,87,0.2);
+        }
+
+        .section-header h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .section-header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        /* Interactive Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .interactive-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            border-left: 5px solid #2e8b57;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .interactive-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #2e8b57, #3cb371);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: white;
+            font-size: 20px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2e8b57;
+        }
+
+        .card-content {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .card-content.expanded {
+            display: block;
+        }
+
+        .expand-btn {
+            background: #2e8b57;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .expand-btn:hover {
+            background: #3cb371;
+            transform: scale(1.05);
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: #f0f0f0;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: linear-gradient(90deg, #2e8b57, #3cb371);
+            width: 0%;
+            transition: width 1s ease;
+        }
+
+        /* Interactive Quiz */
+        .quiz-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .quiz-question {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #2e8b57;
+        }
+
+        .quiz-options {
+            list-style: none;
+        }
+
+        .quiz-option {
+            background: #f8f9fa;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .quiz-option:hover {
+            background: #e9ecef;
+            border-color: #2e8b57;
+        }
+
+        .quiz-option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .quiz-option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+
+        /* Statistics Display */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-top: 4px solid #2e8b57;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            color: #2e8b57;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #2e8b57;
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin: 30px 0;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            width: 45%;
+        }
+
+        .timeline-item:nth-child(odd) {
+            margin-left: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+            margin-left: 55%;
+        }
+
+        .timeline-year {
+            background: #2e8b57;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-item {
+                width: calc(100% - 40px);
+                margin-left: 40px !important;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(46,139,87,.3);
+            border-radius: 50%;
+            border-top-color: #2e8b57;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #2e8b57, #3cb371);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(46,139,87,0.3);
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(46,139,87,0.4);
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+        <div class="logo">
+            <h1>🤖 AI Education</h1>
+            <p>Interactive Learning Platform</p>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="#" class="nav-link active" data-section="overview">
+                    <span>🏠</span> Overview
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="rationale">
+                    <span>💡</span> Why Use AI in Education?
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="literacy">
+                    <span>📚</span> AI Literacy for Students
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="workforce">
+                    <span>💼</span> AI & Future Workforce
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="current-future">
+                    <span>🔮</span> Current & Future AI
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="implementation">
+                    <span>⚙️</span> AI Implementation
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Overview Section -->
+        <section id="overview" class="content-section active">
+            <div class="section-header">
+                <h2>🚀 Welcome to AI in Education</h2>
+                <p>Explore how Artificial Intelligence is revolutionizing teaching and learning worldwide</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">75%</div>
+                    <div class="stat-label">of organizations use AI in education</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">97M</div>
+                    <div class="stat-label">new jobs AI will create by 2025</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">36%</div>
+                    <div class="stat-label">CAGR growth in AI education market</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">62%</div>
+                    <div class="stat-label">improvement in test scores with AI</div>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="interactive-card" onclick="navigateToSection('rationale')">
+                    <div class="card-header">
+                        <div class="card-icon">💡</div>
+                        <div class="card-title">Why AI in Education?</div>
+                    </div>
+                    <div class="card-content">
+                        Discover the compelling reasons why educational institutions worldwide are adopting AI technologies to enhance learning outcomes.
+                    </div>
+                </div>
+
+                <div class="interactive-card" onclick="navigateToSection('literacy')">
+                    <div class="card-header">
+                        <div class="card-icon">📚</div>
+                        <div class="card-title">AI Literacy Skills</div>
+                    </div>
+                    <div class="card-content">
+                        Learn about essential AI literacy skills students need to thrive in an AI-powered future.
+                    </div>
+                </div>
+
+                <div class="interactive-card" onclick="navigateToSection('workforce')">
+                    <div class="card-header">
+                        <div class="card-icon">💼</div>
+                        <div class="card-title">Future Workforce</div>
+                    </div>
+                    <div class="card-content">
+                        Explore how AI will reshape job markets and what skills will be most valuable in the future.
+                    </div>
+                </div>
+
+                <div class="interactive-card" onclick="navigateToSection('implementation')">
+                    <div class="card-header">
+                        <div class="card-icon">⚙️</div>
+                        <div class="card-title">Implementation Strategies</div>
+                    </div>
+                    <div class="card-content">
+                        Practical approaches for implementing AI tools and technologies in educational settings.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rationale Section -->
+        <section id="rationale" class="content-section">
+            <div class="section-header">
+                <h2>💡 Rationale for Using AI in Education</h2>
+                <p>Understanding the compelling benefits and transformative potential of AI in teaching and learning</p>
+            </div>
+
+            <div class="card-grid">
+                <div class="interactive-card">
+                    <div class="card-header">
+                        <div class="card-icon">🎯</div>
+                        <div class="card-title">Personalized Learning</div>
+                    </div>
+                    <div class="card-content">
+                        AI tailors educational content to each student's unique learning style, pace, and abilities. Platforms like DreamBox and Smart Sparrow analyze student responses in real-time to adapt lessons dynamically.
+                        <div class="expanded-content" style="display: none; margin-top: 15px;">
+                            <strong>Key Benefits:</strong>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li>Adaptive learning paths based on individual progress</li>
+                                <li>Real-time difficulty adjustment</li>
+                                <li>Support for diverse learning styles (visual, auditory, kinesthetic)</li>
+                                <li>Increased student engagement and motivation</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Learn More</button>
+                </div>
+
+                <div class="interactive-card">
+                    <div class="card-header">
+                        <div class="card-icon">⚡</div>
+                        <div class="card-title">Enhanced Efficiency</div>
+                    </div>
+                    <div class="card-content">
+                        AI automates administrative tasks like grading, scheduling, and report generation, freeing educators to focus on meaningful instruction and building relationships with students.
+                        <div class="expanded-content" style="display: none; margin-top: 15px;">
+                            <strong>Efficiency Gains:</strong>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li>Automated grading and feedback systems</li>
+                                <li>Intelligent scheduling and resource allocation</li>
+                                <li>Streamlined administrative workflows</li>
+                                <li>Time savings of up to 40% on routine tasks</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Learn More</button>
+                </div>
+
+                <div class="interactive-card">
+                    <div class="card-header">
+                        <div class="card-icon">♿</div>
+                        <div class="card-title">Improved Accessibility</div>
+                    </div>
+                    <div class="card-content">
+                        AI-powered assistive technologies support students with disabilities through speech recognition, text-to-speech, and adaptive interfaces, ensuring inclusive education for all learners.
+                        <div class="expanded-content" style="display: none; margin-top: 15px;">
+                            <strong>Accessibility Features:</strong>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li>Speech-to-text and text-to-speech capabilities</li>
+                                <li>Visual recognition and description tools</li>
+                                <li>Cognitive assistance for learning disabilities</li>
+                                <li>Multilingual support and translation</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Learn More</button>
+                </div>
+
+                <div class="interactive-card">
+                    <div class="card-header">
+                        <div class="card-icon">📊</div>
+                        <div class="card-title">Data-Driven Insights</div>
+                    </div>
+                    <div class="card-content">
+                        AI analyzes vast amounts of educational data to provide actionable insights, helping educators identify learning gaps and optimize instructional strategies.
+                        <div class="expanded-content" style="display: none; margin-top: 15px;">
+                            <strong>Analytics Capabilities:</strong>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li>Predictive analytics for student performance</li>
+                                <li>Learning pattern identification</li>
+                                <li>Early intervention recommendations</li>
+                                <li>Curriculum effectiveness measurement</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Learn More</button>
+                </div>
+            </div>
+
+            <div class="quiz-container">
+                <h3>🧠 Quick Knowledge Check</h3>
+                <div class="quiz-question">What percentage improvement in test scores have students shown when using AI-driven adaptive learning programs?</div>
+                <ul class="quiz-options">
+                    <li class="quiz-option" onclick="selectQuizOption(this, false)">A) 25%</li>
+                    <li class="quiz-option" onclick="selectQuizOption(this, false)">B) 45%</li>
+                    <li class="quiz-option" onclick="selectQuizOption(this, true)">C) 62%</li>
+                    <li class="quiz-option" onclick="selectQuizOption(this, false)">D) 80%</li>
+                </ul>
+                <div id="quiz-feedback" style="margin-top: 15px; font-weight: bold;"></div>
+            </div>
+        </section>
+
+        <!-- AI Literacy Section -->
+        <section id="literacy" class="content-section">
+            <div class="section-header">
+                <h2>📚 Teaching Students AI Literacy</h2>
+                <p>Essential skills and knowledge for navigating an AI-powered world</p>
+            </div>
+
+            <div class="card-grid">
+                <div class="interactive-card">
+                    <div class="card-header">
+                        <div class="card-icon">🧠</div>
+                        <div class="card-title">Understanding AI Technologies</div>
+                    </div>
+                    <div class="card-content">
+                        Students need foundational knowledge about how AI works, including machine learning basics, algorithms, and neural networks. This includes understanding AI's capabilities and limitations.
+                        <div class="expanded-content" style="display: none; margin-top: 15px;">
+                            <strong>Core Concepts:</strong>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li>Machine learning and deep learning fundamentals</li>
+                                <li>Natural language processing basics</li>
+                                <li>Computer vision and pattern recognition</li>
+                                <li>AI system limitations and biases</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Learn More</button>
+                </div>
+
+                <div class="interactive-card">
+                    <div class="card-header">
+                        <div class="card-icon">⚖️</div>
+                        <div class="card-title">Ethics & Critical Thinking</div>
+                    </div>
+                    <div class="card-content">
+                        AI literacy includes understanding ethical implications, privacy concerns, and the ability to critically evaluate AI-generated content and identify potential misinformation.
+                        <div class="expanded-content" style="display: none; margin-top: 15px;">
+                            <strong>Ethical Considerations:</strong>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li>Bias and fairness in AI systems</li>
+                                <li>Privacy and data protection</li>
+                                <li>Transparency and explainability</li>
+                                <li>Social impact and responsibility</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Learn More</button>
+                </div>
+
+                <div class="interactive-card">
+                    <div class="card-header">
+                        <div class="card-icon">💬</div>
+                        <div class="card-title">Prompt Engineering</div>
+                    </div>
+                    <div class="card-content">
+                        The skill of crafting effective prompts to get desired outputs from AI systems. This includes understanding how to communicate clearly with AI tools and iterate on prompts for better results.
+                        <div class="expanded-content" style="display: none; margin-top: 15px;">
+                            <strong>Prompt Engineering Skills:</strong>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li>Clear and specific instruction writing</li>
+                                <li>Context setting and role definition</li>
+                                <li>Iterative prompt refinement</li>
+                                <li>Understanding AI response patterns</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Learn More</button>
+                </div>
+
+                <div class="interactive-card">
+                    <div class="card-header">
+                        <div class="card-icon">🛠️</div>
+                        <div class="card-title">Practical AI Applications</div>
+                    </div>
+                    <div class="card-content">
+                        Hands-on experience with AI tools for research, content creation, problem-solving, and collaboration. Students learn to use AI as a productivity enhancer while maintaining academic integrity.
+                        <div class="expanded-content" style="display: none; margin-top: 15px;">
+                            <strong>Practical Skills:</strong>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li>Research and information synthesis</li>
+                                <li>Creative content generation</li>
+                                <li>Code assistance and debugging</li>
+                                <li>Data analysis and visualization</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Learn More</button>
+                </div>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar" id="literacy-progress"></div>
+            </div>
+            <p style="text-align: center; margin-top: 10px; color: #666;">
+                <span id="progress-text">Click cards above to explore AI literacy components</span>
+            </p>
+        </section>
+
+        <!-- Workforce Section -->
+        <section id="workforce" class="content-section">
+            <div class="section-header">
+                <h2>💼 AI Implications in the Workforce</h2>
+                <p>How artificial intelligence is reshaping employment and career landscapes</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">85M</div>
+                    <div class="stat-label">jobs may be displaced by 2030</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">97M</div>
+                    <div class="stat-label">new jobs will be created</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">40%</div>
+                    <div class="stat-label">of skills will change in 5 years</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">14%</div>
+                    <div class="stat-label">of workers may need career changes</div>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="interactive-card">
+                    <div class="card-header">
+                        <div class="card-icon">📈</div>
+                        <div class="card-title">Job Creation vs. Displacement</div>
+                    </div>
+                    <div class="card-content">
+                        While AI will automate certain roles, it will create new opportunities. The key is understanding which jobs are at risk and which new roles are emerging.
+                        <div class="expanded-content" style="display: none; margin-top: 15px;">
+                            <strong>Jobs at Risk:</strong>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li>Routine data entry and processing</li>
+                                <li>Basic customer service roles</li>
+                                <li>Simple manufacturing tasks</li>
+                                <li>Basic bookkeeping and accounting</li>
+                            </ul>
+                            <strong>Emerging Roles:</strong>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li>AI prompt engineers and specialists</li>
+                                <li>AI ethics and policy advisors</li>
+                                <li>Human-AI interaction designers</li>
+                                <li>AI literacy trainers</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Learn More</button>
+                </div>
+
+                <div class="interactive-card">
+                    <div class="card-header">
+                        <div class="card-icon">🎯</div>
+                        <div class="card-title">Essential Future Skills</div>
+                    </div>
+                    <div class="card-content">
+                        The future workforce will need skills that complement AI: creativity, emotional intelligence, critical thinking, and complex problem-solving.
+                        <div class="expanded-content" style="display: none; margin-top: 15px;">
+                            <strong>Human-Centric Skills:</strong>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li>Creative thinking and innovation</li>
+                                <li>Emotional intelligence and empathy</li>
+                                <li>Complex problem-solving</li>
+                                <li>Leadership and team collaboration</li>
+                            </ul>
+                            <strong>Technical Skills:</strong>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li>Data literacy and analysis</li>
+                                <li>AI tool proficiency</li>
+                                <li>Digital communication</li>
+                                <li>Continuous learning mindset</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Learn More</button>
+                </div>
+
+                <div class="interactive-card">
+                    <div class="card-header">
+                        <div class="card-icon">🔄</div>
+                        <div class="card-title">Reskilling & Adaptation</div>
+                    </div>
+                    <div class="card-content">
+                        Organizations and workers must embrace continuous learning. Up to 375 million workers may need to switch occupations or acquire new skills by 2030.
+                        <div class="expanded-content" style="display: none; margin-top: 15px;">
+                            <strong>Adaptation Strategies:</strong>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li>Lifelong learning programs</li>
+                                <li>Cross-functional skill development</li>
+                                <li>Industry partnerships for training</li>
+                                <li>Micro-credentialing and certification</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Learn More</button>
+                </div>
+
+                <div class="interactive-card">
+                    <div class="card-header">
+                        <div class="card-icon">🤝</div>
+                        <div class="card-title">Human-AI Collaboration</div>
+                    </div>
+                    <div class="card-content">
+                        The future of work involves humans and AI working together, with AI handling routine tasks while humans focus on strategy, creativity, and relationship building.
+                        <div class="expanded-content" style="display: none; margin-top: 15px;">
+                            <strong>Collaboration Models:</strong>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li>AI as a productivity assistant</li>
+                                <li>Human oversight of AI decisions</li>
+                                <li>AI-enhanced human capabilities</li>
+                                <li>Hybrid human-AI teams</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Learn More</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Current & Future AI Section -->
+        <section id="current-future" class="content-section">
+            <div class="section-header">
+                <h2>🔮 Current & Future State of AI</h2>
+                <p>Understanding where AI technology stands today and where it's heading</p>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">2022-2023</div>
+                    <h4>Generative AI Breakthrough</h4>
+                    <p>ChatGPT launch triggers widespread AI adoption, reaching 100 million users in 60 days. Large language models become mainstream.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">2024</div>
+                    <h4>AI in Education Expansion</h4>
+                    <p>75% of organizations integrate AI tools. Emphasis shifts from experimentation to measurable value creation in educational settings.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">2025</div>
+                    <h4>Agentic AI & Multimodal Systems</h4>
+                    <p>AI agents capable of autonomous task execution. Integration of text, image, audio, and video processing in unified systems.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">2026-2030</div>
+                    <h4>AI-Native Education</h4>
+                    <p>Fully integrated AI learning ecosystems. Personalized education at scale with predictive analytics and adaptive curricula.</p>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="interactive-card">
+                    <div class="card-header">
+                        <div class="card-icon">🤖</div>
+                        <div class="card-title">Current AI Capabilities</div>
+                    </div>
+                    <div class="card-content">
+                        Today's AI excels at language processing, content generation, pattern recognition, and data analysis, but still requires human oversight for complex decisions.
+                        <div class="expanded-content" style="display: none; margin-top: 15px;">
+                            <strong>Current Strengths:</strong>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li>Natural language understanding and generation</li>
+                                <li>Image and video recognition</li>
+                                <li>Code generation and debugging</li>
+                                <li>Data pattern identification</li>
+                            </ul>
+                            <strong>Current Limitations:</strong>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li>Hallucinations and factual errors</li>
+                                <li>Limited reasoning capabilities</li>
+                                <li>Bias in training data</li>
+                                <li>Lack of true understanding</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Learn More</button>
+                </div>
+
+                <div class="interactive-card">
+                    <div class="card-header">
+                        <div class="card-icon">🚀</div>
+                        <div class="card-title">Emerging Trends 2025</div>
+                    </div>
+                    <div class="card-content">
+                        Agentic AI, multimodal capabilities, improved reasoning models, and specialized domain applications are reshaping AI's potential in education.
+                        <div class="expanded-content" style="display: none; margin-top: 15px;">
+                            <strong>Key Trends:</strong>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li>Autonomous AI agents for task execution</li>
+                                <li>Multimodal AI integrating text, audio, video</li>
+                                <li>Improved reasoning and problem-solving</li>
+                                <li>Edge AI for real-time processing</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Learn More</button>
+                </div>
+
+                <div class="interactive-card">
+                    <div class="card-header">
+                        <div class="card-icon">🔬</div>
+                        <div class="card-title">Future Possibilities</div>
+                    </div>
+                    <div class="card-content">
+                        Next-generation AI may achieve artificial general intelligence (AGI), revolutionizing scientific research, drug discovery, and personalized education at unprecedented scales.
+                        <div class="expanded-content" style="display: none; margin-top: 15px;">
+                            <strong>Future Developments:</strong>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li>Artificial General Intelligence (AGI)</li>
+                                <li>Quantum-enhanced AI computing</li>
+                                <li>Brain-computer interfaces</li>
+                                <li>Fully autonomous educational systems</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Learn More</button>
+                </div>
+
+                <div class="interactive-card">
+                    <div class="card-header">
+                        <div class="card-icon">⚠️</div>
+                        <div class="card-title">Challenges & Considerations</div>
+                    </div>
+                    <div class="card-content">
+                        Rapid AI development brings challenges including ethical concerns, regulatory needs, privacy issues, and the digital divide that must be addressed.
+                        <div class="expanded-content" style="display: none; margin-top: 15px;">
+                            <strong>Key Challenges:</strong>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li>Ethical AI development and deployment</li>
+                                <li>Privacy and data security concerns</li>
+                                <li>Regulatory framework development</li>
+                                <li>Ensuring equitable access to AI benefits</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Learn More</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Implementation Section -->
+        <section id="implementation" class="content-section">
+            <div class="section-header">
+                <h2>⚙️ Leveraging AI to Improve Education</h2>
+                <p>Practical strategies and tools for implementing AI in educational settings</p>
+            </div>
+
+            <div class="card-grid">
+                <div class="interactive-card">
+                    <div class="card-header">
+                        <div class="card-icon">🧩</div>
+                        <div class="card-title">Adaptive Learning Systems</div>
+                    </div>
+                    <div class="card-content">
+                        AI-powered platforms that adjust content difficulty, pacing, and learning paths in real-time based on student performance and engagement patterns.
+                        <div class="expanded-content" style="display: none; margin-top: 15px;">
+                            <strong>Popular Platforms:</strong>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li>DreamBox (Mathematics)</li>
+                                <li>Smart Sparrow (Adaptive courseware)</li>
+                                <li>Knewton Alta (Personalized learning)</li>
+                                <li>Carnegie Learning (Cognitive tutoring)</li>
+                            </ul>
+                            <strong>Benefits:</strong>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li>Individualized learning pace</li>
+                                <li>Real-time performance tracking</li>
+                                <li>Automatic content adjustment</li>
+                                <li>Enhanced student engagement</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Learn More</button>
+                </div>
+
+                <div class="interactive-card">
+                    <div class="card-header">
+                        <div class="card-icon">🎓</div>
+                        <div class="card-title">Intelligent Tutoring Systems</div>
+                    </div>
+                    <div class="card-content">
+                        AI tutors provide personalized instruction, instant feedback, and step-by-step guidance, available 24/7 to support student learning outside classroom hours.
+                        <div class="expanded-content" style="display: none; margin-top: 15px;">
+                            <strong>Capabilities:</strong>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li>Natural language conversation</li>
+                                <li>Step-by-step problem solving</li>
+                                <li>Personalized explanations</li>
+                                <li>Progress tracking and reporting</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Learn More</button>
+                </div>
+
+                <div class="interactive-card">
+                    <div class="card-header">
+                        <div class="card-icon">📊</div>
+                        <div class="card-title">Learning Analytics</div>
+                    </div>
+                    <div class="card-content">
+                        AI analyzes student data to identify learning patterns, predict performance outcomes, and provide insights for educational decision-making.
+                        <div class="expanded-content" style="display: none; margin-top: 15px;">
+                            <strong>Analytics Applications:</strong>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li>Early warning systems for at-risk students</li>
+                                <li>Curriculum effectiveness analysis</li>
+                                <li>Learning pathway optimization</li>
+                                <li>Resource allocation insights</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Learn More</button>
+                </div>
+
+                <div class="interactive-card">
+                    <div class="card-header">
+                        <div class="card-icon">✅</div>
+                        <div class="card-title">Automated Assessment</div>
+                    </div>
+                    <div class="card-content">
+                        AI streamlines grading and assessment processes, providing consistent evaluation and detailed feedback while freeing up teacher time for instruction.
+                        <div class="expanded-content" style="display: none; margin-top: 15px;">
+                            <strong>Assessment Features:</strong>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li>Automated essay grading</li>
+                                <li>Real-time quiz evaluation</li>
+                                <li>Plagiarism detection</li>
+                                <li>Performance analytics</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Learn More</button>
+                </div>
+
+                <div class="interactive-card">
+                    <div class="card-header">
+                        <div class="card-icon">🎮</div>
+                        <div class="card-title">Gamified Learning</div>
+                    </div>
+                    <div class="card-content">
+                        AI enhances educational games and simulations, creating engaging, interactive experiences that adapt to student skill levels and maintain motivation.
+                        <div class="expanded-content" style="display: none; margin-top: 15px;">
+                            <strong>Gamification Elements:</strong>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li>Adaptive difficulty progression</li>
+                                <li>Personalized rewards and achievements</li>
+                                <li>Interactive simulations</li>
+                                <li>Collaborative gaming experiences</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Learn More</button>
+                </div>
+
+                <div class="interactive-card">
+                    <div class="card-header">
+                        <div class="card-icon">🌐</div>
+                        <div class="card-title">Language Learning AI</div>
+                    </div>
+                    <div class="card-content">
+                        AI-powered language tools provide pronunciation feedback, conversation practice, and personalized language learning paths for multilingual education.
+                        <div class="expanded-content" style="display: none; margin-top: 15px;">
+                            <strong>Language AI Tools:</strong>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li>Speech recognition and pronunciation coaching</li>
+                                <li>Real-time translation and interpretation</li>
+                                <li>Conversational AI for practice</li>
+                                <li>Cultural context learning</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand(this)">Learn More</button>
+                </div>
+            </div>
+
+            <div class="quiz-container">
+                <h3>🎯 Implementation Challenge</h3>
+                <div class="quiz-question">Which AI application shows the highest student engagement improvement in educational settings?</div>
+                <ul class="quiz-options">
+                    <li class="quiz-option" onclick="selectQuizOption(this, false)">Automated grading systems</li>
+                    <li class="quiz-option" onclick="selectQuizOption(this, true)">Gamified adaptive learning platforms</li>
+                    <li class="quiz-option" onclick="selectQuizOption(this, false)">Basic chatbot assistants</li>
+                    <li class="quiz-option" onclick="selectQuizOption(this, false)">Simple content recommendation</li>
+                </ul>
+                <div id="implementation-quiz-feedback" style="margin-top: 15px; font-weight: bold;"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Floating Action Button -->
+    <div class="fab" onclick="scrollToTop()" title="Back to Top">
+        ↑
+    </div>
+
+    <script>
+        // Navigation functionality
+        function navigateToSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show target section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Update navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelector(`[data-section="${sectionId}"]`).classList.add('active');
+            
+            // Scroll to top of main content
+            document.querySelector('.main-content').scrollTop = 0;
+        }
+
+        // Add click listeners to navigation links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const sectionId = link.getAttribute('data-section');
+                navigateToSection(sectionId);
+            });
+        });
+
+        // Card expansion functionality
+        function toggleExpand(button) {
+            const card = button.closest('.interactive-card');
+            const expandedContent = card.querySelector('.expanded-content');
+            
+            if (expandedContent.style.display === 'none' || !expandedContent.style.display) {
+                expandedContent.style.display = 'block';
+                button.textContent = 'Show Less';
+                card.style.transform = 'scale(1.02)';
+                
+                // Update progress bar for literacy section
+                if (card.closest('#literacy')) {
+                    updateLiteracyProgress();
+                }
+            } else {
+                expandedContent.style.display = 'none';
+                button.textContent = 'Learn More';
+                card.style.transform = '';
+            }
+        }
+
+        // Progress bar update for literacy section
+        function updateLiteracyProgress() {
+            const literacySection = document.getElementById('literacy');
+            const cards = literacySection.querySelectorAll('.interactive-card');
+            const expandedCards = Array.from(cards).filter(card => 
+                card.querySelector('.expanded-content').style.display === 'block'
+            );
+            
+            const progress = (expandedCards.length / cards.length) * 100;
+            const progressBar = document.getElementById('literacy-progress');
+            const progressText = document.getElementById('progress-text');
+            
+            progressBar.style.width = progress + '%';
+            progressText.textContent = `AI Literacy Progress: ${Math.round(progress)}% Complete`;
+        }
+
+        // Quiz functionality
+        function selectQuizOption(optionElement, isCorrect) {
+            // Clear previous selections
+            const quizContainer = optionElement.closest('.quiz-container');
+            const options = quizContainer.querySelectorAll('.quiz-option');
+            options.forEach(option => {
+                option.classList.remove('correct', 'incorrect');
+            });
+            
+            // Mark selected answer
+            if (isCorrect) {
+                optionElement.classList.add('correct');
+                showQuizFeedback(quizContainer, "Correct! 🎉 Students using AI-driven adaptive learning programs have shown an average 62% improvement in test scores.", true);
+            } else {
+                optionElement.classList.add('incorrect');
+                showQuizFeedback(quizContainer, "Not quite right. The correct answer is 62% improvement in test scores. Try again! 🤔", false);
+            }
+        }
+
+        function showQuizFeedback(container, message, isCorrect) {
+            let feedbackElement = container.querySelector('#quiz-feedback');
+            if (!feedbackElement) {
+                feedbackElement = container.querySelector('#implementation-quiz-feedback');
+            }
+            
+            if (feedbackElement) {
+                feedbackElement.textContent = message;
+                feedbackElement.style.color = isCorrect ? '#28a745' : '#dc3545';
+            }
+        }
+
+        // Scroll to top functionality
+        function scrollToTop() {
+            document.querySelector('.main-content').scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Add some interactive animations on load
+        window.addEventListener('load', function() {
+            // Animate statistics on overview page
+            const statNumbers = document.querySelectorAll('.stat-number');
+            statNumbers.forEach(stat => {
+                const finalValue = stat.textContent;
+                let currentValue = 0;
+                const increment = finalValue.match(/\d+/) ? Math.ceil(parseInt(finalValue.match(/\d+/)[0]) / 50) : 1;
+                
+                const timer = setInterval(() => {
+                    currentValue += increment;
+                    if (currentValue >= parseInt(finalValue.match(/\d+/)[0])) {
+                        stat.textContent = finalValue;
+                        clearInterval(timer);
+                    } else {
+                        stat.textContent = currentValue + finalValue.replace(/\d+/, '');
+                    }
+                }, 50);
+            });
+        });
+
+        // Add hover effects to timeline items
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.05)';
+                this.style.boxShadow = '0 8px 25px rgba(46,139,87,0.2)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+                this.style.boxShadow = '0 3px 10px rgba(0,0,0,0.1)';
+            });
+        });
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft') {
+                // Navigate to previous section
+                const currentSection = document.querySelector('.content-section.active');
+                const allSections = Array.from(document.querySelectorAll('.content-section'));
+                const currentIndex = allSections.indexOf(currentSection);
+                
+                if (currentIndex > 0) {
+                    const prevSection = allSections[currentIndex - 1];
+                    navigateToSection(prevSection.id);
+                }
+            } else if (e.key === 'ArrowRight') {
+                // Navigate to next section
+                const currentSection = document.querySelector('.content-section.active');
+                const allSections = Array.from(document.querySelectorAll('.content-section'));
+                const currentIndex = allSections.indexOf(currentSection);
+                
+                if (currentIndex < allSections.length - 1) {
+                    const nextSection = allSections[currentIndex + 1];
+                    navigateToSection(nextSection.id);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
