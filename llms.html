@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Selection Guide for Faculty</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .nav-container {
+            width: 250px;
+            background: linear-gradient(180deg, #2c5530 0%, #1a3d1e 100%);
+            box-shadow: 3px 0 10px rgba(0,0,0,0.1);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .nav-header {
+            padding: 30px 20px;
+            background: rgba(255,255,255,0.1);
+            text-align: center;
+            border-bottom: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .nav-header h1 {
+            color: white;
+            font-size: 1.4em;
+            margin-bottom: 10px;
+        }
+
+        .nav-header p {
+            color: #a8d5aa;
+            font-size: 0.9em;
+        }
+
+        .nav-menu {
+            padding: 20px 0;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 15px 25px;
+            color: #a8d5aa;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-left: 4px solid #4ade80;
+            transform: translateX(5px);
+        }
+
+        .nav-item i {
+            margin-right: 10px;
+            width: 20px;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 40px;
+            background: white;
+            margin: 0 0 0 250px;
+            border-radius: 20px 0 0 20px;
+            box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #2c5530;
+        }
+
+        .section-header h2 {
+            color: #2c5530;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .section-header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .importance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .importance-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid #2c5530;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .importance-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .importance-card h3 {
+            color: #2c5530;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .llm-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .llm-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .llm-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #2c5530, #4ade80);
+        }
+
+        .llm-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .llm-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .llm-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #2c5530, #4ade80);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 1.2em;
+        }
+
+        .llm-title {
+            flex: 1;
+        }
+
+        .llm-title h3 {
+            color: #2c5530;
+            font-size: 1.4em;
+            margin-bottom: 5px;
+        }
+
+        .llm-title p {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .llm-section {
+            margin: 20px 0;
+        }
+
+        .llm-section h4 {
+            color: #2c5530;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .llm-section h4:before {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background: #4ade80;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .pros, .cons {
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .pros {
+            background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+            border-left: 4px solid #22c55e;
+        }
+
+        .cons {
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+            border-left: 4px solid #ef4444;
+        }
+
+        .pros h5, .cons h5 {
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+
+        .pros h5 {
+            color: #166534;
+        }
+
+        .cons h5 {
+            color: #991b1b;
+        }
+
+        .pros ul, .cons ul {
+            list-style: none;
+            font-size: 0.9em;
+        }
+
+        .pros li:before {
+            content: '✓';
+            color: #22c55e;
+            margin-right: 8px;
+            font-weight: bold;
+        }
+
+        .cons li:before {
+            content: '✗';
+            color: #ef4444;
+            margin-right: 8px;
+            font-weight: bold;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #2c5530, #1a3d1e);
+            color: white;
+            padding: 20px 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e5e7eb;
+            vertical-align: top;
+        }
+
+        .comparison-table tr:hover {
+            background: #f8fafc;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .price-tag {
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .performance-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .high { background: #22c55e; }
+        .medium { background: #f59e0b; }
+        .low { background: #ef4444; }
+
+        .tab-buttons {
+            display: flex;
+            margin-bottom: 30px;
+            background: #f1f5f9;
+            border-radius: 15px;
+            padding: 5px;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 15px 20px;
+            background: transparent;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: #64748b;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #2c5530, #4ade80);
+            color: white;
+            box-shadow: 0 4px 15px rgba(44,85,48,0.3);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .search-box {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 15px;
+            font-size: 1.1em;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #2c5530;
+        }
+
+        .search-box:after {
+            content: '🔍';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2em;
+        }
+
+        .recommendation-box {
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            border: 2px solid #3b82f6;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .recommendation-box h3 {
+            color: #1e40af;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .nav-container {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                border-radius: 0;
+            }
+            
+            .llm-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pros-cons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="nav-container">
+            <div class="nav-header">
+                <h1>LLM Selection Guide</h1>
+                <p>Faculty Workshop 2025</p>
+            </div>
+            <div class="nav-menu">
+                <a href="#" class="nav-item active" onclick="showSection('importance')">
+                    <i>📚</i> Why Selection Matters
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('overview')">
+                    <i>🔍</i> LLM Overview
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('detailed')">
+                    <i>📊</i> Detailed Analysis
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('comparison')">
+                    <i>⚖️</i> Comparison Table
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('selection')">
+                    <i>🎯</i> Selection Framework
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('recommendations')">
+                    <i>💡</i> Recommendations
+                </a>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <!-- Importance Section -->
+            <section id="importance" class="section active">
+                <div class="section-header">
+                    <h2>Why Selecting the Right LLM Matters</h2>
+                    <p>Understanding the critical factors that make LLM selection a strategic decision for academic institutions</p>
+                </div>
+
+                <div class="importance-grid">
+                    <div class="importance-card">
+                        <h3>📊 Performance Variation</h3>
+                        <p>Different LLMs excel in different domains. ChatGPT excels in creative tasks, Claude in reasoning and coding, while Perplexity dominates research applications. Performance can vary by 30-50% across tasks.</p>
+                    </div>
+
+                    <div class="importance-card">
+                        <h3>💰 Cost Implications</h3>
+                        <p>Pricing varies dramatically—from DeepSeek's $0.55 per million tokens to ChatGPT's $60 per million tokens for output. Annual costs can range from hundreds to thousands of dollars per user.</p>
+                    </div>
+
+                    <div class="importance-card">
+                        <h3>🔒 Security & Privacy</h3>
+                        <p>Academic institutions handle sensitive research data and student information. Models like Microsoft Copilot offer enterprise-grade security, while others may have data residency concerns.</p>
+                    </div>
+
+                    <div class="importance-card">
+                        <h3>🔗 Integration Requirements</h3>
+                        <p>Some LLMs integrate seamlessly with existing workflows (Copilot with Office 365, Gemini with Google Workspace), while others require significant infrastructure changes.</p>
+                    </div>
+
+                    <div class="importance-card">
+                        <h3>📚 Academic Use Cases</h3>
+                        <p>Faculty needs vary: research requires citation capabilities (Perplexity), coding courses benefit from specialized tools (Claude), while administrative tasks favor comprehensive solutions (ChatGPT).</p>
+                    </div>
+
+                    <div class="importance-card">
+                        <h3>🚀 Scalability & Future-Proofing</h3>
+                        <p>Choosing the wrong LLM can lead to vendor lock-in, migration costs, and inability to scale. Open-source options like DeepSeek offer flexibility but may lack support.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Overview Section -->
+            <section id="overview" class="section">
+                <div class="section-header">
+                    <h2>LLM Overview</h2>
+                    <p>Quick comparison of the leading large language models for academic use</p>
+                </div>
+
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search LLMs by name, feature, or capability..." oninput="filterLLMs()">
+                </div>
+
+                <div class="llm-grid" id="llmGrid">
+                    <div class="llm-card" data-name="chatgpt openai creative writing general">
+                        <div class="llm-header">
+                            <div class="llm-icon">GPT</div>
+                            <div class="llm-title">
+                                <h3>ChatGPT</h3>
+                                <p>OpenAI • Most Popular</p>
+                            </div>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Best For</h4>
+                            <p>Creative writing, general assistance, conversational AI, multimodal tasks</p>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Key Features</h4>
+                            <p>Memory, image analysis, voice interaction, custom GPTs, web browsing</p>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Pricing</h4>
+                            <p><span class="price-tag">$20/month Plus</span> <span class="price-tag">$200/month Pro</span></p>
+                        </div>
+                    </div>
+
+                    <div class="llm-card" data-name="claude anthropic coding reasoning safety">
+                        <div class="llm-header">
+                            <div class="llm-icon">CL</div>
+                            <div class="llm-title">
+                                <h3>Claude</h3>
+                                <p>Anthropic • Best Quality</p>
+                            </div>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Best For</h4>
+                            <p>Coding, complex reasoning, academic writing, large document analysis</p>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Key Features</h4>
+                            <p>100k context window, excellent safety, high-quality outputs, artifacts</p>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Pricing</h4>
+                            <p><span class="price-tag">$20/month Pro</span></p>
+                        </div>
+                    </div>
+
+                    <div class="llm-card" data-name="copilot microsoft office productivity enterprise">
+                        <div class="llm-header">
+                            <div class="llm-icon">CO</div>
+                            <div class="llm-title">
+                                <h3>Microsoft Copilot</h3>
+                                <p>Microsoft • Enterprise Focus</p>
+                            </div>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Best For</h4>
+                            <p>Office productivity, enterprise workflows, coding in VS Code</p>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Key Features</h4>
+                            <p>Deep Office integration, enterprise security, real-time search</p>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Pricing</h4>
+                            <p><span class="price-tag">$30/month M365</span> <span class="price-tag">$20/month Pro</span></p>
+                        </div>
+                    </div>
+
+                    <div class="llm-card" data-name="gemini google multimodal research search">
+                        <div class="llm-header">
+                            <div class="llm-icon">GE</div>
+                            <div class="llm-title">
+                                <h3>Google Gemini</h3>
+                                <p>Google • Multimodal Leader</p>
+                            </div>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Best For</h4>
+                            <p>Research, multimodal tasks, Google ecosystem integration</p>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Key Features</h4>
+                            <p>Image/video analysis, real-time web access, Google Workspace integration</p>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Pricing</h4>
+                            <p><span class="price-tag">$19.99/month Advanced</span></p>
+                        </div>
+                    </div>
+
+                    <div class="llm-card" data-name="grok xai social media reasoning real-time">
+                        <div class="llm-header">
+                            <div class="llm-icon">GR</div>
+                            <div class="llm-title">
+                                <h3>Grok</h3>
+                                <p>xAI • Real-time Focus</p>
+                            </div>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Best For</h4>
+                            <p>Real-time information, reasoning tasks, current events analysis</p>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Key Features</h4>
+                            <p>X platform integration, real-time data, strong reasoning capabilities</p>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Pricing</h4>
+                            <p><span class="price-tag">Free (Limited)</span> <span class="price-tag">$8-40/month X Premium</span></p>
+                        </div>
+                    </div>
+
+                    <div class="llm-card" data-name="perplexity research citations academic search">
+                        <div class="llm-header">
+                            <div class="llm-icon">PE</div>
+                            <div class="llm-title">
+                                <h3>Perplexity</h3>
+                                <p>Perplexity AI • Research Specialist</p>
+                            </div>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Best For</h4>
+                            <p>Academic research, fact-checking, sourced answers, literature review</p>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Key Features</h4>
+                            <p>Real-time search, citations, multiple model access, research tools</p>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Pricing</h4>
+                            <p><span class="price-tag">$20/month Pro</span></p>
+                        </div>
+                    </div>
+
+                    <div class="llm-card" data-name="deepseek chinese affordable efficient open-source">
+                        <div class="llm-header">
+                            <div class="llm-icon">DS</div>
+                            <div class="llm-title">
+                                <h3>DeepSeek</h3>
+                                <p>DeepSeek AI • Cost Leader</p>
+                            </div>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Best For</h4>
+                            <p>Budget-conscious applications, research, high-volume processing</p>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Key Features</h4>
+                            <p>Extremely cost-effective, open-source options, fast processing</p>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Pricing</h4>
+                            <p><span class="price-tag">$0.55/M tokens</span></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Detailed Analysis Section -->
+            <section id="detailed" class="section">
+                <div class="section-header">
+                    <h2>Detailed Analysis</h2>
+                    <p>In-depth examination of strengths, weaknesses, and performance metrics</p>
+                </div>
+
+                <div class="tab-buttons">
+                    <button class="tab-button active" onclick="showTab('chatgpt-detail')">ChatGPT</button>
+                    <button class="tab-button" onclick="showTab('claude-detail')">Claude</button>
+                    <button class="tab-button" onclick="showTab('copilot-detail')">Copilot</button>
+                    <button class="tab-button" onclick="showTab('gemini-detail')">Gemini</button>
+                    <button class="tab-button" onclick="showTab('grok-detail')">Grok</button>
+                    <button class="tab-button" onclick="showTab('perplexity-detail')">Perplexity</button>
+                    <button class="tab-button" onclick="showTab('deepseek-detail')">DeepSeek</button>
+                </div>
+
+                <div id="chatgpt-detail" class="tab-content active">
+                    <div class="llm-card">
+                        <div class="llm-header">
+                            <div class="llm-icon">GPT</div>
+                            <div class="llm-title">
+                                <h3>ChatGPT - Detailed Analysis</h3>
+                                <p>OpenAI's flagship conversational AI model</p>
+                            </div>
+                        </div>
+                        
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h5>Strengths</h5>
+                                <ul>
+                                    <li>Excellent for creative and conversational tasks</li>
+                                    <li>Memory feature personalizes interactions</li>
+                                    <li>Strong multimodal capabilities (text, image, voice)</li>
+                                    <li>Extensive plugin ecosystem and custom GPTs</li>
+                                    <li>User-friendly interface and broad adoption</li>
+                                    <li>Regular updates and new features</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h5>Weaknesses</h5>
+                                <ul>
+                                    <li>Can be verbose and over-explanatory</li>
+                                    <li>Prone to hallucinations in factual content</li>
+                                    <li>Expensive API costs for high-volume usage</li>
+                                    <li>Rate limits on free tier</li>
+                                    <li>Knowledge cutoff limitations</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="llm-section">
+                            <h4>Capacity & Performance</h4>
+                            <p><span class="performance-indicator high"></span><strong>Context Window:</strong> Up to 128k tokens (GPT-4 Turbo)<br>
+                            <span class="performance-indicator high"></span><strong>Reasoning:</strong> Strong performance on MMLU (~80%)<br>
+                            <span class="performance-indicator medium"></span><strong>Coding:</strong> Good (HumanEval ~67%)<br>
+                            <span class="performance-indicator high"></span><strong>Multimodal:</strong> Excellent image/voice capabilities</p>
+                        </div>
+
+                        <div class="llm-section">
+                            <h4>Cost Structure</h4>
+                            <p><strong>Consumer:</strong> $20/month (Plus), $200/month (Pro)<br>
+                            <strong>API:</strong> $3-60 per million tokens (varies by model)<br>
+                            <strong>Enterprise:</strong> Custom pricing</p>
+                        </div>
+
+                        <div class="llm-section">
+                            <h4>Best Academic Use Cases</h4>
+                            <p>• Creative writing and composition courses<br>
+                            • Student tutoring and homework assistance<br>
+                            • Brainstorming and ideation sessions<br>
+                            • Language learning support<br>
+                            • General administrative tasks</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="claude-detail" class="tab-content">
+                    <div class="llm-card">
+                        <div class="llm-header">
+                            <div class="llm-icon">CL</div>
+                            <div class="llm-title">
+                                <h3>Claude - Detailed Analysis</h3>
+                                <p>Anthropic's safety-focused reasoning model</p>
+                            </div>
+                        </div>
+                        
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h5>Strengths</h5>
+                                <ul>
+                                    <li>Exceptional quality in reasoning and analysis</li>
+                                    <li>Superior coding capabilities</li>
+                                    <li>Large 100k context window</li>
+                                    <li>Strong safety and ethical guidelines</li>
+                                    <li>Excellent for academic writing</li>
+                                    <li>Artifacts feature for interactive content</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h5>Weaknesses</h5>
+                                <ul>
+                                    <li>Limited multimodal capabilities</li>
+                                    <li>No memory feature across sessions</li>
+                                    <li>More conservative in responses</li>
+                                    <li>Smaller plugin ecosystem</li>
+                                    <li>Regional availability limitations</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="llm-section">
+                            <h4>Capacity & Performance</h4>
+                            <p><span class="performance-indicator high"></span><strong>Context Window:</strong> 100k tokens<br>
+                            <span class="performance-indicator high"></span><strong>Reasoning:</strong> Excellent (MMLU ~82%)<br>
+                            <span class="performance-indicator high"></span><strong>Coding:</strong> Superior (HumanEval ~75%)<br>
+                            <span class="performance-indicator low"></span><strong>Multimodal:</strong> Limited image analysis only</p>
+                        </div>
+
+                        <div class="llm-section">
+                            <h4>Cost Structure</h4>
+                            <p><strong>Consumer:</strong> $20/month (Pro)<br>
+                            <strong>API:</strong> $3-15 per million tokens<br>
+                            <strong>Team:</strong> $30/month per user</p>
+                        </div>
+
+                        <div class="llm-section">
+                            <h4>Best Academic Use Cases</h4>
+                            <p>• Computer science and programming courses<br>
+                            • Complex research analysis<br>
+                            • Academic paper writing and review<br>
+                            • Mathematical problem-solving<br>
+                            • Long document analysis and summarization</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="copilot-detail" class="tab-content">
+                    <div class="llm-card">
+                        <div class="llm-header">
+                            <div class="llm-icon">CO</div>
+                            <div class="llm-title">
+                                <h3>Microsoft Copilot - Detailed Analysis</h3>
+                                <p>Microsoft's enterprise-focused AI assistant</p>
+                            </div>
+                        </div>
+                        
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h5>Strengths</h5>
+                                <ul>
+                                    <li>Deep integration with Microsoft 365 suite</li>
+                                    <li>Enterprise-grade security and compliance</li>
+                                    <li>Real-time web search capabilities</li>
+                                    <li>Seamless workflow integration</li>
+                                    <li>Strong administrative and productivity features</li>
+                                    <li>Excellent for institutional deployment</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h5>Weaknesses</h5>
+                                <ul>
+                                    <li>Limited functionality outside Microsoft ecosystem</li>
+                                    <li>Higher cost for full enterprise features</li>
+                                    <li>Less creative compared to ChatGPT</li>
+                                    <li>Requires Microsoft 365 subscription</li>
+                                    <li>Learning curve for advanced features</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="llm-section">
+                            <h4>Capacity & Performance</h4>
+                            <p><span class="performance-indicator medium"></span><strong>Context Window:</strong> 8k-32k tokens (varies)<br>
+                            <span class="performance-indicator medium"></span><strong>Reasoning:</strong> Good (GPT-4 based)<br>
+                            <span class="performance-indicator high"></span><strong>Coding:</strong> Excellent in VS Code<br>
+                            <span class="performance-indicator medium"></span><strong>Multimodal:</strong> Basic image capabilities</p>
+                        </div>
+
+                        <div class="llm-section">
+                            <h4>Cost Structure</h4>
+                            <p><strong>Pro:</strong> $20/month per user<br>
+                            <strong>M365 Copilot:</strong> $30/month per user<br>
+                            <strong>Enterprise:</strong> Custom pricing with volume discounts</p>
+                        </div>
+
+                        <div class="llm-section">
+                            <h4>Best Academic Use Cases</h4>
+                            <p>• Administrative workflows and documentation<br>
+                            • Presentation creation and data analysis<br>
+                            • Email management and communication<br>
+                            • Collaborative document editing<br>
+                            • Institutional policy and procedure assistance</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="gemini-detail" class="tab-content">
+                    <div class="llm-card">
+                        <div class="llm-header">
+                            <div class="llm-icon">GE</div>
+                            <div class="llm-title">
+                                <h3>Google Gemini - Detailed Analysis</h3>
+                                <p>Google's multimodal AI with search integration</p>
+                            </div>
+                        </div>
+                        
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h5>Strengths</h5>
+                                <ul>
+                                    <li>Superior multimodal capabilities (text, image, video)</li>
+                                    <li>Real-time web access and search integration</li>
+                                    <li>Google Workspace integration</li>
+                                    <li>Strong performance on factual queries</li>
+                                    <li>Large context window</li>
+                                    <li>Video generation capabilities</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h5>Weaknesses</h5>
+                                <ul>
+                                    <li>Can be verbose in responses</li>
+                                    <li>Limited free tier access</li>
+                                    <li>Inconsistent performance quality</li>
+                                    <li>Less developed plugin ecosystem</li>
+                                    <li>Privacy concerns with Google data collection</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="llm-section">
+                            <h4>Capacity & Performance</h4>
+                            <p><span class="performance-indicator high"></span><strong>Context Window:</strong> Up to 1M tokens<br>
+                            <span class="performance-indicator high"></span><strong>Reasoning:</strong> Strong (MMLU ~85%)<br>
+                            <span class="performance-indicator medium"></span><strong>Coding:</strong> Good (HumanEval ~74%)<br>
+                            <span class="performance-indicator high"></span><strong>Multimodal:</strong> Excellent across all modalities</p>
+                        </div>
+
+                        <div class="llm-section">
+                            <h4>Cost Structure</h4>
+                            <p><strong>Advanced:</strong> $19.99/month (Google One AI Premium)<br>
+                            <strong>API:</strong> $0.125-7 per million tokens<br>
+                            <strong>Enterprise:</strong> Custom workspace pricing</p>
+                        </div>
+
+                        <div class="llm-section">
+                            <h4>Best Academic Use Cases</h4>
+                            <p>• Research with visual data analysis<br>
+                            • Video content creation and analysis<br>
+                            • Image-based learning materials<br>
+                            • Real-time fact-checking and verification<br>
+                            • Google Workspace-integrated workflows</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="grok-detail" class="tab-content">
+                    <div class="llm-card">
+                        <div class="llm-header">
+                            <div class="llm-icon">GR</div>
+                            <div class="llm-title">
+                                <h3>Grok - Detailed Analysis</h3>
+                                <p>xAI's real-time reasoning model</p>
+                            </div>
+                        </div>
+                        
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h5>Strengths</h5>
+                                <ul>
+                                    <li>Real-time access to X (Twitter) data</li>
+                                    <li>Strong reasoning capabilities</li>
+                                    <li>Currently free access (limited time)</li>
+                                    <li>Competitive benchmark performance</li>
+                                    <li>Conversational and less filtered responses</li>
+                                    <li>Fast processing speeds</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h5>Weaknesses</h5>
+                                <ul>
+                                    <li>Limited ecosystem and integrations</li>
+                                    <li>Controversy around benchmark accuracy</li>
+                                    <li>Uncertainty about long-term pricing</li>
+                                    <li>Newer platform with fewer features</li>
+                                    <li>Dependent on X platform relationship</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="llm-section">
+                            <h4>Capacity & Performance</h4>
+                            <p><span class="performance-indicator medium"></span><strong>Context Window:</strong> ~128k tokens<br>
+                            <span class="performance-indicator high"></span><strong>Reasoning:</strong> Excellent (claimed 89.7% on MATH)<br>
+                            <span class="performance-indicator high"></span><strong>Coding:</strong> Strong performance<br>
+                            <span class="performance-indicator medium"></span><strong>Multimodal:</strong> Image generation via Aurora</p>
+                        </div>
+
+                        <div class="llm-section">
+                            <h4>Cost Structure</h4>
+                            <p><strong>Current:</strong> Free (temporary)<br>
+                            <strong>X Premium:</strong> $8-40/month<br>
+                            <strong>API:</strong> $3-15 per million tokens (planned)</p>
+                        </div>
+
+                        <div class="llm-section">
+                            <h4>Best Academic Use Cases</h4>
+                            <p>• Real-time social media research<br>
+                            • Current events analysis<br>
+                            • Reasoning-heavy problem solving<br>
+                            • Experimental AI research<br>
+                            • Cost-conscious applications (while free)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="perplexity-detail" class="tab-content">
+                    <div class="llm-card">
+                        <div class="llm-header">
+                            <div class="llm-icon">PE</div>
+                            <div class="llm-title">
+                                <h3>Perplexity - Detailed Analysis</h3>
+                                <p>AI-powered research and search specialist</p>
+                            </div>
+                        </div>
+                        
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h5>Strengths</h5>
+                                <ul>
+                                    <li>Excellent for research with proper citations</li>
+                                    <li>Real-time web search capabilities</li>
+                                    <li>Access to multiple LLM models</li>
+                                    <li>Academic-focused features and tools</li>
+                                    <li>Accurate source attribution</li>
+                                    <li>Specialized research modes</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h5>Weaknesses</h5>
+                                <ul>
+                                    <li>Limited creative and conversational abilities</li>
+                                    <li>Subscription required for advanced features</li>
+                                    <li>Smaller user base and community</li>
+                                    <li>Less versatile than general-purpose LLMs</li>
+                                    <li>Focused primarily on factual content</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="llm-section">
+                            <h4>Capacity & Performance</h4>
+                            <p><span class="performance-indicator medium"></span><strong>Context Window:</strong> Varies by underlying model<br>
+                            <span class="performance-indicator high"></span><strong>Research:</strong> Excellent with citations<br>
+                            <span class="performance-indicator medium"></span><strong>Coding:</strong> Good (depends on selected model)<br>
+                            <span class="performance-indicator medium"></span><strong>Multimodal:</strong> Image analysis capabilities</p>
+                        </div>
+
+                        <div class="llm-section">
+                            <h4>Cost Structure</h4>
+                            <p><strong>Pro:</strong> $20/month<br>
+                            <strong>API:</strong> $0.2-5 per million tokens<br>
+                            <strong>Enterprise:</strong> Custom pricing</p>
+                        </div>
+
+                        <div class="llm-section">
+                            <h4>Best Academic Use Cases</h4>
+                            <p>• Literature reviews and research<br>
+                            • Fact-checking and verification<br>
+                            • Academic paper research<br>
+                            • Grant proposal research<br>
+                            • Evidence-based analysis</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="deepseek-detail" class="tab-content">
+                    <div class="llm-card">
+                        <div class="llm-header">
+                            <div class="llm-icon">DS</div>
+                            <div class="llm-title">
+                                <h3>DeepSeek - Detailed Analysis</h3>
+                                <p>Cost-efficient Chinese AI model</p>
+                            </div>
+                        </div>
+                        
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h5>Strengths</h5>
+                                <ul>
+                                    <li>Extremely cost-effective pricing</li>
+                                    <li>Competitive performance with GPT-4</li>
+                                    <li>Open-source availability</li>
+                                    <li>Fast processing speeds</li>
+                                    <li>Large parameter count (671B)</li>
+                                    <li>Strong coding capabilities</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h5>Weaknesses</h5>
+                                <ul>
+                                    <li>Security and privacy concerns</li>
+                                    <li>Chinese government censorship</li>
+                                    <li>Limited multimodal capabilities</li>
+                                    <li>Newer platform with less ecosystem</li>
+                                    <li>Potential regulatory restrictions</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="llm-section">
+                            <h4>Capacity & Performance</h4>
+                            <p><span class="performance-indicator high"></span><strong>Context Window:</strong> 64k-128k tokens<br>
+                            <span class="performance-indicator high"></span><strong>Reasoning:</strong> Competitive (claims 88% MMLU)<br>
+                            <span class="performance-indicator high"></span><strong>Coding:</strong> Strong (71.5% on LiveCodeBench)<br>
+                            <span class="performance-indicator low"></span><strong>Multimodal:</strong> Limited text-only focus</p>
+                        </div>
+
+                        <div class="llm-section">
+                            <h4>Cost Structure</h4>
+                            <p><strong>Chat:</strong> Free<br>
+                            <strong>API:</strong> $0.55 input / $2.19 output per million tokens<br>
+                            <strong>Enterprise:</strong> Competitive custom pricing</p>
+                        </div>
+
+                        <div class="llm-section">
+                            <h4>Best Academic Use Cases</h4>
+                            <p>• Budget-conscious research projects<br>
+                            • High-volume text processing<br>
+                            • Programming and code analysis<br>
+                            • Non-sensitive academic workflows<br>
+                            • Experimental AI research</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Comparison Table Section -->
+            <section id="comparison" class="section">
+                <div class="section-header">
+                    <h2>Comprehensive Comparison Table</h2>
+                    <p>Side-by-side comparison of key features, pricing, and performance metrics</p>
+                </div>
+
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>Strengths</th>
+                            <th>Weaknesses</th>
+                            <th>Best Use Cases</th>
+                            <th>Pricing</th>
+                            <th>Performance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>ChatGPT</strong><br><small>OpenAI</small></td>
+                            <td>• Creative tasks<br>• Multimodal<br>• Memory feature<br>• Large ecosystem</td>
+                            <td>• Can be verbose<br>• Hallucinations<br>• Expensive API</td>
+                            <td>• Creative writing<br>• General assistance<br>• Student tutoring</td>
+                            <td><span class="price-tag">$20/mo</span><br><small>Pro: $200/mo</small></td>
+                            <td><span class="performance-indicator high"></span>General: Excellent<br><span class="performance-indicator medium"></span>Coding: Good</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Claude</strong><br><small>Anthropic</small></td>
+                            <td>• Reasoning quality<br>• Large context<br>• Safety focus<br>• Coding excellence</td>
+                            <td>• Limited multimodal<br>• No memory<br>• Conservative responses</td>
+                            <td>• Academic writing<br>• Code development<br>• Research analysis</td>
+                            <td><span class="price-tag">$20/mo</span><br><small>API: $3-15/M tokens</small></td>
+                            <td><span class="performance-indicator high"></span>Reasoning: Excellent<br><span class="performance-indicator high"></span>Coding: Superior</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Copilot</strong><br><small>Microsoft</small></td>
+                            <td>• Office integration<br>• Enterprise security<br>• Workflow optimization</td>
+                            <td>• Limited outside MS<br>• Higher cost<br>• Learning curve</td>
+                            <td>• Administrative tasks<br>• Productivity<br>• Enterprise workflows</td>
+                            <td><span class="price-tag">$30/mo</span><br><small>Pro: $20/mo</small></td>
+                            <td><span class="performance-indicator high"></span>Productivity: Excellent<br><span class="performance-indicator medium"></span>General: Good</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gemini</strong><br><small>Google</small></td>
+                            <td>• Multimodal leader<br>• Real-time search<br>• Large context<br>• Google integration</td>
+                            <td>• Can be verbose<br>• Limited free tier<br>• Inconsistent quality</td>
+                            <td>• Visual research<br>• Video analysis<br>• Real-time facts</td>
+                            <td><span class="price-tag">$19.99/mo</span><br><small>API: $0.125-7/M tokens</small></td>
+                            <td><span class="performance-indicator high"></span>Multimodal: Excellent<br><span class="performance-indicator high"></span>Research: Strong</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Grok</strong><br><small>xAI</small></td>
+                            <td>• Real-time data<br>• Strong reasoning<br>• Currently free<br>• Fast processing</td>
+                            <td>• Limited ecosystem<br>• Benchmark questions<br>• Uncertain pricing</td>
+                            <td>• Real-time analysis<br>• Social research<br>• Reasoning tasks</td>
+                            <td><span class="price-tag">Free*</span><br><small>X Premium: $8-40/mo</small></td>
+                            <td><span class="performance-indicator high"></span>Reasoning: Excellent<br><span class="performance-indicator medium"></span>General: Good</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Perplexity</strong><br><small>Perplexity AI</small></td>
+                            <td>• Research focus<br>• Citations<br>• Multiple models<br>• Academic tools</td>
+                            <td>• Limited creativity<br>• Subscription needed<br>• Smaller ecosystem</td>
+                            <td>• Academic research<br>• Fact-checking<br>• Literature review</td>
+                            <td><span class="price-tag">$20/mo</span><br><small>API: $0.2-5/M tokens</small></td>
+                            <td><span class="performance-indicator high"></span>Research: Excellent<br><span class="performance-indicator medium"></span>General: Good</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DeepSeek</strong><br><small>DeepSeek AI</small></td>
+                            <td>• Ultra low cost<br>• Strong performance<br>• Open source<br>• Fast processing</td>
+                            <td>• Security concerns<br>• Censorship<br>• Limited multimodal</td>
+                            <td>• Budget projects<br>• High-volume tasks<br>• Programming</td>
+                            <td><span class="price-tag">$0.55/M</span><br><small>Free chat tier</small></td>
+                            <td><span class="performance-indicator high"></span>Cost/Performance: Excellent<br><span class="performance-indicator high"></span>Coding: Strong</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Selection Framework Section -->
+            <section id="selection" class="section">
+                <div class="section-header">
+                    <h2>LLM Selection Framework</h2>
+                    <p>A systematic approach to choosing the right LLM for your specific needs</p>
+                </div>
+
+                <div class="importance-grid">
+                    <div class="importance-card">
+                        <h3>🎯 1. Define Your Use Case</h3>
+                        <p><strong>Questions to ask:</strong><br>
+                        • What specific tasks will the LLM perform?<br>
+                        • Is this for research, teaching, administration, or coding?<br>
+                        • Do you need multimodal capabilities?<br>
+                        • How important are real-time capabilities?</p>
+                    </div>
+
+                    <div class="importance-card">
+                        <h3>💰 2. Assess Budget Constraints</h3>
+                        <p><strong>Cost Factors:</strong><br>
+                        • Monthly subscription costs ($8-200/month)<br>
+                        • API usage costs ($0.55-60 per million tokens)<br>
+                        • Training and implementation costs<br>
+                        • Long-term scaling requirements</p>
+                    </div>
+
+                    <div class="importance-card">
+                        <h3>🔒 3. Evaluate Security Requirements</h3>
+                        <p><strong>Considerations:</strong><br>
+                        • Data residency requirements<br>
+                        • FERPA and student privacy compliance<br>
+                        • Research data sensitivity<br>
+                        • Enterprise security features needed</p>
+                    </div>
+
+                    <div class="importance-card">
+                        <h3>🔗 4. Integration Needs</h3>
+                        <p><strong>Technical Requirements:</strong><br>
+                        • Existing software ecosystem (Office 365, Google Workspace)<br>
+                        • API availability and documentation<br>
+                        • Learning management system compatibility<br>
+                        • Custom integration capabilities</p>
+                    </div>
+
+                    <div class="importance-card">
+                        <h3>📊 5. Performance Requirements</h3>
+                        <p><strong>Metrics to Consider:</strong><br>
+                        • Response quality and accuracy<br>
+                        • Processing speed and latency<br>
+                        • Context window size<br>
+                        • Specialized capability performance</p>
+                    </div>
+
+                    <div class="importance-card">
+                        <h3>🚀 6. Scalability & Future-Proofing</h3>
+                        <p><strong>Long-term Considerations:</strong><br>
+                        • User growth capacity<br>
+                        • Model update frequency<br>
+                        • Vendor lock-in risks<br>
+                        • Migration possibilities</p>
+                    </div>
+                </div>
+
+                <div class="recommendation-box">
+                    <h3>Decision Matrix Approach</h3>
+                    <p><strong>Step 1:</strong> Weight each factor (1-5) based on importance to your institution<br>
+                    <strong>Step 2:</strong> Score each LLM (1-5) on each factor<br>
+                    <strong>Step 3:</strong> Calculate weighted scores: (Weight × Score) for each factor<br>
+                    <strong>Step 4:</strong> Sum scores for each LLM<br>
+                    <strong>Step 5:</strong> Consider top 2-3 options for pilot testing</p>
+                </div>
+            </section>
+
+            <!-- Recommendations Section -->
+            <section id="recommendations" class="section">
+                <div class="section-header">
+                    <h2>Faculty Recommendations</h2>
+                    <p>Tailored recommendations based on common academic use cases and scenarios</p>
+                </div>
+
+                <div class="llm-grid">
+                    <div class="llm-card">
+                        <div class="llm-header">
+                            <div class="llm-icon">💡</div>
+                            <div class="llm-title">
+                                <h3>For Research Faculty</h3>
+                                <p>Data analysis and literature review</p>
+                            </div>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Primary Recommendation: Perplexity</h4>
+                            <p>Excellent for research with proper citations, real-time search capabilities, and academic-focused features.</p>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Secondary Options:</h4>
+                            <p>• <strong>Claude</strong> - For deep document analysis and reasoning<br>
+                            • <strong>ChatGPT</strong> - For diverse research tasks and brainstorming</p>
+                        </div>
+                    </div>
+
+                    <div class="llm-card">
+                        <div class="llm-header">
+                            <div class="llm-icon">💻</div>
+                            <div class="llm-title">
+                                <h3>For Computer Science Faculty</h3>
+                                <p>Programming and technical courses</p>
+                            </div>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Primary Recommendation: Claude</h4>
+                            <p>Superior coding capabilities, excellent for debugging, code explanation, and algorithm development.</p>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Secondary Options:</h4>
+                            <p>• <strong>GitHub Copilot</strong> - For IDE integration<br>
+                            • <strong>DeepSeek</strong> - Budget-friendly with strong coding performance</p>
+                        </div>
+                    </div>
+
+                    <div class="llm-card">
+                        <div class="llm-header">
+                            <div class="llm-icon">🎨</div>
+                            <div class="llm-title">
+                                <h3>For Humanities Faculty</h3>
+                                <p>Writing, creativity, and communication</p>
+                            </div>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Primary Recommendation: ChatGPT</h4>
+                            <p>Excellent for creative writing, essay assistance, and general language tasks with strong conversational abilities.</p>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Secondary Options:</h4>
+                            <p>• <strong>Claude</strong> - For high-quality academic writing<br>
+                            • <strong>Gemini</strong> - For multimodal creative projects</p>
+                        </div>
+                    </div>
+
+                    <div class="llm-card">
+                        <div class="llm-header">
+                            <div class="llm-icon">🏢</div>
+                            <div class="llm-title">
+                                <h3>For Administrative Staff</h3>
+                                <p>Productivity and workflow optimization</p>
+                            </div>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Primary Recommendation: Microsoft Copilot</h4>
+                            <p>Deep Office 365 integration, enterprise security, and productivity-focused features.</p>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Secondary Options:</h4>
+                            <p>• <strong>Gemini</strong> - For Google Workspace users<br>
+                            • <strong>ChatGPT</strong> - For general administrative tasks</p>
+                        </div>
+                    </div>
+
+                    <div class="llm-card">
+                        <div class="llm-header">
+                            <div class="llm-icon">🔬</div>
+                            <div class="llm-title">
+                                <h3>For STEM Faculty</h3>
+                                <p>Data analysis and scientific computation</p>
+                            </div>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Primary Recommendation: Claude</h4>
+                            <p>Strong mathematical reasoning, data analysis capabilities, and scientific writing support.</p>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Secondary Options:</h4>
+                            <p>• <strong>Gemini</strong> - For visual data analysis<br>
+                            • <strong>Perplexity</strong> - For research verification</p>
+                        </div>
+                    </div>
+
+                    <div class="llm-card">
+                        <div class="llm-header">
+                            <div class="llm-icon">💰</div>
+                            <div class="llm-title">
+                                <h3>For Budget-Conscious Institutions</h3>
+                                <p>Cost-effective solutions</p>
+                            </div>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Primary Recommendation: DeepSeek</h4>
+                            <p>Extremely cost-effective with competitive performance, ideal for high-volume usage.</p>
+                        </div>
+                        <div class="llm-section">
+                            <h4>Secondary Options:</h4>
+                            <p>• <strong>Grok</strong> - Currently free (limited time)<br>
+                            • <strong>Free tiers</strong> - Start with free versions for evaluation</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recommendation-box">
+                    <h3>🎯 Implementation Strategy</h3>
+                    <p><strong>Phase 1 (Month 1-2):</strong> Start with free tiers and pilot with 5-10 faculty members<br>
+                    <strong>Phase 2 (Month 3-4):</strong> Evaluate usage patterns and feedback, select 1-2 primary solutions<br>
+                    <strong>Phase 3 (Month 5-6):</strong> Scale to department level with proper training and support<br>
+                    <strong>Phase 4 (Month 6+):</strong> Institute-wide deployment with established governance and best practices</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Navigation functionality
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Update navigation
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        // Tab functionality for detailed analysis
+        function showTab(tabId) {
+            // Hide all tab contents
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabId).classList.add('active');
+            
+            // Update tab buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        // Search functionality
+        function filterLLMs() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('#llmGrid .llm-card');
+            
+            cards.forEach(card => {
+                const searchData = card.getAttribute('data-name').toLowerCase();
+                const cardText = card.textContent.toLowerCase();
+                
+                if (searchData.includes(searchTerm) || cardText.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Add smooth scrolling to navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetSection = this.getAttribute('onclick').match(/'([^']+)'/)[1];
+                showSection(targetSection);
+            });
+        });
+    </script>
+</body>
+</html>
