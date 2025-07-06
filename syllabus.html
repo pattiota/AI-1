@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Editable Syllabus</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: white;
+            color: black;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            box-shadow: 0 0 20px rgba(0, 128, 0, 0.1);
+            border: 2px solid #006400;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #006400, #228B22);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1, .header h2, .header p {
+            margin-bottom: 10px;
+        }
+
+        .edit-mode-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .edit-mode-toggle:hover {
+            background-color: white;
+            color: #006400;
+        }
+
+        .edit-mode-toggle.active {
+            background-color: #ffeb3b;
+            color: #006400;
+            border-color: #ffeb3b;
+        }
+
+        .editable {
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .edit-mode .editable:hover {
+            background-color: rgba(255, 235, 59, 0.1);
+            outline: 2px dashed #ffeb3b;
+            cursor: text;
+        }
+
+        .editable[contenteditable="true"] {
+            background-color: rgba(255, 235, 59, 0.2);
+            outline: 2px solid #ffeb3b;
+            padding: 4px;
+            border-radius: 4px;
+        }
+
+        .edit-controls {
+            position: absolute;
+            top: -35px;
+            right: 0;
+            display: none;
+            gap: 5px;
+        }
+
+        .edit-mode .editable:hover .edit-controls {
+            display: flex;
+        }
+
+        .edit-btn, .save-btn, .cancel-btn, .add-btn, .delete-btn {
+            background-color: #006400;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background-color 0.3s;
+        }
+
+        .edit-btn:hover, .save-btn:hover {
+            background-color: #228B22;
+        }
+
+        .cancel-btn {
+            background-color: #666;
+        }
+
+        .cancel-btn:hover {
+            background-color: #888;
+        }
+
+        .add-btn {
+            background-color: #228B22;
+        }
+
+        .delete-btn {
+            background-color: #cc0000;
+        }
+
+        .delete-btn:hover {
+            background-color: #ff0000;
+        }
+
+        .date-controls {
+            background-color: #f0f8f0;
+            border: 2px solid #006400;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 8px;
+        }
+
+        .date-controls h3 {
+            color: #006400;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .date-inputs {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .date-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .date-group label {
+            font-weight: bold;
+            color: #006400;
+        }
+
+        .date-group input {
+            padding: 8px 12px;
+            border: 2px solid #228B22;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+
+        .update-btn {
+            background-color: #006400;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .update-btn:hover {
+            background-color: #228B22;
+        }
+
+        .content {
+            padding: 20px 30px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            border-left: 4px solid #006400;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .section-title {
+            color: #006400;
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .section-title::before {
+            content: "▶";
+            margin-right: 10px;
+            font-size: 0.8em;
+            transition: transform 0.3s;
+        }
+
+        .section-title.expanded::before {
+            transform: rotate(90deg);
+        }
+
+        .faculty-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            background-color: #f8f8f8;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #228B22;
+            position: relative;
+        }
+
+        .faculty-info .info-item {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .faculty-info .info-item strong {
+            color: #006400;
+            min-width: 120px;
+        }
+
+        .faculty-info .info-item .value {
+            flex: 1;
+        }
+
+        .course-schedule {
+            overflow-x: auto;
+        }
+
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            border: 2px solid #006400;
+        }
+
+        .schedule-table th {
+            background-color: #006400;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .schedule-table td {
+            padding: 12px;
+            border-bottom: 1px solid #228B22;
+            vertical-align: top;
+            position: relative;
+        }
+
+        .schedule-table tbody tr:nth-child(even) {
+            background-color: #f0f8f0;
+        }
+
+        .schedule-table tbody tr:hover {
+            background-color: #e6f3e6;
+        }
+
+        .week-number {
+            font-weight: bold;
+            color: #006400;
+            text-align: center;
+        }
+
+        .objectives-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .objectives-list li {
+            background-color: #f0f8f0;
+            margin: 8px 0;
+            padding: 12px;
+            border-left: 4px solid #228B22;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .objectives-list li::before {
+            content: "✓";
+            color: #006400;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .grading-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .grading-item {
+            background-color: #f0f8f0;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #228B22;
+            text-align: center;
+            position: relative;
+        }
+
+        .grading-item .percentage {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #006400;
+        }
+
+        .grade-scale {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .grade-item {
+            background-color: #006400;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-radius: 4px;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .important-dates {
+            background-color: #ffe6e6;
+            border: 2px solid #ff6b6b;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .important-dates h4 {
+            color: #cc0000;
+            margin-bottom: 10px;
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .collapsible-content.active {
+            max-height: none;
+            overflow: visible;
+        }
+
+        .row-controls {
+            display: flex;
+            gap: 5px;
+            margin-top: 5px;
+        }
+
+        .schedule-controls {
+            margin-bottom: 10px;
+        }
+
+        .edit-mode-indicator {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ffeb3b;
+            color: #006400;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .edit-mode .edit-mode-indicator {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+            }
+            
+            .date-inputs {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .faculty-info {
+                grid-template-columns: 1fr;
+            }
+
+            .edit-mode-toggle {
+                position: static;
+                margin-top: 10px;
+            }
+        }
+
+        .save-indicator {
+            position: fixed;
+            top: 50px;
+            right: 20px;
+            background-color: #228B22;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            z-index: 1000;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="edit-mode-indicator">
+        📝 Edit Mode Active - Click on any content to edit
+    </div>
+    
+    <div class="save-indicator" id="saveIndicator">
+        ✓ Changes saved
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <button class="edit-mode-toggle" onclick="toggleEditMode()">
+                📝 Edit Mode
+            </button>
+            <h1 class="editable">ELT 102</h1>
+            <h2 class="editable">Digital Logic/Solid State Devices</h2>
+            <p class="editable">Spring 2025 | Section 350 | Moraine Valley Community College</p>
+        </div>
+
+        <div class="date-controls">
+            <h3>📅 Semester Date Calculator</h3>
+            <div class="date-inputs">
+                <div class="date-group">
+                    <label for="startDate">Semester Start Date:</label>
+                    <input type="date" id="startDate" value="2025-01-13">
+                </div>
+                <div class="date-group">
+                    <label for="endDate">Semester End Date:</label>
+                    <input type="date" id="endDate" value="2025-05-08">
+                </div>
+                <button class="update-btn" onclick="updateSchedule()">Update Schedule</button>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <div class="section-title collapsible expanded" onclick="toggleSection('faculty')">
+                    <span class="editable">I. Faculty Information</span>
+                </div>
+                <div id="faculty" class="collapsible-content active">
+                    <div class="faculty-info" id="facultyInfo">
+                        <div class="info-item">
+                            <strong>Name:</strong>
+                            <span class="value editable">Dr. John Sands</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Office:</strong>
+                            <span class="value editable">T906</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Office Hours:</strong>
+                            <span class="value editable">Tuesday 11:30am - 3:20pm</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Mailbox:</strong>
+                            <span class="value editable">T116</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Phone:</strong>
+                            <span class="value editable">(708) 974-5426</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Email:</strong>
+                            <span class="value editable">sands@morainevalley.edu</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Canvas:</strong>
+                            <span class="value editable">Canvas.morainevalley.edu</span>
+                        </div>
+                    </div>
+                    <div class="edit-mode" style="display: none;">
+                        <button class="add-btn" onclick="addFacultyInfo()">+ Add Info Field</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title collapsible expanded" onclick="toggleSection('course')">
+                    <span class="editable">II. Course Information</span>
+                </div>
+                <div id="course" class="collapsible-content active">
+                    <div class="faculty-info" id="courseInfo">
+                        <div class="info-item">
+                            <strong>Credit Hours:</strong>
+                            <span class="value editable">3</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Total Contact:</strong>
+                            <span class="value editable">4 (Lecture: 2, Lab: 2)</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Meeting Time:</strong>
+                            <span class="value editable">Thursdays 11:30am - 3:20pm</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Prerequisite:</strong>
+                            <span class="value editable">ELT 101</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Corequisite:</strong>
+                            <span class="value editable">None</span>
+                        </div>
+                    </div>
+                    
+                    <h4 style="color: #006400; margin-top: 20px; margin-bottom: 10px;" class="editable">Course Description:</h4>
+                    <p class="editable">This course provides a practical approach to the study of digital and integrated devices. The course will include the study of logic gates, flip-flops, latches, counters, encoders/decoders, multiplexers, arithmetic circuits, oscillators, timers, analog-to-digital circuits, digital-to-analog circuits, solid-state memory, and operational amplifiers. In addition, the study of solid-state circuits and devices including diodes, transistors, FETs, thyristors, and optoelectronic devices.</p>
+                    
+                    <div class="important-dates">
+                        <h4 class="editable">⚠️ Important Dates</h4>
+                        <p><strong>Last date to drop with refund:</strong> <span class="editable">March 24, 2025</span></p>
+                        <p><strong>Last date to drop with 'W' grade:</strong> <span class="editable">March 31, 2025</span></p>
+                        <p><strong>Final Exam:</strong> <span id="finalExamDate">Tuesday May 8th</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title collapsible" onclick="toggleSection('objectives')">
+                    <span class="editable">V. Course Objectives</span>
+                </div>
+                <div id="objectives" class="collapsible-content">
+                    <ul class="objectives-list" id="objectivesList">
+                        <li class="editable">Demonstrate the proper operation of logic gates, counters, encoders/decoders, and arithmetic circuits</li>
+                        <li class="editable">Explain the operation of oscillators, timers, and operational amplifiers</li>
+                        <li class="editable">Explain the operation of flip-flops, latches, A-to-D, D-to-A circuits, solid-state memory, and multiplexers</li>
+                        <li class="editable">Demonstrate proper troubleshooting procedures and practices</li>
+                        <li class="editable">Demonstrate the proper operation of semiconductor devices</li>
+                        <li class="editable">Explain the operation of BJTs, UJT, FETs and thyristors</li>
+                        <li class="editable">Explain the operation of opto-electronic devices</li>
+                        <li class="editable">Identify operating parameters and component ratings of common electronic devices</li>
+                    </ul>
+                    <div class="edit-mode" style="display: none;">
+                        <button class="add-btn" onclick="addObjective()">+ Add Objective</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title collapsible" onclick="toggleSection('grading')">
+                    <span class="editable">VII. Grading Information</span>
+                </div>
+                <div id="grading" class="collapsible-content">
+                    <h4 style="color: #006400; margin-bottom: 15px;" class="editable">Grade Breakdown:</h4>
+                    <div class="grading-breakdown" id="gradingBreakdown">
+                        <div class="grading-item">
+                            <div class="percentage editable">10%</div>
+                            <div class="editable">Participation</div>
+                        </div>
+                        <div class="grading-item">
+                            <div class="percentage editable">30%</div>
+                            <div class="editable">Weekly Exams</div>
+                        </div>
+                        <div class="grading-item">
+                            <div class="percentage editable">40%</div>
+                            <div class="editable">Lab Activities (10)</div>
+                        </div>
+                        <div class="grading-item">
+                            <div class="percentage editable">20%</div>
+                            <div class="editable">Final Exam</div>
+                        </div>
+                    </div>
+
+                    <h4 style="color: #006400; margin: 20px 0 15px 0;" class="editable">Grade Scale:</h4>
+                    <div class="grade-scale" id="gradeScale">
+                        <div class="grade-item editable">A: 90-100%</div>
+                        <div class="grade-item editable">B: 80-89.9%</div>
+                        <div class="grade-item editable">C: 70-79.9%</div>
+                        <div class="grade-item editable">D: 60-69.9%</div>
+                        <div class="grade-item editable">F: Below 60%</div>
+                    </div>
+                    
+                    <div class="edit-mode" style="display: none;">
+                        <button class="add-btn" onclick="addGradingItem()">+ Add Grading Component</button>
+                        <button class="add-btn" onclick="addGradeLevel()">+ Add Grade Level</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title collapsible expanded" onclick="toggleSection('schedule')">
+                    <span class="editable">Course Schedule</span>
+                </div>
+                <div id="schedule" class="collapsible-content active">
+                    <div class="schedule-controls edit-mode" style="display: none;">
+                        <button class="add-btn" onclick="addScheduleRow()">+ Add Week</button>
+                    </div>
+                    <div class="course-schedule">
+                        <table class="schedule-table">
+                            <thead>
+                                <tr>
+                                    <th class="editable">Week</th>
+                                    <th class="editable">Topic</th>
+                                    <th class="editable">Assignments and Activities</th>
+                                    <th class="editable">Due Date</th>
+                                    <th class="edit-mode" style="display: none;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="scheduleBody">
+                                <tr data-week="1">
+                                    <td class="week-number editable">1</td>
+                                    <td class="editable">Semiconductors and Power Supplies</td>
+                                    <td class="editable">1A - Diodes and Power Supplies<br>1B - Using the Oscilloscope</td>
+                                    <td id="week1Due">Monday midnight week 2</td>
+                                    <td class="edit-mode" style="display: none;">
+                                        <button class="delete-btn" onclick="deleteScheduleRow(this)">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr data-week="2">
+                                    <td class="week-number editable">2</td>
+                                    <td class="editable">Transistors, Amplifiers and Regulators</td>
+                                    <td class="editable">Exam 1 - Semiconductors and Power Supplies<br>2A - Wiring and Testing Transistor<br>2B - Using Amplifiers and Regulators</td>
+                                    <td id="week2Due">Monday midnight week 3</td>
+                                    <td class="edit-mode" style="display: none;">
+                                        <button class="delete-btn" onclick="deleteScheduleRow(this)">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr data-week="3">
+                                    <td class="week-number editable">3</td>
+                                    <td class="editable">Digital Logic and Number Systems</td>
+                                    <td class="editable">Exam 2 - Transistors, Amplifiers and Regulators<br>3A - Converting Binary, Octal and Hex<br>3B - Computation with Binary and Hex</td>
+                                    <td id="week3Due">Monday midnight week 4</td>
+                                    <td class="edit-mode" style="display: none;">
+                                        <button class="delete-btn" onclick="deleteScheduleRow(this)">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr data-week="4">
+                                    <td class="week-number editable">4</td>
+                                    <td class="editable">Integrated Circuits and Logic Gates</td>
+                                    <td class="editable">Exam 3 - Number Systems<br>4A - AND and NAND Gates<br>4B - OR and NOR Gates<br>4C - XOR and XNOR Gates</td>
+                                    <td id="week4Due">Monday midnight week 5</td>
+                                    <td class="edit-mode" style="display: none;">
+                                        <button class="delete-btn" onclick="deleteScheduleRow(this)">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr data-week="5">
+                                    <td class="week-number editable">5</td>
+                                    <td class="editable">Latches and Flip-Flops</td>
+                                    <td class="editable">Exam 4 - Logic Gates<br>5A - RS Latches and Flip Flops<br>5B - D Type Flip Flops<br>5C - JK Flip Flops</td>
+                                    <td id="week5Due">Monday midnight week 6</td>
+                                    <td class="edit-mode" style="display: none;">
+                                        <button class="delete-btn" onclick="deleteScheduleRow(this)">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr data-week="6">
+                                    <td class="week-number editable">6</td>
+                                    <td class="editable">Counters, Timers and Oscillators</td>
+                                    <td class="editable">Exam 5 - Latches and Flip Flops<br>6A - UP Down Counters<br>6B - 555 Timers</td>
+                                    <td id="week6Due">Monday midnight week 7</td>
+                                    <td class="edit-mode" style="display: none;">
+                                        <button class="delete-btn" onclick="deleteScheduleRow(this)">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr data-week="7">
+                                    <td class="week-number editable">7</td>
+                                    <td class="editable">Encoders and Decoders, A/D, D/A</td>
+                                    <td class="editable">Exam 6 - Counters and Timers<br>7A - BCD Decoders<br>7B - Seven Segment Decoders<br>7C - Analog to Digital / Digital-to-Analog</td>
+                                    <td id="week7Due">Monday midnight week 8</td>
+                                    <td class="edit-mode" style="display: none;">
+                                        <button class="delete-btn" onclick="deleteScheduleRow(this)">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr data-week="8">
+                                    <td class="week-number editable">8</td>
+                                    <td class="editable">Final Exam</td>
+                                    <td class="editable">Comprehensive Final Examination</td>
+                                    <td id="finalDue">Final exam date</td>
+                                    <td class="edit-mode" style="display: none;">
+                                        <button class="delete-btn" onclick="deleteScheduleRow(this)">Delete</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let editMode = false;
+        let currentlyEditing = null;
+
+        function toggleEditMode() {
+            editMode = !editMode;
+            const body = document.body;
+            const toggleBtn = document.querySelector('.edit-mode-toggle');
+            const editModeElements = document.querySelectorAll('.edit-mode');
+            
+            if (editMode) {
+                body.classList.add('edit-mode');
+                toggleBtn.classList.add('active');
+                toggleBtn.textContent = '💾 Save & Exit';
+                editModeElements.forEach(el => el.style.display = 'block');
+                enableEditMode();
+            } else {
+                body.classList.remove('edit-mode');
+                toggleBtn.classList.remove('active');
+                toggleBtn.textContent = '📝 Edit Mode';
+                editModeElements.forEach(el => el.style.display = 'none');
+                disableEditMode();
+                showSaveIndicator();
+            }
+        }
+
+        function enableEditMode() {
+            const editables = document.querySelectorAll('.editable');
+            editables.forEach(element => {
+                element.addEventListener('click', startEditing);
+            });
+        }
+
+        function disableEditMode() {
+            const editables = document.querySelectorAll('.editable');
+            editables.forEach(element => {
+                element.removeEventListener('click', startEditing);
+                element.removeAttribute('contenteditable');
+            });
+        }
+
+        function startEditing(e) {
+            if (!editMode) return;
+            
+            e.stopPropagation();
+            
+            if (currentlyEditing && currentlyEditing !== e.target) {
+                stopEditing(currentlyEditing);
+            }
+            
+            currentlyEditing = e.target;
+            e.target.setAttribute('contenteditable', 'true');
+            e.target.focus();
+            
+            // Select all text
+            if (window.getSelection) {
+                const selection = window.getSelection();
+                const range = document.createRange();
+                range.selectNodeContents(e.target);
+                selection.removeAllRanges();
+                selection.addRange(range);
+            }
+            
+            e.target.addEventListener('blur', () => stopEditing(e.target));
+            e.target.addEventListener('keydown', handleEditingKeys);
+        }
+
+        function stopEditing(element) {
+            element.removeAttribute('contenteditable');
+            element.removeEventListener('blur', stopEditing);
+            element.removeEventListener('keydown', handleEditingKeys);
+            currentlyEditing = null;
+        }
+
+        function handleEditingKeys(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                e.target.blur();
+            }
+            if (e.key === 'Escape') {
+                e.target.blur();
+            }
+        }
+
+        function showSaveIndicator() {
+            const indicator = document.getElementById('saveIndicator');
+            indicator.style.display = 'block';
+            setTimeout(() => {
+                indicator.style.display = 'none';
+            }, 2000);
+        }
+
+        function addObjective() {
+            const list = document.getElementById('objectivesList');
+            const newObjective = document.createElement('li');
+            newObjective.className = 'editable';
+            newObjective.textContent = 'New course objective - click to edit';
+            list.appendChild(newObjective);
+            
+            if (editMode) {
+                newObjective.addEventListener('click', startEditing);
+            }
+        }
+
+        function addFacultyInfo() {
+            const container = document.getElementById('facultyInfo');
+            const newItem = document.createElement('div');
+            newItem.className = 'info-item';
+            newItem.innerHTML = `
+                <strong class="editable">New Field:</strong>
+                <span class="value editable">Click to edit</span>
+                <button class="delete-btn" onclick="this.parentElement.remove()" style="margin-left: 10px;">Delete</button>
+            `;
+            container.appendChild(newItem);
+            
+            if (editMode) {
+                newItem.querySelectorAll('.editable').forEach(el => {
+                    el.addEventListener('click', startEditing);
+                });
+            }
+        }
+
+        function addGradingItem() {
+            const container = document.getElementById('gradingBreakdown');
+            const newItem = document.createElement('div');
+            newItem.className = 'grading-item';
+            newItem.innerHTML = `
+                <div class="percentage editable">0%</div>
+                <div class="editable">New Component</div>
+                <button class="delete-btn" onclick="this.parentElement.remove()" style="margin-top: 10px;">Delete</button>
+            `;
+            container.appendChild(newItem);
+            
+            if (editMode) {
+                newItem.querySelectorAll('.editable').forEach(el => {
+                    el.addEventListener('click', startEditing);
+                });
+            }
+        }
+
+        function addGradeLevel() {
+            const container = document.getElementById('gradeScale');
+            const newItem = document.createElement('div');
+            newItem.className = 'grade-item editable';
+            newItem.innerHTML = `
+                X: 0-0%
+                <button class="delete-btn" onclick="this.parentElement.remove()" style="margin-left: 10px; background: rgba(255,255,255,0.2);">Delete</button>
+            `;
+            container.appendChild(newItem);
+            
+            if (editMode) {
+                newItem.addEventListener('click', startEditing);
+            }
+        }
+
+        function addScheduleRow() {
+            const tbody = document.getElementById('scheduleBody');
+            const newRow = document.createElement('tr');
+            const weekNumber = tbody.children.length + 1;
+            newRow.setAttribute('data-week', weekNumber);
+            
+            newRow.innerHTML = `
+                <td class="week-number editable">${weekNumber}</td>
+                <td class="editable">New Topic</td>
+                <td class="editable">New Assignment</td>
+                <td id="week${weekNumber}Due">TBD</td>
+                <td class="edit-mode" style="display: ${editMode ? 'table-cell' : 'none'};">
+                    <button class="delete-btn" onclick="deleteScheduleRow(this)">Delete</button>
+                </td>
+            `;
+            
+            tbody.appendChild(newRow);
+            
+            if (editMode) {
+                newRow.querySelectorAll('.editable').forEach(el => {
+                    el.addEventListener('click', startEditing);
+                });
+            }
+            
+            updateSchedule();
+        }
+
+        function deleteScheduleRow(button) {
+            const row = button.closest('tr');
+            row.remove();
+            
+            // Renumber remaining rows
+            const tbody = document.getElementById('scheduleBody');
+            Array.from(tbody.children).forEach((row, index) => {
+                const weekNum = index + 1;
+                row.setAttribute('data-week', weekNum);
+                row.children[0].textContent = weekNum;
+                const dueCell = row.children[3];
+                dueCell.id = `week${weekNum}Due`;
+            });
+            
+            updateSchedule();
+        }
+
+        function toggleSection(sectionId) {
+            const content = document.getElementById(sectionId);
+            const title = content.previousElementSibling;
+            
+            content.classList.toggle('active');
+            title.classList.toggle('expanded');
+        }
+
+        function calculateSpecificWeekday(startDate, targetWeekday, weeksAfter = 0) {
+            const start = new Date(startDate);
+            const daysAhead = targetWeekday - start.getDay();
+            const adjustment = daysAhead <= 0 ? daysAhead + 7 : daysAhead;
+            const targetDate = new Date(start.getTime() + (adjustment + (weeksAfter * 7)) * 24 * 60 * 60 * 1000);
+            return targetDate;
+        }
+
+        function formatDate(date) {
+            return date.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+        }
+
+        function updateSchedule() {
+            const startDateInput = document.getElementById('startDate').value;
+            const endDateInput = document.getElementById('endDate').value;
+            
+            if (!startDateInput || !endDateInput) {
+                return;
+            }
+
+            const startDate = new Date(startDateInput);
+            const endDate = new Date(endDateInput);
+
+            // Calculate due dates for each week
+            const tbody = document.getElementById('scheduleBody');
+            Array.from(tbody.children).forEach((row, index) => {
+                const week = index + 1;
+                const mondayOfNextWeek = calculateSpecificWeekday(startDate, 1, week);
+                const dueDateElement = row.children[3];
+                
+                if (week === tbody.children.length) {
+                    // Final week - use final exam date
+                    const finalExamDate = calculateSpecificWeekday(endDate, 2);
+                    dueDateElement.textContent = formatDate(finalExamDate);
+                } else {
+                    dueDateElement.textContent = `${formatDate(mondayOfNextWeek)} at midnight`;
+                }
+            });
+
+            // Update final exam date in other locations
+            const finalExamDate = calculateSpecificWeekday(endDate, 2);
+            const finalExamElement = document.getElementById('finalExamDate');
+            if (finalExamElement) {
+                finalExamElement.textContent = formatDate(finalExamDate);
+            }
+
+            // Visual feedback
+            const updateBtn = document.querySelector('.update-btn');
+            const originalText = updateBtn.textContent;
+            updateBtn.textContent = '✓ Updated!';
+            updateBtn.style.backgroundColor = '#228B22';
+            
+            setTimeout(() => {
+                updateBtn.textContent = originalText;
+                updateBtn.style.backgroundColor = '#006400';
+            }, 2000);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSchedule();
+            
+            // Add keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'e') {
+                    e.preventDefault();
+                    toggleEditMode();
+                }
+                if (e.key === 'Enter' && (e.target.id === 'startDate' || e.target.id === 'endDate')) {
+                    updateSchedule();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
