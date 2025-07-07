@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Assessment Training Agenda</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: white;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 300px;
+            background-color: #2d5a3d;
+            color: white;
+            padding: 20px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+
+        .sidebar h1 {
+            padding: 0 20px 30px;
+            border-bottom: 2px solid #4a8c5a;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            text-align: center;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 15px 20px;
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px solid #4a8c5a;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            background-color: #4a8c5a;
+            padding-left: 30px;
+        }
+
+        .nav-item.active {
+            background-color: #228B22;
+            border-left: 4px solid white;
+        }
+
+        .main-content {
+            margin-left: 300px;
+            padding: 40px;
+            flex: 1;
+            background-color: white;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section h2 {
+            color: #2d5a3d;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #228B22;
+            padding-bottom: 10px;
+        }
+
+        .section h3 {
+            color: #228B22;
+            font-size: 1.4rem;
+            margin: 20px 0 10px;
+        }
+
+        .section ul {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .section li {
+            margin-bottom: 8px;
+            color: #444;
+        }
+
+        .hands-on {
+            background-color: #f0f8f0;
+            border-left: 4px solid #228B22;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .hands-on strong {
+            color: #2d5a3d;
+        }
+
+        .takeaway-item {
+            background-color: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #228B22;
+        }
+
+        .takeaway-number {
+            background-color: #228B22;
+            color: white;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <h1>Security Assessment Training</h1>
+            <a href="#" class="nav-item active" data-section="introduction">1. Introduction</a>
+            <a href="#" class="nav-item" data-section="document-management">2. Document Management</a>
+            <a href="#" class="nav-item" data-section="evidence-collection">3. Evidence Collection</a>
+            <a href="#" class="nav-item" data-section="audit-interview">4. Audit Interview Prep</a>
+            <a href="#" class="nav-item" data-section="tool-demonstration">5. Tool Demonstration</a>
+            <a href="#" class="nav-item" data-section="qa-closing">6. Q&A and Closing</a>
+            <a href="#" class="nav-item" data-section="key-takeaways">Key Takeaways</a>
+        </nav>
+
+        <main class="main-content">
+            <section id="introduction" class="section active">
+                <h2>Introduction</h2>
+                <h3>Session Objectives and Outcomes</h3>
+                <ul>
+                    <li>Understand fundamental principles of security assessment documentation</li>
+                    <li>Learn best practices for evidence collection and management</li>
+                    <li>Develop skills for effective audit interviews</li>
+                    <li>Explore tools and technologies for assessment management</li>
+                </ul>
+                
+                <h3>Brief Overview</h3>
+                <p>Security assessment challenges in energy environments require specialized approaches to documentation, evidence handling, and stakeholder engagement. This session will provide practical frameworks and hands-on experience with industry-standard methodologies.</p>
+            </section>
+
+            <section id="document-management" class="section">
+                <h2>Document Management Fundamentals</h2>
+                <h3>Core Components</h3>
+                <ul>
+                    <li><strong>Structuring assessment documentation</strong> - Organizational frameworks and templates</li>
+                    <li><strong>Version control and access management</strong> - Maintaining document integrity</li>
+                    <li><strong>Chain of custody considerations</strong> - Legal and regulatory compliance</li>
+                </ul>
+                
+                <div class="hands-on">
+                    <strong>Hands-on Activity:</strong> Document inventory mapping exercise - Participants will create a comprehensive documentation structure for a simulated energy facility assessment
+                </div>
+            </section>
+
+            <section id="evidence-collection" class="section">
+                <h2>Evidence Collection Best Practices</h2>
+                <h3>Evidence Gathering Methodologies</h3>
+                <ul>
+                    <li><strong>Digital evidence gathering techniques</strong> - Network logs, system configurations, security controls</li>
+                    <li><strong>Physical evidence handling procedures</strong> - Documentation of physical security measures</li>
+                    <li><strong>Documentation templates and tools</strong> - Standardized forms and checklists</li>
+                    <li><strong>Evidence validation methods</strong> - Verification and cross-referencing techniques</li>
+                </ul>
+                
+                <div class="hands-on">
+                    <strong>Hands-on Activity:</strong> Tool demonstration and practice session - Live demonstration of evidence collection tools with participant practice exercises
+                </div>
+            </section>
+
+            <section id="audit-interview" class="section">
+                <h2>Audit Interview Preparation</h2>
+                <h3>Interview Strategy Development</h3>
+                <ul>
+                    <li><strong>Interview planning frameworks</strong> - Structured approaches to stakeholder engagement</li>
+                    <li><strong>Question development strategies</strong> - Crafting effective, unbiased questions</li>
+                    <li><strong>Recording and documentation protocols</strong> - Capturing accurate information</li>
+                    <li><strong>Post-interview analysis techniques</strong> - Synthesizing and validating responses</li>
+                </ul>
+                
+                <div class="hands-on">
+                    <strong>Hands-on Activity:</strong> Mock interview scenario walkthrough - Role-playing exercise with energy sector personnel scenarios
+                </div>
+            </section>
+
+            <section id="tool-demonstration" class="section">
+                <h2>Tool Demonstration</h2>
+                <h3>Assessment Technology Overview</h3>
+                <ul>
+                    <li><strong>Assessment management platforms</strong> - Integrated solutions for project management</li>
+                    <li><strong>Evidence collection software</strong> - Automated and manual collection tools</li>
+                    <li><strong>Documentation automation tools</strong> - Report generation and template systems</li>
+                    <li><strong>Open-source and commercial options comparison</strong> - Cost-benefit analysis and selection criteria</li>
+                </ul>
+                
+                <p>Live demonstrations will showcase real-world applications and integration possibilities within energy sector environments.</p>
+            </section>
+
+            <section id="qa-closing" class="section">
+                <h2>Q&A and Closing Discussion</h2>
+                <h3>Session Wrap-up</h3>
+                <ul>
+                    <li><strong>Key takeaways</strong> - Summarizing critical learning points</li>
+                    <li><strong>Additional resources</strong> - References, guides, and continued learning materials</li>
+                    <li><strong>Follow-up opportunities</strong> - Advanced training and certification pathways</li>
+                </ul>
+                
+                <p>Open forum for questions, discussion of real-world challenges, and sharing of participant experiences and insights.</p>
+            </section>
+
+            <section id="key-takeaways" class="section">
+                <h2>Key Takeaways for Participants</h2>
+                
+                <div class="takeaway-item">
+                    <span class="takeaway-number">1</span>
+                    <strong>Structured Documentation:</strong> Effective security assessments require structured document management to maintain integrity and defensibility.
+                </div>
+                
+                <div class="takeaway-item">
+                    <span class="takeaway-number">2</span>
+                    <strong>Forensic Methodology:</strong> Evidence collection should follow forensically sound methodologies with thorough documentation of sources and methods.
+                </div>
+                
+                <div class="takeaway-item">
+                    <span class="takeaway-number">3</span>
+                    <strong>Interview Value:</strong> Well-prepared interviews provide context and validation that technical assessments alone cannot deliver.
+                </div>
+                
+                <div class="takeaway-item">
+                    <span class="takeaway-number">4</span>
+                    <strong>Tool Selection:</strong> The right tools can significantly enhance assessment efficiency and effectiveness, but process should drive tool selection, not vice versa.
+                </div>
+                
+                <div class="takeaway-item">
+                    <span class="takeaway-number">5</span>
+                    <strong>Integrated Approach:</strong> Integration between document management, evidence collection, and interview processes creates a comprehensive assessment approach that stands up to scrutiny.
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navItems = document.querySelectorAll('.nav-item');
+            const sections = document.querySelectorAll('.section');
+
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all nav items and sections
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+                    
+                    // Add active class to clicked nav item
+                    this.classList.add('active');
+                    
+                    // Show corresponding section
+                    const targetSection = this.getAttribute('data-section');
+                    document.getElementById(targetSection).classList.add('active');
+                });
+            });
+
+            // Smooth scrolling for better UX
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    document.querySelector('.main-content').scrollTop = 0;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
