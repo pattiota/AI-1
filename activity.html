@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Learning Activity Types</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: white;
+            color: black;
+            line-height: 1.6;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .nav-bar {
+            width: 320px;
+            background-color: #2d5a2d;
+            padding: 20px 0;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .nav-title {
+            color: white;
+            text-align: center;
+            padding: 0 20px 30px 20px;
+            font-size: 1.4em;
+            font-weight: bold;
+            border-bottom: 2px solid #4a7c4a;
+            margin-bottom: 20px;
+        }
+
+        .nav-item {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 15px 25px;
+            margin: 5px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+        }
+
+        .nav-item:hover {
+            background-color: #4a7c4a;
+            border-left-color: white;
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background-color: #1a4a1a;
+            border-left-color: #7dd87d;
+            font-weight: bold;
+        }
+
+        .content-area {
+            margin-left: 320px;
+            padding: 40px 50px;
+            flex: 1;
+        }
+
+        .welcome-screen {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .welcome-screen h1 {
+            color: #2d5a2d;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .welcome-screen p {
+            font-size: 1.2em;
+            color: #555;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .activity-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .activity-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .activity-header {
+            background: linear-gradient(135deg, #2d5a2d, #4a7c4a);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(45, 90, 45, 0.3);
+        }
+
+        .activity-number {
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .activity-title {
+            font-size: 2.2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .activity-description {
+            background-color: #f8f9fa;
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 5px solid #2d5a2d;
+            font-size: 1.1em;
+            line-height: 1.8;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #2d5a2d;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(45, 90, 45, 0.3);
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .back-to-top:hover {
+            background-color: #4a7c4a;
+            transform: translateY(-3px);
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 320px;
+            right: 0;
+            height: 4px;
+            background-color: #e9ecef;
+            z-index: 1000;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2d5a2d, #7dd87d);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .nav-bar {
+                width: 250px;
+            }
+            
+            .content-area {
+                margin-left: 250px;
+                padding: 20px 25px;
+            }
+            
+            .activity-title {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <div class="container">
+        <nav class="nav-bar">
+            <div class="nav-title">Learning Activity Types</div>
+            <a href="#" class="nav-item" data-activity="welcome">Overview</a>
+            <a href="#" class="nav-item" data-activity="research">Research Papers</a>
+            <a href="#" class="nav-item" data-activity="lab">Lab Exercises</a>
+            <a href="#" class="nav-item" data-activity="team">Team Projects</a>
+            <a href="#" class="nav-item" data-activity="case">Case Studies</a>
+            <a href="#" class="nav-item" data-activity="presentations">Presentations</a>
+            <a href="#" class="nav-item" data-activity="problem">Problem Solving</a>
+            <a href="#" class="nav-item" data-activity="simulations">Simulations/Role-Playing</a>
+            <a href="#" class="nav-item" data-activity="debates">Debates & Discussions</a>
+            <a href="#" class="nav-item" data-activity="portfolios">Portfolios</a>
+            <a href="#" class="nav-item" data-activity="peer">Peer Teaching/Assessment</a>
+        </nav>
+
+        <main class="content-area">
+            <div id="welcome" class="activity-content active">
+                <div class="welcome-screen">
+                    <h1>The 10 College Learning Activity Types</h1>
+                    <p>Explore comprehensive learning activities designed to enhance student engagement and educational outcomes. Click on any activity type in the navigation menu to learn more about its purpose, implementation, and benefits for student development.</p>
+                </div>
+            </div>
+
+            <div id="research" class="activity-content">
+                <div class="activity-header">
+                    <div class="activity-number">Activity Type #1</div>
+                    <div class="activity-title">Research Papers</div>
+                </div>
+                <div class="activity-description">
+                    Students conduct in-depth investigation of a topic through scholarly sources, developing critical analysis skills while demonstrating proper academic writing, citation methods, and synthesis of multiple perspectives into a coherent argument.
+                </div>
+            </div>
+
+            <div id="lab" class="activity-content">
+                <div class="activity-header">
+                    <div class="activity-number">Activity Type #2</div>
+                    <div class="activity-title">Lab Exercises</div>
+                </div>
+                <div class="activity-description">
+                    Hands-on experimental activities where students apply theoretical concepts in controlled environments, developing practical skills in data collection, analysis, safety protocols, and scientific methodology while reinforcing classroom learning.
+                </div>
+            </div>
+
+            <div id="team" class="activity-content">
+                <div class="activity-header">
+                    <div class="activity-number">Activity Type #3</div>
+                    <div class="activity-title">Team Projects</div>
+                </div>
+                <div class="activity-description">
+                    Collaborative assignments requiring students to work together toward common goals, fostering communication skills, project management, conflict resolution, and the ability to integrate diverse perspectives and expertise.
+                </div>
+            </div>
+
+            <div id="case" class="activity-content">
+                <div class="activity-header">
+                    <div class="activity-number">Activity Type #4</div>
+                    <div class="activity-title">Case Studies</div>
+                </div>
+                <div class="activity-description">
+                    Analysis of real-world scenarios that challenge students to apply course concepts to complex, authentic situations, developing problem-solving abilities and bridging the gap between theory and practice.
+                </div>
+            </div>
+
+            <div id="presentations" class="activity-content">
+                <div class="activity-header">
+                    <div class="activity-number">Activity Type #5</div>
+                    <div class="activity-title">Presentations</div>
+                </div>
+                <div class="activity-description">
+                    Oral communication activities where students organize and deliver content to an audience, building public speaking confidence, visual design skills, and the ability to explain complex ideas clearly and persuasively.
+                </div>
+            </div>
+
+            <div id="problem" class="activity-content">
+                <div class="activity-header">
+                    <div class="activity-number">Activity Type #6</div>
+                    <div class="activity-title">Problem Solving</div>
+                </div>
+                <div class="activity-description">
+                    Structured exercises designed to develop analytical thinking through systematic approaches to complex challenges, teaching students to identify issues, evaluate solutions, and communicate reasoning processes effectively.
+                </div>
+            </div>
+
+            <div id="simulations" class="activity-content">
+                <div class="activity-header">
+                    <div class="activity-number">Activity Type #7</div>
+                    <div class="activity-title">Simulations/Role-Playing</div>
+                </div>
+                <div class="activity-description">
+                    Interactive scenarios where students assume specific roles or characters to experience decision-making processes, understand multiple perspectives, and see real-world applications of theoretical concepts in dynamic environments.
+                </div>
+            </div>
+
+            <div id="debates" class="activity-content">
+                <div class="activity-header">
+                    <div class="activity-number">Activity Type #8</div>
+                    <div class="activity-title">Debates and Discussions</div>
+                </div>
+                <div class="activity-description">
+                    Formal argumentative activities that require students to research positions, construct logical arguments, listen actively to opposing views, and engage in respectful discourse while developing critical thinking skills.
+                </div>
+            </div>
+
+            <div id="portfolios" class="activity-content">
+                <div class="activity-header">
+                    <div class="activity-number">Activity Type #9</div>
+                    <div class="activity-title">Portfolios</div>
+                </div>
+                <div class="activity-description">
+                    Curated collections of student work over time that demonstrate learning progress, encourage self-reflection, showcase achievement, and help students develop organizational and self-assessment capabilities.
+                </div>
+            </div>
+
+            <div id="peer" class="activity-content">
+                <div class="activity-header">
+                    <div class="activity-number">Activity Type #10</div>
+                    <div class="activity-title">Peer Teaching/Assessment</div>
+                </div>
+                <div class="activity-description">
+                    Activities where students teach concepts to classmates and evaluate each other's work, reinforcing their own understanding while developing teaching skills, constructive feedback abilities, and collaborative learning approaches.
+                </div>
+            </div>
+        </main>
+
+        <button class="back-to-top" id="backToTop" onclick="scrollToTop()">↑</button>
+    </div>
+
+    <script>
+        // Navigation functionality
+        const navItems = document.querySelectorAll('.nav-item');
+        const contentSections = document.querySelectorAll('.activity-content');
+        const progressFill = document.getElementById('progressFill');
+        const backToTopBtn = document.getElementById('backToTop');
+
+        // Track current activity for progress
+        let currentActivityIndex = 0;
+        const totalActivities = navItems.length - 1; // Exclude overview
+
+        navItems.forEach((item, index) => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Remove active class from all nav items and content
+                navItems.forEach(nav => nav.classList.remove('active'));
+                contentSections.forEach(content => content.classList.remove('active'));
+                
+                // Add active class to clicked nav item
+                item.classList.add('active');
+                
+                // Show corresponding content
+                const targetActivity = item.getAttribute('data-activity');
+                const targetContent = document.getElementById(targetActivity);
+                if (targetContent) {
+                    targetContent.classList.add('active');
+                }
+                
+                // Update progress bar
+                if (targetActivity !== 'welcome') {
+                    currentActivityIndex = index;
+                    updateProgress();
+                }
+                
+                // Scroll to top of content
+                document.querySelector('.content-area').scrollTop = 0;
+            });
+        });
+
+        // Update progress bar
+        function updateProgress() {
+            const progress = (currentActivityIndex / totalActivities) * 100;
+            progressFill.style.width = progress + '%';
+        }
+
+        // Back to top functionality
+        function scrollToTop() {
+            document.querySelector('.content-area').scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Show/hide back to top button
+        document.querySelector('.content-area').addEventListener('scroll', () => {
+            if (document.querySelector('.content-area').scrollTop > 300) {
+                backToTopBtn.style.display = 'block';
+            } else {
+                backToTopBtn.style.display = 'none';
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const activeNav = document.querySelector('.nav-item.active');
+            const activeIndex = Array.from(navItems).indexOf(activeNav);
+            
+            if (e.key === 'ArrowDown' && activeIndex < navItems.length - 1) {
+                e.preventDefault();
+                navItems[activeIndex + 1].click();
+            } else if (e.key === 'ArrowUp' && activeIndex > 0) {
+                e.preventDefault();
+                navItems[activeIndex - 1].click();
+            }
+        });
+
+        // Initialize with welcome screen
+        navItems[0].classList.add('active');
+    </script>
+</body>
+</html>
