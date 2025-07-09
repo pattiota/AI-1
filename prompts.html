@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Guide to Effective AI Prompt Engineering</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff;
+            color: #000000;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c2a 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        nav {
+            background-color: #000000;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            background-color: rgba(77, 124, 42, 0.3);
+        }
+
+        .nav-links a:hover {
+            background-color: #4d7c2a;
+            transform: translateY(-2px);
+        }
+
+        .section {
+            padding: 3rem 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .section:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        h2 {
+            color: #2d5016;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #4d7c2a;
+            padding-left: 1rem;
+        }
+
+        h3 {
+            color: #000000;
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem 0;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-left: 4px solid #4d7c2a;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+        }
+
+        .interactive-demo {
+            background: #f8f9fa;
+            border: 2px solid #4d7c2a;
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .demo-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .demo-input, .demo-output {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            border: 1px solid #ddd;
+        }
+
+        .demo-input h4, .demo-output h4 {
+            color: #2d5016;
+            margin-bottom: 1rem;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            border: 2px solid #4d7c2a;
+            border-radius: 5px;
+            padding: 10px;
+            font-family: 'Courier New', monospace;
+            resize: vertical;
+        }
+
+        button {
+            background: linear-gradient(135deg, #4d7c2a 0%, #2d5016 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .example {
+            background: #f0f7eb;
+            border-left: 4px solid #4d7c2a;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .example-label {
+            font-weight: bold;
+            color: #2d5016;
+            margin-bottom: 0.5rem;
+        }
+
+        .tabs {
+            display: flex;
+            background: #000000;
+            border-radius: 8px 8px 0 0;
+            overflow: hidden;
+        }
+
+        .tab {
+            background: #000000;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            cursor: pointer;
+            flex: 1;
+            transition: background 0.3s ease;
+        }
+
+        .tab.active {
+            background: #4d7c2a;
+        }
+
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 2rem;
+            border: 2px solid #000000;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .best-practices {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .practice-card {
+            background: white;
+            border: 2px solid #4d7c2a;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .practice-card:hover {
+            background: #f0f7eb;
+            transform: scale(1.05);
+        }
+
+        .practice-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .quiz-container {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .quiz-question {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #2d5016;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .quiz-option {
+            background: white;
+            border: 2px solid #ddd;
+            padding: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            border-color: #4d7c2a;
+            background: #f0f7eb;
+        }
+
+        .quiz-option.correct {
+            background: #d4edda;
+            border-color: #4d7c2a;
+        }
+
+        .quiz-option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+
+        .feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        @media (max-width: 768px) {
+            .demo-container {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .component-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🚀 Effective AI Prompt Engineering</h1>
+            <p class="subtitle">Master the art of communicating with AI language models</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <div class="nav-links">
+                <a href="#purpose">Purpose</a>
+                <a href="#components">Components</a>
+                <a href="#techniques">Techniques</a>
+                <a href="#examples">Examples</a>
+                <a href="#best-practices">Best Practices</a>
+                <a href="#quiz">Interactive Quiz</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section id="purpose" class="section">
+            <h2>🎯 Purpose of Effective Prompting</h2>
+            <p>Prompt engineering is the art of communicating with generative AI models to achieve desired outcomes. <strong>The goal is to interact with AI systems effectively to get accurate, relevant, and useful responses.</strong></p>
+            
+            <div class="card">
+                <h3>Why Prompt Engineering Matters</h3>
+                <p>Well-crafted prompts can:</p>
+                <ul style="margin-left: 2rem; margin-top: 1rem;">
+                    <li><strong>Improve accuracy:</strong> Get more precise and relevant responses</li>
+                    <li><strong>Save time:</strong> Reduce the need for multiple iterations</li>
+                    <li><strong>Enhance reliability:</strong> Achieve consistent results across similar tasks</li>
+                    <li><strong>Unlock capabilities:</strong> Access advanced reasoning and problem-solving abilities</li>
+                </ul>
+            </div>
+
+            <div class="interactive-demo">
+                <h3>🎮 Interactive Demo: See the Difference</h3>
+                <div class="demo-container">
+                    <div class="demo-input">
+                        <h4>Try Different Prompt Styles:</h4>
+                        <div class="tabs">
+                            <button class="tab active" onclick="showTab('vague')">Vague</button>
+                            <button class="tab" onclick="showTab('specific')">Specific</button>
+                            <button class="tab" onclick="showTab('structured')">Structured</button>
+                        </div>
+                        
+                        <div id="vague" class="tab-content active">
+                            <textarea readonly>Write about dogs.</textarea>
+                        </div>
+                        
+                        <div id="specific" class="tab-content">
+                            <textarea readonly>Write a 300-word informative article about the benefits of dog ownership for mental health, targeting new pet owners.</textarea>
+                        </div>
+                        
+                        <div id="structured" class="tab-content">
+                            <textarea readonly>Write a 300-word informative article about dog ownership and mental health.
+
+Context: This is for a pet adoption website's blog section.
+
+Format: Include an engaging title, 3 main benefits with supporting details, and a conclusion with a call-to-action.
+
+Tone: Warm, encouraging, and evidence-based.</textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="demo-output">
+                        <h4>Expected Response Quality:</h4>
+                        <div id="output-vague" class="tab-content active">
+                            <div class="example">
+                                <strong>Result:</strong> Generic, unfocused content about dogs that may not meet your specific needs.
+                            </div>
+                        </div>
+                        
+                        <div id="output-specific" class="tab-content">
+                            <div class="example">
+                                <strong>Result:</strong> More focused content, but may lack structure and specific formatting requirements.
+                            </div>
+                        </div>
+                        
+                        <div id="output-structured" class="tab-content">
+                            <div class="example">
+                                <strong>Result:</strong> Highly targeted, well-structured article that meets all specified requirements with appropriate tone and format.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="components" class="section">
+            <h2>🧩 Essential Components of Effective Prompts</h2>
+            <p>Based on research and analysis, effective prompts typically contain a combination of the following components:</p>
+
+            <div class="component-grid">
+                <div class="card">
+                    <h3>1. 📝 Overall Request</h3>
+                    <p><strong>What you want the AI to do</strong></p>
+                    <div class="example">
+                        <div class="example-label">Question Format:</div>
+                        "What is the amount of information human working memory can process at any given time?"
+                    </div>
+                    <div class="example">
+                        <div class="example-label">Command Format:</div>
+                        "Create a Python script that scrapes news headlines from a website."
+                    </div>
+                    <div class="example">
+                        <div class="example-label">Implicit Request:</div>
+                        "I need a table that illustrates how the binary number system works."
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>2. 🎯 Framing Context</h3>
+                    <p><strong>Why you want it - the background and purpose</strong></p>
+                    <div class="example">
+                        <div class="example-label">Educational Context:</div>
+                        "This script will be used in a journalism class to demonstrate web scraping techniques to students."
+                    </div>
+                    <div class="example">
+                        <div class="example-label">Business Context:</div>
+                        "This analysis will help our marketing team understand customer sentiment for the quarterly review."
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>3. 📐 Format Specification</h3>
+                    <p><strong>How you want the response structured</strong></p>
+                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                        <li><strong>Length:</strong> "one paragraph", "1500 words", "bullet points"</li>
+                        <li><strong>Language:</strong> "middle-school English", "Python code", "professional tone"</li>
+                        <li><strong>Presentation:</strong> "bulleted list", "table format", "step-by-step guide"</li>
+                        <li><strong>Tone:</strong> "professional", "casual", "fun", "academic"</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>4. 🔗 References</h3>
+                    <p><strong>Internal or external sources for context</strong></p>
+                    <div class="example">
+                        <div class="example-label">Internal Reference:</div>
+                        "Based on the Python script you provided earlier, modify it to include error handling."
+                    </div>
+                    <div class="example">
+                        <div class="example-label">External Reference:</div>
+                        "Following the NIST 800-171 standard guidelines, create a security checklist."
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="techniques" class="section">
+            <h2>⚡ Advanced Prompting Techniques</h2>
+
+            <div class="tabs">
+                <button class="tab active" onclick="showTechnique('zero-shot')">Zero-Shot</button>
+                <button class="tab" onclick="showTechnique('few-shot')">Few-Shot</button>
+                <button class="tab" onclick="showTechnique('chain-of-thought')">Chain of Thought</button>
+                <button class="tab" onclick="showTechnique('role-based')">Role-Based</button>
+            </div>
+
+            <div id="zero-shot" class="tab-content active">
+                <h3>Zero-Shot Prompting</h3>
+                <p>Direct instruction without examples. Best for simple, well-defined tasks.</p>
+                <div class="example">
+                    <div class="example-label">Example:</div>
+                    <strong>Prompt:</strong> "Translate the following English text to Spanish: 'The meeting is scheduled for tomorrow.'"<br>
+                    <strong>When to use:</strong> Simple translations, basic classifications, straightforward tasks
+                </div>
+            </div>
+
+            <div id="few-shot" class="tab-content">
+                <h3>Few-Shot Prompting</h3>
+                <p>Providing examples to guide the AI's understanding and output format.</p>
+                <div class="example">
+                    <div class="example-label">Example:</div>
+                    <strong>Prompt:</strong><br>
+                    "Extract the sentiment from these product reviews:<br><br>
+                    Review: 'This product is amazing!' → Sentiment: Positive<br>
+                    Review: 'Terrible quality, waste of money.' → Sentiment: Negative<br>
+                    Review: 'It's okay, nothing special.' → Sentiment: Neutral<br><br>
+                    Review: 'Love the design but shipping was slow.' → Sentiment: ?"
+                </div>
+            </div>
+
+            <div id="chain-of-thought" class="tab-content">
+                <h3>Chain of Thought (CoT) Prompting</h3>
+                <p>Guiding the AI to show step-by-step reasoning, especially useful for complex problem-solving.</p>
+                <div class="example">
+                    <div class="example-label">Example:</div>
+                    <strong>Prompt:</strong><br>
+                    "Solve this step-by-step: A store has 15 apples and sells 7 in the morning, then receives a delivery of 12 more apples. How many apples does the store have now?<br><br>
+                    Let's think step by step:<br>
+                    1. Started with: 15 apples<br>
+                    2. Sold in morning: 7 apples<br>
+                    3. After morning sales: 15 - 7 = 8 apples<br>
+                    4. Received delivery: 12 apples<br>
+                    5. Final count: 8 + 12 = 20 apples"
+                </div>
+            </div>
+
+            <div id="role-based" class="tab-content">
+                <h3>Role-Based Prompting</h3>
+                <p>Assigning a specific role or persona to the AI to influence its perspective and expertise.</p>
+                <div class="example">
+                    <div class="example-label">Example:</div>
+                    <strong>Prompt:</strong><br>
+                    "Act as a senior cybersecurity expert with 15 years of experience. A small business asks you about implementing basic security measures. Provide practical recommendations that a non-technical owner can understand and implement."
+                </div>
+            </div>
+        </section>
+
+        <section id="examples" class="section">
+            <h2>💡 Real-World Examples</h2>
+
+            <div class="card">
+                <h3>Example 1: Educational Content Creation</h3>
+                <div class="example">
+                    <div class="example-label">Weak Prompt:</div>
+                    "Explain photosynthesis."
+                </div>
+                <div class="example">
+                    <div class="example-label">Strong Prompt:</div>
+                    <strong>Request:</strong> Create an engaging lesson plan about photosynthesis.<br>
+                    <strong>Context:</strong> This is for 7th-grade biology students who are visual learners.<br>
+                    <strong>Format:</strong> Include an attention-grabbing opener, 3 main learning objectives, a hands-on activity, and assessment questions.<br>
+                    <strong>Tone:</strong> Enthusiastic and age-appropriate, avoiding complex scientific jargon.
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Example 2: Business Analysis</h3>
+                <div class="example">
+                    <div class="example-label">Weak Prompt:</div>
+                    "Analyze our sales data."
+                </div>
+                <div class="example">
+                    <div class="example-label">Strong Prompt:</div>
+                    <strong>Request:</strong> Analyze Q3 sales performance and identify key trends.<br>
+                    <strong>Context:</strong> This analysis will inform our Q4 strategy planning meeting with senior leadership.<br>
+                    <strong>Format:</strong> Executive summary (2 paragraphs), 3 key findings with supporting data, and 2-3 actionable recommendations.<br>
+                    <strong>Reference:</strong> Focus on the regional performance data I shared earlier, particularly the Northeast region's 15% decline.
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Example 3: Technical Documentation</h3>
+                <div class="example">
+                    <div class="example-label">Chain of Thought Example:</div>
+                    <strong>Prompt:</strong> Create API documentation for a user authentication endpoint. Let's work through this step by step:<br><br>
+                    1. First, identify the endpoint purpose and HTTP method<br>
+                    2. Then, list required parameters and their data types<br>
+                    3. Next, provide example request and response formats<br>
+                    4. Include common error codes and their meanings<br>
+                    5. Finally, add a practical code example in Python<br><br>
+                    Make this accessible to developers who are new to our API.
+                </div>
+            </div>
+        </section>
+
+        <section id="best-practices" class="section">
+            <h2>🏆 Best Practices for Prompt Engineering</h2>
+
+            <div class="best-practices">
+                <div class="practice-card">
+                    <div class="practice-icon">🎯</div>
+                    <h3>Be Specific</h3>
+                    <p>Longer, detailed prompts usually provide better results than short, vague ones.</p>
+                </div>
+
+                <div class="practice-card">
+                    <div class="practice-icon">🔄</div>
+                    <h3>Iterate & Refine</h3>
+                    <p>Start with a basic prompt, review the output, and refine based on results.</p>
+                </div>
+
+                <div class="practice-card">
+                    <div class="practice-icon">📚</div>
+                    <h3>Use Examples</h3>
+                    <p>Few-shot prompting with relevant examples improves consistency and quality.</p>
+                </div>
+
+                <div class="practice-card">
+                    <div class="practice-icon">🏗️</div>
+                    <h3>Structure Clearly</h3>
+                    <p>Use delimiters and clear sections to help the AI understand different parts of your prompt.</p>
+                </div>
+
+                <div class="practice-card">
+                    <div class="practice-icon">🔍</div>
+                    <h3>Ask for Reasoning</h3>
+                    <p>Use "think step by step" or "explain your reasoning" for complex tasks.</p>
+                </div>
+
+                <div class="practice-card">
+                    <div class="practice-icon">📏</div>
+                    <h3>Set Constraints</div>
+                    <p>Specify length, format, tone, and other limitations to get focused results.</p>
+                </div>
+
+                <div class="practice-card">
+                    <div class="practice-icon">🎭</div>
+                    <h3>Define Persona</h3>
+                    <p>Assign roles or expertise levels to get responses from specific perspectives.</p>
+                </div>
+
+                <div class="practice-card">
+                    <div class="practice-icon">🔗</div>
+                    <h3>Chain Prompts</h3>
+                    <p>Break complex tasks into smaller, sequential prompts for better results.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="quiz" class="section">
+            <h2>🧠 Interactive Knowledge Check</h2>
+            
+            <div class="quiz-container">
+                <div class="quiz-question">
+                    Which prompt component explains WHY you need the information?
+                </div>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">Overall Request</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, true)">Framing Context</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">Format Specification</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">References</div>
+                </div>
+                <div class="feedback">
+                    <strong>Correct!</strong> Framing Context provides the background and explains why you need the information, helping the AI understand the purpose and audience.
+                </div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">
+                    Which technique is best for complex math problems requiring step-by-step reasoning?
+                </div>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">Zero-shot prompting</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">Few-shot prompting</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, true)">Chain of Thought prompting</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">Role-based prompting</div>
+                </div>
+                <div class="feedback">
+                    <strong>Correct!</strong> Chain of Thought prompting guides the AI to show step-by-step reasoning, making it ideal for complex math problems and logical reasoning tasks.
+                </div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">
+                    What's the main advantage of iterative prompt refinement?
+                </div>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">It reduces the need for examples</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, true)">It improves prompt effectiveness over time</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">It makes prompts shorter</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, false)">It eliminates the need for context</div>
+                </div>
+                <div class="feedback">
+                    <strong>Correct!</strong> Iterative refinement allows you to test, adjust, and improve your prompts based on actual AI responses, leading to better results over time.
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: #000000; color: white; text-align: center; padding: 2rem 0; margin-top: 3rem;">
+        <div class="container">
+            <p>&copy; 2025 AI Prompt Engineering Guide | Mastering effective communication with AI systems</p>
+        </div>
+    </footer>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            document.getElementById('output-' + tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        function showTechnique(technique) {
+            // Hide all technique contents
+            document.querySelectorAll('#techniques .tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all technique tabs
+            document.querySelectorAll('#techniques .tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected technique
+            document.getElementById(technique).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        function selectAnswer(element, isCorrect) {
+            const container = element.closest('.quiz-container');
+            const options = container.querySelectorAll('.quiz-option');
+            const feedback = container.querySelector('.feedback');
+            
+            // Remove previous selections
+            options.forEach(option => {
+                option.classList.remove('correct', 'incorrect');
+            });
+            
+            // Mark the selected answer
+            if (isCorrect) {
+                element.classList.add('correct');
+                feedback.classList.add('show', 'correct');
+                feedback.classList.remove('incorrect');
+            } else {
+                element.classList.add('incorrect');
+                feedback.classList.add('show', 'incorrect');
+                feedback.classList.remove('correct');
+                
+                // Find and highlight the correct answer
+                options.forEach(option => {
+                    if (option.onclick.toString().includes('true')) {
+                        option.classList.add('correct');
+                    }
+                });
+                
+                feedback.innerHTML = '<strong>Not quite right.</strong> The correct answer is highlighted in green. Review the components section to learn more!';
+            }
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards for animation
+        document.querySelectorAll('.card, .practice-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
