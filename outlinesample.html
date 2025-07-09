@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Types of Business Ownership - Interactive Lesson</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: white;
+            color: black;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Navigation Bar */
+        .nav-container {
+            width: 250px;
+            background-color: #2d5a2d;
+            padding: 20px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+
+        .nav-header {
+            text-align: center;
+            color: white;
+            padding: 0 20px 20px 20px;
+            border-bottom: 2px solid #4a7c59;
+            margin-bottom: 20px;
+        }
+
+        .nav-header h1 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .nav-header p {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .nav-button {
+            display: block;
+            width: 90%;
+            margin: 10px auto;
+            padding: 15px 20px;
+            background-color: #4a7c59;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            text-align: left;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .nav-button:hover {
+            background-color: #5d8a6b;
+            transform: translateX(5px);
+        }
+
+        .nav-button.active {
+            background-color: #6ba47a;
+            border-left-color: white;
+        }
+
+        .nav-button i {
+            margin-right: 10px;
+            width: 20px;
+        }
+
+        /* Content Area */
+        .content-container {
+            margin-left: 250px;
+            padding: 40px;
+            flex: 1;
+            background-color: white;
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #2d5a2d, #4a7c59);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .section-header h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .section-header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        /* Course Info */
+        .course-info {
+            background-color: #f8f9fa;
+            border-left: 4px solid #4a7c59;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .course-info h3 {
+            color: #2d5a2d;
+            margin-bottom: 10px;
+        }
+
+        /* Learning Objectives */
+        .objectives-list {
+            list-style: none;
+            counter-reset: objective-counter;
+        }
+
+        .objectives-list li {
+            counter-increment: objective-counter;
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #4a7c59;
+            border-radius: 0 5px 5px 0;
+            position: relative;
+        }
+
+        .objectives-list li::before {
+            content: counter(objective-counter);
+            position: absolute;
+            left: -20px;
+            top: 15px;
+            background-color: #4a7c59;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Key Terms */
+        .terms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .term-card {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #4a7c59;
+            transition: transform 0.3s ease;
+        }
+
+        .term-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .term-card h4 {
+            color: #2d5a2d;
+            margin-bottom: 5px;
+        }
+
+        /* Concepts */
+        .concepts-list {
+            list-style: none;
+        }
+
+        .concepts-list li {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #4a7c59;
+        }
+
+        .concepts-list li::before {
+            content: "💡";
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #4a7c59;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #4a7c59;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -23px;
+            top: 25px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #4a7c59;
+            border: 3px solid white;
+        }
+
+        .timeline-time {
+            color: #2d5a2d;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .timeline-topic {
+            color: #2d5a2d;
+            font-size: 18px;
+            margin: 5px 0;
+        }
+
+        .timeline-desc {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Activities */
+        .activity-section {
+            margin-bottom: 30px;
+        }
+
+        .activity-section h3 {
+            color: #2d5a2d;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4a7c59;
+        }
+
+        .activity-item {
+            background-color: #f8f9fa;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #4a7c59;
+        }
+
+        .activity-item h4 {
+            color: #2d5a2d;
+            margin-bottom: 10px;
+        }
+
+        .activity-item ul {
+            margin-left: 20px;
+        }
+
+        .activity-item li {
+            margin-bottom: 5px;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 250px;
+            right: 0;
+            height: 4px;
+            background-color: #e0e0e0;
+            z-index: 1000;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: #4a7c59;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <nav class="nav-container">
+        <div class="nav-header">
+            <h1>BUS-101</h1>
+            <p>Introduction to Business</p>
+        </div>
+        
+        <button class="nav-button active" onclick="showSection('course-info')">
+            <i>📚</i> Course Information
+        </button>
+        <button class="nav-button" onclick="showSection('objectives')">
+            <i>🎯</i> Learning Objectives
+        </button>
+        <button class="nav-button" onclick="showSection('concepts')">
+            <i>🧠</i> Key Concepts
+        </button>
+        <button class="nav-button" onclick="showSection('terms')">
+            <i>📝</i> Key Terms
+        </button>
+        <button class="nav-button" onclick="showSection('outline')">
+            <i>🕒</i> Lesson Outline
+        </button>
+        <button class="nav-button" onclick="showSection('activities')">
+            <i>🎮</i> Activities & Assignments
+        </button>
+    </nav>
+
+    <main class="content-container">
+        <!-- Course Information Section -->
+        <section id="course-info" class="content-section active">
+            <div class="section-header">
+                <h2>Types of Business Ownership</h2>
+                <p>Understanding the foundations of business structure selection</p>
+            </div>
+            
+            <div class="course-info">
+                <h3>Course Details</h3>
+                <p><strong>Course:</strong> BUS-101 – Introduction to Business</p>
+                <p><strong>Class Time:</strong> 4 Hours</p>
+                <p><strong>Topic:</strong> Types of Business Ownership</p>
+            </div>
+
+            <div class="course-info">
+                <h3>Course Overview</h3>
+                <p>This comprehensive lesson explores the various forms of business ownership available to entrepreneurs and business owners. Students will learn to evaluate different ownership structures, understand their legal and tax implications, and make informed decisions about the most appropriate business structure for different scenarios.</p>
+            </div>
+
+            <div class="course-info">
+                <h3>Why This Matters</h3>
+                <p>Choosing the right business structure is one of the most critical decisions an entrepreneur faces. It affects everything from personal liability and tax obligations to funding opportunities and growth potential. This lesson provides the foundational knowledge needed to make these important decisions.</p>
+            </div>
+        </section>
+
+        <!-- Learning Objectives Section -->
+        <section id="objectives" class="content-section">
+            <div class="section-header">
+                <h2>🎯 Learning Objectives</h2>
+                <p>By the end of this lesson, students will be able to:</p>
+            </div>
+            
+            <ol class="objectives-list">
+                <li>Define and explain the concept of business ownership.</li>
+                <li>Evaluate the advantages and disadvantages of each form of business ownership.</li>
+                <li>Analyze the legal liability, tax implications, and control structures of various ownership types.</li>
+                <li>Compare and contrast funding and investment opportunities by business type.</li>
+                <li>Apply knowledge of business ownership to real-world scenarios and case studies.</li>
+            </ol>
+        </section>
+
+        <!-- Key Concepts Section -->
+        <section id="concepts" class="content-section">
+            <div class="section-header">
+                <h2>🧠 Key Concepts</h2>
+                <p>Core principles that guide business ownership decisions</p>
+            </div>
+            
+            <ul class="concepts-list">
+                <li><strong>Importance of business structure selection:</strong> The chosen structure affects all aspects of business operations, from daily management to long-term strategy.</li>
+                <li><strong>Ownership and legal liability differences:</strong> Understanding how personal assets are protected or exposed based on business structure.</li>
+                <li><strong>Tax treatment across structures:</strong> Different ownership types face varying tax obligations and opportunities.</li>
+                <li><strong>Decision-making authority and control:</strong> How ownership structure affects who makes decisions and how they're made.</li>
+                <li><strong>Funding and capital acquisition:</strong> The relationship between business structure and ability to raise capital.</li>
+                <li><strong>Growth and exit strategies:</strong> How different structures support or limit business growth and owner exit options.</li>
+            </ul>
+        </section>
+
+        <!-- Key Terms Section -->
+        <section id="terms" class="content-section">
+            <div class="section-header">
+                <h2>📝 Key Terms</h2>
+                <p>Essential vocabulary for understanding business ownership</p>
+            </div>
+            
+            <div class="terms-grid">
+                <div class="term-card">
+                    <h4>Sole Proprietorship</h4>
+                    <p>A business owned by one person with no legal distinction between owner and business.</p>
+                </div>
+                <div class="term-card">
+                    <h4>Partnership</h4>
+                    <p>A business owned by two or more people who share profits, losses, and management.</p>
+                </div>
+                <div class="term-card">
+                    <h4>Corporation</h4>
+                    <p>A legal entity separate from its owners, providing limited liability protection.</p>
+                </div>
+                <div class="term-card">
+                    <h4>Limited Liability Company (LLC)</h4>
+                    <p>A hybrid structure combining corporation and partnership benefits.</p>
+                </div>
+                <div class="term-card">
+                    <h4>Cooperative</h4>
+                    <p>A business owned and operated by its members for their mutual benefit.</p>
+                </div>
+                <div class="term-card">
+                    <h4>Franchise</h4>
+                    <p>A business model where a franchisee operates using a franchisor's brand and system.</p>
+                </div>
+                <div class="term-card">
+                    <h4>Limited Liability</h4>
+                    <p>Legal protection limiting personal financial responsibility for business debts.</p>
+                </div>
+                <div class="term-card">
+                    <h4>Pass-through Taxation</h4>
+                    <p>Tax treatment where business income is taxed at the owner's personal rate.</p>
+                </div>
+                <div class="term-card">
+                    <h4>Double Taxation</h4>
+                    <p>Taxation of corporation profits and again when distributed as dividends.</p>
+                </div>
+                <div class="term-card">
+                    <h4>Articles of Incorporation</h4>
+                    <p>Legal documents filed to establish a corporation.</p>
+                </div>
+                <div class="term-card">
+                    <h4>Franchise Agreement</h4>
+                    <p>Contract outlining the terms between franchisor and franchisee.</p>
+                </div>
+                <div class="term-card">
+                    <h4>Business Structure</h4>
+                    <p>The legal and organizational framework of a business entity.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lesson Outline Section -->
+        <section id="outline" class="content-section">
+            <div class="section-header">
+                <h2>🕒 Lesson Outline</h2>
+                <p>Sequential timeline for 4-hour class session</p>
+            </div>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-time">0:00–0:15 (15 min)</div>
+                    <div class="timeline-topic">Introduction to Business Ownership</div>
+                    <div class="timeline-desc">Define business ownership; discuss why structure matters</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">0:15–0:30 (15 min)</div>
+                    <div class="timeline-topic">Factors in Choosing the Right Structure</div>
+                    <div class="timeline-desc">Liability, taxes, control, funding – overview discussion</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">0:30–0:50 (20 min)</div>
+                    <div class="timeline-topic">Sole Proprietorship</div>
+                    <div class="timeline-desc">Definition, pros and cons, liability, tax structure</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">0:50–1:10 (20 min)</div>
+                    <div class="timeline-topic">Partnerships (General & Limited)</div>
+                    <div class="timeline-desc">Types, agreements, liability, decision-making</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">1:10–1:30 (20 min)</div>
+                    <div class="timeline-topic">Corporations (C & S)</div>
+                    <div class="timeline-desc">Formalities, double taxation, stock, board structure</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">1:30–1:40 (10 min)</div>
+                    <div class="timeline-topic">Break</div>
+                    <div class="timeline-desc">—</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">1:40–2:00 (20 min)</div>
+                    <div class="timeline-topic">Limited Liability Company (LLC)</div>
+                    <div class="timeline-desc">Hybrid nature, flexibility, tax options, protection</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">2:00–2:20 (20 min)</div>
+                    <div class="timeline-topic">Cooperatives</div>
+                    <div class="timeline-desc">Shared ownership, profit distribution, democratic control</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">2:20–2:40 (20 min)</div>
+                    <div class="timeline-topic">Franchises</div>
+                    <div class="timeline-desc">Franchise model, contracts, royalties, support systems</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">2:40–3:10 (30 min)</div>
+                    <div class="timeline-topic">Comparison Table Activity</div>
+                    <div class="timeline-desc">In small groups, compare all six business types</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">3:10–3:30 (20 min)</div>
+                    <div class="timeline-topic">Case Study Analysis</div>
+                    <div class="timeline-desc">Assign students to find real-world companies and analyze ownership structure</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">3:30–3:50 (20 min)</div>
+                    <div class="timeline-topic">Interactive Quiz Game</div>
+                    <div class="timeline-desc">Kahoot or Jeopardy-style game on ownership types</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">3:50–4:00 (10 min)</div>
+                    <div class="timeline-topic">Wrap-Up & Exit Ticket</div>
+                    <div class="timeline-desc">Review, Q&A, written reflection on preferred ownership type</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Activities Section -->
+        <section id="activities" class="content-section">
+            <div class="section-header">
+                <h2>🎮 Activities & Assignments</h2>
+                <p>Engaging exercises to reinforce learning</p>
+            </div>
+            
+            <div class="activity-section">
+                <h3>In-Class Activities</h3>
+                
+                <div class="activity-item">
+                    <h4>1. Business Ownership Comparison Table</h4>
+                    <p>Students fill out a matrix comparing all business types on:</p>
+                    <ul>
+                        <li>Liability</li>
+                        <li>Taxation</li>
+                        <li>Decision-making</li>
+                        <li>Capital</li>
+                        <li>Example business</li>
+                    </ul>
+                </div>
+
+                <div class="activity-item">
+                    <h4>2. Ownership Role-Play Exercise</h4>
+                    <p>Groups simulate different ownership types making a business decision (e.g., expanding to a second location)</p>
+                </div>
+
+                <div class="activity-item">
+                    <h4>3. Kahoot or Quizizz Game</h4>
+                    <p>Quick interactive quiz to reinforce key concepts</p>
+                </div>
+
+                <div class="activity-item">
+                    <h4>4. Real Business Research</h4>
+                    <p>Assign each group a real business (e.g., Subway, REI, Apple) and have them identify and explain the ownership type</p>
+                </div>
+            </div>
+
+            <div class="activity-section">
+                <h3>Homework Assignments</h3>
+                
+                <div class="activity-item">
+                    <h4>Written Reflection (1 page)</h4>
+                    <p><strong>Prompt:</strong> "Which form of business ownership best suits your future goals and why?"</p>
+                </div>
+
+                <div class="activity-item">
+                    <h4>Research Assignment</h4>
+                    <p>Interview a small business owner and report on why they chose their ownership structure.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.nav-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            // Update progress bar
+            updateProgressBar(sectionId);
+        }
+        
+        function updateProgressBar(sectionId) {
+            const sections = ['course-info', 'objectives', 'concepts', 'terms', 'outline', 'activities'];
+            const currentIndex = sections.indexOf(sectionId);
+            const progress = ((currentIndex + 1) / sections.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+        
+        // Initialize progress bar
+        updateProgressBar('course-info');
+        
+        // Add smooth scrolling for mobile
+        document.addEventListener('DOMContentLoaded', function() {
+            const navButtons = document.querySelectorAll('.nav-button');
+            navButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    if (window.innerWidth <= 768) {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
