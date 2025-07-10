@@ -41,6 +41,31 @@
             border-bottom: 2px solid #4a7c4a;
         }
 
+        .print-button {
+            background-color: #66b266;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            margin: 15px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            width: calc(100% - 40px);
+        }
+
+        .print-button:hover {
+            background-color: #4a7c4a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .print-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
         .nav-header h2 {
             font-size: 1.2em;
             margin-bottom: 5px;
@@ -302,6 +327,179 @@
                 border-bottom: none;
             }
         }
+
+        /* Print Styles for PDF Generation */
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+            
+            body {
+                margin: 0;
+                padding: 0;
+                background: white !important;
+                color: black !important;
+                font-size: 12px;
+                line-height: 1.4;
+            }
+            
+            .nav-sidebar {
+                display: none !important;
+            }
+            
+            .main-content {
+                margin-left: 0 !important;
+                padding: 0 !important;
+            }
+            
+            .section {
+                padding: 20px 30px !important;
+                min-height: auto !important;
+                page-break-inside: avoid;
+                opacity: 1 !important;
+                transform: none !important;
+                background: white !important;
+            }
+            
+            .section:nth-child(even) {
+                background-color: white !important;
+            }
+            
+            .profile-header {
+                display: flex;
+                align-items: flex-start;
+                gap: 30px;
+                margin-bottom: 30px;
+                page-break-inside: avoid;
+            }
+            
+            .profile-image {
+                width: 200px !important;
+                height: 250px !important;
+                border-radius: 5px;
+                box-shadow: none;
+            }
+            
+            .profile-text h1 {
+                font-size: 24px !important;
+                margin-bottom: 8px;
+            }
+            
+            .section h1 {
+                font-size: 20px !important;
+                margin-bottom: 15px;
+                page-break-after: avoid;
+            }
+            
+            .section h2 {
+                font-size: 18px !important;
+                margin-bottom: 15px;
+                page-break-after: avoid;
+            }
+            
+            .section h3 {
+                font-size: 14px !important;
+                margin: 15px 0 8px 0;
+                page-break-after: avoid;
+            }
+            
+            .stats-container {
+                display: flex;
+                justify-content: space-around;
+                margin: 20px 0;
+                page-break-inside: avoid;
+            }
+            
+            .stat-box {
+                background-color: #f0f0f0 !important;
+                color: black !important;
+                padding: 15px 10px;
+                border: 1px solid #ccc;
+                text-align: center;
+                min-width: 100px;
+            }
+            
+            .achievement-list {
+                display: block;
+                margin: 15px 0;
+            }
+            
+            .achievement-item {
+                background-color: white !important;
+                padding: 15px;
+                margin-bottom: 15px;
+                border: 1px solid #ddd;
+                border-left: 4px solid #2d5a2d;
+                page-break-inside: avoid;
+                box-shadow: none;
+            }
+            
+            .highlight-box {
+                background-color: #f8f8f8 !important;
+                border-left: 4px solid #2d5a2d;
+                padding: 15px;
+                margin: 15px 0;
+                page-break-inside: avoid;
+            }
+            
+            .timeline {
+                position: relative;
+                padding-left: 20px;
+            }
+            
+            .timeline::before {
+                content: '';
+                position: absolute;
+                left: 10px;
+                top: 0;
+                bottom: 0;
+                width: 2px;
+                background-color: #2d5a2d;
+            }
+            
+            .timeline-item {
+                position: relative;
+                margin-bottom: 20px;
+                background-color: white !important;
+                padding: 15px;
+                border: 1px solid #ddd;
+                page-break-inside: avoid;
+            }
+            
+            .timeline-item::before {
+                content: '';
+                position: absolute;
+                left: -25px;
+                top: 20px;
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background-color: #2d5a2d;
+                border: 2px solid white;
+            }
+            
+            /* Page breaks */
+            .section {
+                page-break-before: auto;
+            }
+            
+            #about {
+                page-break-before: avoid;
+            }
+            
+            #career, #awards, #leadership, #education, #impact {
+                page-break-before: auto;
+            }
+            
+            /* Ensure all sections are visible for printing */
+            .section.visible,
+            .section:not(.visible) {
+                opacity: 1 !important;
+                transform: none !important;
+                display: block !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -312,6 +510,9 @@
                 <h2>Dr. John L. Sands</h2>
                 <p>Professional Profile</p>
             </div>
+            <button class="print-button" onclick="printProfile()">
+                📄 Print as PDF
+            </button>
             <ul class="nav-menu">
                 <li class="nav-item">
                     <a href="#about" class="nav-link active" onclick="navigateToSection('about')">About</a>
@@ -532,6 +733,24 @@
     </div>
 
     <script>
+        // Print Profile as PDF function
+        function printProfile() {
+            // Make all sections visible before printing
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.add('visible');
+            });
+            
+            // Create a print-specific title
+            const originalTitle = document.title;
+            document.title = 'Dr. John L. Sands - Professional Profile';
+            
+            // Trigger print dialog
+            window.print();
+            
+            // Restore original title
+            document.title = originalTitle;
+        }
+
         // Navigation functionality
         function navigateToSection(sectionId) {
             // Remove active class from all nav links
