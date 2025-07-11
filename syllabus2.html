@@ -694,4 +694,191 @@
                     <div class="section-title">Assignment Policies</div>
                     <div class="policy-item">
                         <div class="policy-title">Make-up Policy</div>
-                        
+                        <p>There are no makeup assignments unless otherwise indicated by the instructor of this course.</p>
+                    </div>
+                    <div class="policy-item">
+                        <div class="policy-title">Extra Credit Policy</div>
+                        <p>There are no extra credit assignments in this class.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Policies Tab -->
+            <div id="policies" class="tab-content">
+                <div class="section">
+                    <div class="section-title">Classroom Policies</div>
+                    
+                    <div class="policy-item">
+                        <div class="policy-title">Attendance Policy</div>
+                        <p>Attendance is expected and required. Instructors have the authority to assign points to student's attendance and participation. Excessive absence can affect final grade.</p>
+                    </div>
+
+                    <div class="policy-item">
+                        <div class="policy-title">Cheating/Plagiarism Policy</div>
+                        <p>Cheating and plagiarism is not allowed in this class. Any student caught in the act of cheating/plagiarism will be disciplined based on the severity of the offense up to and including immediate dismissal from class and may result in a grade of "F" in the course.</p>
+                    </div>
+
+                    <div class="policy-item">
+                        <div class="policy-title">College Statement about Grades of 'F' and Withdrawal</div>
+                        <p>A student who does not withdraw officially from a course may receive a grade of 'F', depending on course progress or course attendance, which will become a part of the student's permanent record. The withdrawal date is listed in the General Information sheet.</p>
+                    </div>
+
+                    <div class="policy-item">
+                        <div class="policy-title">Code of Student Conduct</div>
+                        <p>Each student is responsible for adhering to the Code of Student Conduct as stated in the college catalog.</p>
+                    </div>
+
+                    <div class="policy-item">
+                        <div class="policy-title">Cautionary Statement</div>
+                        <p>Students with an impaired ability to concentrate may risk jeopardizing safety in the classroom for themselves, their classmates and their instructor. If your ability to concentrate is impaired you should discuss this matter with your instructor prior to operating equipment or performing a laboratory procedure. Students are responsible for reporting to their instructor any condition that would impair the ability to concentrate. Failure to notify your instructor of this issue may be a violation of the Code of Student Conduct.</p>
+                    </div>
+
+                    <div class="policy-item">
+                        <div class="policy-title">Documentation Styles</div>
+                        <p>MLA and APA have been adopted as the official documentation styles of the college. The selected documentation style for this class will be specified by the instructor.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab navigation functionality
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Remove active class from all nav tabs
+            const navTabs = document.querySelectorAll('.nav-tab');
+            navTabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab content
+            const selectedTab = document.getElementById(tabName);
+            if (selectedTab) {
+                selectedTab.classList.add('active');
+            }
+
+            // Add active class to clicked nav tab
+            event.target.classList.add('active');
+        }
+
+        // Toggle week content in schedule
+        function toggleWeek(weekHeader) {
+            const weekContent = weekHeader.nextElementSibling;
+            const toggleIcon = weekHeader.querySelector('.toggle-icon');
+            
+            if (weekContent.classList.contains('expanded')) {
+                weekContent.classList.remove('expanded');
+                toggleIcon.classList.remove('rotated');
+            } else {
+                weekContent.classList.add('expanded');
+                toggleIcon.classList.add('rotated');
+            }
+        }
+
+        // Edit functionality
+        function toggleEdit(sectionId) {
+            const section = document.getElementById(sectionId);
+            const editButton = section.parentElement.querySelector('.edit-button');
+            const saveButton = section.parentElement.querySelector('.save-button');
+            const infoValues = section.querySelectorAll('.info-value, .week-item');
+
+            if (section.classList.contains('editing')) {
+                // Exit edit mode
+                section.classList.remove('editing');
+                editButton.textContent = 'Edit';
+                saveButton.style.display = 'none';
+                
+                infoValues.forEach(value => {
+                    value.contentEditable = false;
+                    value.classList.remove('editable');
+                });
+            } else {
+                // Enter edit mode
+                section.classList.add('editing');
+                editButton.textContent = 'Cancel';
+                saveButton.style.display = 'inline-block';
+                
+                infoValues.forEach(value => {
+                    value.contentEditable = true;
+                    value.classList.add('editable');
+                });
+            }
+        }
+
+        // Save changes functionality
+        function saveChanges(sectionId) {
+            const section = document.getElementById(sectionId);
+            const editButton = section.parentElement.querySelector('.edit-button');
+            const saveButton = section.parentElement.querySelector('.save-button');
+            const infoValues = section.querySelectorAll('.info-value, .week-item');
+
+            // Exit edit mode
+            section.classList.remove('editing');
+            editButton.textContent = 'Edit';
+            saveButton.style.display = 'none';
+            
+            infoValues.forEach(value => {
+                value.contentEditable = false;
+                value.classList.remove('editable');
+            });
+
+            // Show confirmation
+            const originalText = saveButton.textContent;
+            saveButton.textContent = 'Saved!';
+            saveButton.style.background = '#28a745';
+            
+            setTimeout(() => {
+                saveButton.textContent = originalText;
+                saveButton.style.background = '#1a5f1a';
+            }, 2000);
+
+            // Here you could add functionality to save to a database or local storage
+            console.log('Changes saved for section:', sectionId);
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Expand the first week by default
+            const firstWeek = document.querySelector('.week-header');
+            if (firstWeek) {
+                toggleWeek(firstWeek);
+            }
+        });
+
+        // Add some interactive enhancements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hover effects to grade items
+            const gradeItems = document.querySelectorAll('.grade-item');
+            gradeItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                    this.style.transition = 'transform 0.3s ease';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Add click animation to outcome items
+            const outcomeItems = document.querySelectorAll('.outcome-item');
+            outcomeItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    this.style.background = '#e8f5e8';
+                    this.style.borderLeft = '4px solid #1a5f1a';
+                    setTimeout(() => {
+                        this.style.background = 'white';
+                        this.style.borderLeft = '4px solid #2d7a2d';
+                    }, 1000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
