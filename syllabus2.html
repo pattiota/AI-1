@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LAN-153 IT Security Essentials - Course Syllabus</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: white;
+            color: black;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a5f1a, #2d7a2d);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header h2 {
+            font-size: 1.5em;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        .nav-tabs {
+            background: #2d7a2d;
+            display: flex;
+            overflow-x: auto;
+        }
+
+        .nav-tab {
+            background: none;
+            border: none;
+            color: white;
+            padding: 15px 25px;
+            cursor: pointer;
+            transition: background 0.3s;
+            white-space: nowrap;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-tab:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-tab.active {
+            background: white;
+            color: #1a5f1a;
+            font-weight: 600;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+
+        .section-title {
+            color: #1a5f1a;
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #1a5f1a;
+        }
+
+        .editable-section {
+            border-left: 4px solid #2d7a2d;
+            background: #f0f8f0;
+        }
+
+        .edit-button {
+            background: #2d7a2d;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 10px;
+            transition: background 0.3s;
+        }
+
+        .edit-button:hover {
+            background: #1a5f1a;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #1a5f1a;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            color: black;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+        }
+
+        .editable {
+            border: 2px dashed #2d7a2d;
+            background: #f9fff9;
+        }
+
+        .schedule-week {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .week-header {
+            background: #1a5f1a;
+            color: white;
+            padding: 12px 20px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .week-content {
+            padding: 20px;
+            display: none;
+        }
+
+        .week-content.expanded {
+            display: block;
+        }
+
+        .week-item {
+            margin-bottom: 10px;
+            padding: 8px;
+            background: #f8f9fa;
+            border-left: 3px solid #2d7a2d;
+            border-radius: 4px;
+        }
+
+        .outcomes-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .outcome-item {
+            padding: 12px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            border-left: 4px solid #2d7a2d;
+        }
+
+        .grading-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .grade-item {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border: 2px solid #2d7a2d;
+            border-radius: 8px;
+        }
+
+        .grade-percentage {
+            font-size: 2em;
+            font-weight: bold;
+            color: #1a5f1a;
+        }
+
+        .grade-scale {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+
+        .grade-range {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding: 5px 10px;
+            background: white;
+            border-radius: 4px;
+        }
+
+        .save-button {
+            background: #1a5f1a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        .save-button:hover {
+            background: #0f3f0f;
+        }
+
+        .toggle-icon {
+            transition: transform 0.3s;
+        }
+
+        .toggle-icon.rotated {
+            transform: rotate(180deg);
+        }
+
+        .policy-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #2d7a2d;
+        }
+
+        .policy-title {
+            font-weight: 600;
+            color: #1a5f1a;
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-tab {
+                padding: 12px 15px;
+                font-size: 13px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .outcomes-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>LAN-153: IT Security Essentials (Security+)</h1>
+            <h2>Moraine Valley Community College - Fall 2025</h2>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('instructor')">Instructor Info</button>
+            <button class="nav-tab" onclick="showTab('course')">Course Details</button>
+            <button class="nav-tab" onclick="showTab('schedule')">Schedule</button>
+            <button class="nav-tab" onclick="showTab('outcomes')">Learning Outcomes</button>
+            <button class="nav-tab" onclick="showTab('grading')">Grading</button>
+            <button class="nav-tab" onclick="showTab('policies')">Policies</button>
+        </div>
+
+        <div class="content">
+            <!-- Instructor Information Tab -->
+            <div id="instructor" class="tab-content active">
+                <div class="section editable-section">
+                    <div class="section-title">
+                        Instructor Information
+                        <button class="edit-button" onclick="toggleEdit('instructor-info')">Edit</button>
+                    </div>
+                    <div id="instructor-info" class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Instructor Name:</div>
+                            <div class="info-value" data-field="instructor-name">John Sands</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Office Location:</div>
+                            <div class="info-value" data-field="office-location">T518</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Office Phone:</div>
+                            <div class="info-value" data-field="office-phone">708-974-5426</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Email:</div>
+                            <div class="info-value" data-field="email">sands@morainevalley.edu</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Office Hours:</div>
+                            <div class="info-value" data-field="office-hours">Mon 5PM, Tues 12PM, Wed 12PM, Thur 6PM</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Mailbox Location:</div>
+                            <div class="info-value" data-field="mailbox">T518</div>
+                        </div>
+                    </div>
+                    <button class="save-button" onclick="saveChanges('instructor-info')" style="display: none;">Save Changes</button>
+                </div>
+
+                <div class="section editable-section">
+                    <div class="section-title">
+                        Section Information
+                        <button class="edit-button" onclick="toggleEdit('section-info')">Edit</button>
+                    </div>
+                    <div id="section-info" class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Semester:</div>
+                            <div class="info-value" data-field="semester">Fall 2025</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Section Number:</div>
+                            <div class="info-value" data-field="section-number">300</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Room:</div>
+                            <div class="info-value" data-field="room">Online</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Class Days:</div>
+                            <div class="info-value" data-field="class-days">Saturday</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">First Day:</div>
+                            <div class="info-value" data-field="first-day">8/18/2025</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Last Day:</div>
+                            <div class="info-value" data-field="last-day">10/10/2025</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Final Exam:</div>
+                            <div class="info-value" data-field="final-exam">10/06/2025</div>
+                        </div>
+                    </div>
+                    <button class="save-button" onclick="saveChanges('section-info')" style="display: none;">Save Changes</button>
+                </div>
+            </div>
+
+            <!-- Course Details Tab -->
+            <div id="course" class="tab-content">
+                <div class="section">
+                    <div class="section-title">Course Information</div>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Course Code:</div>
+                            <div class="info-value">LAN-153</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Credit Hours:</div>
+                            <div class="info-value">3</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Contact Hours:</div>
+                            <div class="info-value">4 (2 Lecture, 2 Lab)</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Prerequisite:</div>
+                            <div class="info-value">LAN-122 or consent of instructor</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Course Description</div>
+                    <p>This course introduces the basic principles of network security. The student will be introduced to computer network vulnerabilities and threats and how to safeguard computer networks from those vulnerabilities and threats. This course will expose the student to network security planning, network security technology, network security organization and the legal and ethical issues associated with network security. This course is designed to prepare the successful student for the CompTIA Security+ certification. Fee is required.</p>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Major Course Concepts</div>
+                    <div class="concept-area">
+                        <h4><strong>A. Network Security Basics</strong></h4>
+                        <ul>
+                            <li>Security definitions, network security principles and objectives</li>
+                            <li>Network security architecture, model, and layers</li>
+                            <li>Network threats, confidentiality, integrity and availability</li>
+                            <li>Accountability, auditability, and non-repudiation</li>
+                            <li>Case study of the network security policy</li>
+                        </ul>
+                    </div>
+                    <div class="concept-area">
+                        <h4><strong>B. Network Security Planning</strong></h4>
+                        <ul>
+                            <li>Network risk management and network security policy</li>
+                            <li>Continuity of operations and security maintenance</li>
+                            <li>Policy, procedures, standards, and guidelines</li>
+                            <li>Risk assessment case studies</li>
+                        </ul>
+                    </div>
+                    <div class="concept-area">
+                        <h4><strong>C. Network Security Technology</strong></h4>
+                        <ul>
+                            <li>Cryptography, virtual private networks, firewalls and intrusion detection systems</li>
+                            <li>Scanning and analysis tools and access controls</li>
+                        </ul>
+                    </div>
+                    <div class="concept-area">
+                        <h4><strong>D. Network Security Organization</strong></h4>
+                        <ul>
+                            <li>The organization and security</li>
+                            <li>Personnel and security</li>
+                            <li>The Computer Incident Response Team (CIRT)</li>
+                            <li>Security function organization and resources</li>
+                        </ul>
+                    </div>
+                    <div class="concept-area">
+                        <h4><strong>E. Legal, Privacy, and Ethical Issues</strong></h4>
+                        <ul>
+                            <li>US Laws and Network Security</li>
+                            <li>Privacy and network security</li>
+                            <li>Ethics and Network Security</li>
+                            <li>Code of Network Security ethics development</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Required Materials</div>
+                    <p><strong>Required:</strong> Materials provided by instructor</p>
+                    <p><strong>Optional:</strong> CompTIA Security+ Certification Kit: Exam SY0-701</p>
+                </div>
+            </div>
+
+            <!-- Schedule Tab -->
+            <div id="schedule" class="tab-content">
+                <div class="section editable-section">
+                    <div class="section-title">
+                        Course Schedule
+                        <button class="edit-button" onclick="toggleEdit('course-schedule')">Edit Schedule</button>
+                    </div>
+                    <div id="course-schedule">
+                        <div class="schedule-week">
+                            <div class="week-header" onclick="toggleWeek(this)">
+                                <span>Week 1: Domain 1 - General Security Concepts (8 items)</span>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="week-content">
+                                <div class="week-item" data-field="week1-lab1">Lab 01A: Analyze and Differentiate Types of Malware and Application Attacks</div>
+                                <div class="week-item" data-field="week1-lab2">Lab 01B: Cryptography Concepts</div>
+                                <div class="week-item" data-field="week1-exercise">Exercise 1: Cybersecurity Controls</div>
+                                <div class="week-item" data-field="week1-exam">Exam 1: Domain 1</div>
+                            </div>
+                        </div>
+
+                        <div class="schedule-week">
+                            <div class="week-header" onclick="toggleWeek(this)">
+                                <span>Week 2: Domain 2 - Threats, Vulnerabilities, and Mitigations (22%)</span>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="week-content">
+                                <div class="week-item" data-field="week2-lab1">Lab 02A: Password Cracking with Linux and Windows</div>
+                                <div class="week-item" data-field="week2-lab2">Lab 02B: [To be determined]</div>
+                                <div class="week-item" data-field="week2-exercise">Exercise 2: Using Hashing Tools</div>
+                                <div class="week-item" data-field="week2-exam">Exam 2: Domain 2</div>
+                            </div>
+                        </div>
+
+                        <div class="schedule-week">
+                            <div class="week-header" onclick="toggleWeek(this)">
+                                <span>Week 3: Domain 3 - Security Architecture (18%)</span>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="week-content">
+                                <div class="week-item" data-field="week3-lab1">Lab 03A: Investigating ARP Poisoning</div>
+                                <div class="week-item" data-field="week3-lab2">Lab 03B: Basic Command Line Tool Techniques</div>
+                                <div class="week-item" data-field="week3-exercise">Exercise 3: NIST SP800-171 Domains</div>
+                                <div class="week-item" data-field="week3-exam">Exam 3: Domain 3</div>
+                            </div>
+                        </div>
+
+                        <div class="schedule-week">
+                            <div class="week-header" onclick="toggleWeek(this)">
+                                <span>Week 4: Domain 4 - Security Operations Part 1 (28%)</span>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="week-content">
+                                <div class="week-item" data-field="week4-lab">Lab 04: Performing Active Reconnaissance</div>
+                                <div class="week-item" data-field="week4-exercise">Exercise 4: Asset Inventory & Categorization Report</div>
+                            </div>
+                        </div>
+
+                        <div class="schedule-week">
+                            <div class="week-header" onclick="toggleWeek(this)">
+                                <span>Week 5: Domain 4 - Security Operations Part 2 (28%)</span>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="week-content">
+                                <div class="week-item" data-field="week5-lab1">Lab 05A: Capturing Network Traffic</div>
+                                <div class="week-item" data-field="week5-lab2">Lab 05B: Identifying & Analyzing Network/Host Intrusion Detection Alerts</div>
+                                <div class="week-item" data-field="week5-exercise">Exercise 5: Access Control Matrix</div>
+                                <div class="week-item" data-field="week5-exam">Exam 4: Domain 4</div>
+                            </div>
+                        </div>
+
+                        <div class="schedule-week">
+                            <div class="week-header" onclick="toggleWeek(this)">
+                                <span>Week 6: Domain 5 - Security Program Management Part 1 (20%)</span>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="week-content">
+                                <div class="week-item" data-field="week6-lab">Lab 06: Wireless Networking Attack and Mitigation Techniques</div>
+                                <div class="week-item" data-field="week6-exercise">Exercise 6: Vulnerability Scan Reports</div>
+                            </div>
+                        </div>
+
+                        <div class="schedule-week">
+                            <div class="week-header" onclick="toggleWeek(this)">
+                                <span>Week 7: Domain 5 - Security Program Management Part 2 (20%)</span>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="week-content">
+                                <div class="week-item" data-field="week7-lab">Lab 07: Implementing Common Protocols and Services for Basic Security</div>
+                                <div class="week-item" data-field="week7-exercise">Exercise 7: Incident Response Plan (IRP)</div>
+                                <div class="week-item" data-field="week7-exam">Exam 5: Domain 5</div>
+                            </div>
+                        </div>
+
+                        <div class="schedule-week">
+                            <div class="week-header" onclick="toggleWeek(this)">
+                                <span>Week 8: Final Assessments</span>
+                                <span class="toggle-icon">▼</span>
+                            </div>
+                            <div class="week-content">
+                                <div class="week-item" data-field="week8-final">Final Exam</div>
+                                <div class="week-item" data-field="week8-project">Final Project</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="save-button" onclick="saveChanges('course-schedule')" style="display: none;">Save Schedule Changes</button>
+                </div>
+            </div>
+
+            <!-- Learning Outcomes Tab -->
+            <div id="outcomes" class="tab-content">
+                <div class="section">
+                    <div class="section-title">Expected Learning Outcomes</div>
+                    <div class="outcomes-list">
+                        <div class="outcome-item">1. Understand computer, network and information security</div>
+                        <div class="outcome-item">2. Explain why network security is important</div>
+                        <div class="outcome-item">3. Explain network security prevention, detection and response</div>
+                        <div class="outcome-item">4. Define and explain network confidentiality, integrity and availability</div>
+                        <div class="outcome-item">5. Define and explain the concept of non-repudiation</div>
+                        <div class="outcome-item">6. Understand management's role in security development and maintenance</div>
+                        <div class="outcome-item">7. Understand the value of education, training and awareness programs</div>
+                        <div class="outcome-item">8. Understand security architecture principles and components</div>
+                        <div class="outcome-item">9. Define risk management and its role in security policy</div>
+                        <div class="outcome-item">10. Understand the relationship between risk, threats, vulnerabilities and countermeasures</div>
+                        <div class="outcome-item">11. Identify and describe risk mitigation strategies</div>
+                        <div class="outcome-item">12. Define and describe Disaster Recovery Plans</div>
+                        <div class="outcome-item">13. Define and describe an Incident Response Plan</div>
+                        <div class="outcome-item">14. Define and describe a Business Continuity Plan</div>
+                        <div class="outcome-item">15. Describe database security functions</div>
+                        <div class="outcome-item">16. Describe and understand a feasibility study</div>
+                        <div class="outcome-item">17. Understand the need for constantly evaluating security management status</div>
+                        <div class="outcome-item">18. Understand the difference between policies, procedures, standards and guidelines</div>
+                        <div class="outcome-item">19. Understand encryption process and define key cryptography terms</div>
+                        <div class="outcome-item">20. Understand the difference between asymmetric and symmetric encryption</div>
+                        <div class="outcome-item">21. Discuss scanning and analysis tools</div>
+                        <div class="outcome-item">22. Describe various types of firewalls</div>
+                        <div class="outcome-item">23. Describe various types of Intrusion Detection Systems</div>
+                        <div class="outcome-item">24. Describe the operation of Virtual Private Networks</div>
+                        <div class="outcome-item">25. Understand authentication importance and good password characteristics</div>
+                        <div class="outcome-item">26. Describe various approaches to biometric access control</div>
+                        <div class="outcome-item">27. Understand network security element position within organization</div>
+                        <div class="outcome-item">28. Understand skills required to staff network security element</div>
+                        <div class="outcome-item">29. Describe functional elements associated with network security</div>
+                        <div class="outcome-item">30. Understand relationship between employment practices and network security</div>
+                        <div class="outcome-item">31. Understand CIRT element position within security function</div>
+                        <div class="outcome-item">32. Explain various security professional credentials and their value</div>
+                        <div class="outcome-item">33. Identify and explain major laws relating to network security</div>
+                        <div class="outcome-item">34. Understand privacy issues and impact on network security function</div>
+                        <div class="outcome-item">35. Understand ethics issues and relationship to security function</div>
+                        <div class="outcome-item">36. Explain the difference between ethics and laws, and purpose of code of ethics</div>
+                        <div class="outcome-item">37. Understand potential organizational liability regarding network security</div>
+                        <div class="outcome-item">38. Understand and describe tradeoffs between security, privacy and operations</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grading Tab -->
+            <div id="grading" class="tab-content">
+                <div class="section">
+                    <div class="section-title">Grade Breakdown</div>
+                    <div class="grading-breakdown">
+                        <div class="grade-item">
+                            <div class="grade-percentage">50%</div>
+                            <div>Labs (10 total)</div>
+                        </div>
+                        <div class="grade-item">
+                            <div class="grade-percentage">25%</div>
+                            <div>Major Tests (5 total)</div>
+                        </div>
+                        <div class="grade-item">
+                            <div class="grade-percentage">15%</div>
+                            <div>Exercises (7 total)</div>
+                        </div>
+                        <div class="grade-item">
+                            <div class="grade-percentage">10%</div>
+                            <div>Final Comprehensive Exam</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Grading Scale</div>
+                    <div class="grade-scale">
+                        <div class="grade-range">
+                            <span><strong>A:</strong></span>
+                            <span>92-100%</span>
+                        </div>
+                        <div class="grade-range">
+                            <span><strong>B:</strong></span>
+                            <span>85-91%</span>
+                        </div>
+                        <div class="grade-range">
+                            <span><strong>C:</strong></span>
+                            <span>77-84%</span>
+                        </div>
+                        <div class="grade-range">
+                            <span><strong>D:</strong></span>
+                            <span>70-76%</span>
+                        </div>
+                        <div class="grade-range">
+                            <span><strong>F:</strong></span>
+                            <span>Below 70%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Assignment Policies</div>
+                    <div class="policy-item">
+                        <div class="policy-title">Make-up Policy</div>
+                        
